@@ -6,7 +6,7 @@
 #    By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/18 12:43:01 by pvong             #+#    #+#              #
-#    Updated: 2023/08/18 14:06:59 by pvong            ###   ########.fr        #
+#    Updated: 2023/08/18 14:55:03 by pvong            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -87,7 +87,7 @@ all: $(NAME)
 $(NAME):	$(OBJS)
 	@make -s -C $(MLX_DIR)
 	make -sC $(LIB_DIR)
-	$(CC) $(CFLAGS) $(INCLUDES) $(OBJS) -o $(NAME) $(LDFLAGS) $(LDLIBS)
+	$(CC) $(CFLAGS) $(INCLUDES) $(OBJS) -o $(NAME) $(LDFLAGS) $(LDLIBS) $(MLX_FLAGS)
 
 clean:
 	@make clean -sC $(LIB_DIR)
