@@ -4,6 +4,7 @@
 		"key_macos.h": "c",
 		"libft.h": "c",
 		"mlx.h": "c",
-		"x11events.h": "c"
+		"x11events.h": "c",
+		"string.h": "c"
 	}
 }

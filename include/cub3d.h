@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 12:51:14 by pvong             #+#    #+#             */
-/*   Updated: 2023/08/18 14:53:24 by pvong            ###   ########.fr       */
+/*   Updated: 2023/08/22 15:37:17 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,15 @@
 # else
 #  include "../mlx_linux/mlx.h"
 # endif
+
+typedef struct s_data
+{
+	void	*mlx;
+	void	*mlx_win;
+	void	*img;
+	char	*relative_path;
+	int		img_width;
+	int		img_height;
+}	t_data;
 
 #endif
