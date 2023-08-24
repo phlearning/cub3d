@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 12:42:58 by pvong             #+#    #+#             */
-/*   Updated: 2023/08/24 14:41:46 by pvong            ###   ########.fr       */
+/*   Updated: 2023/08/24 16:30:42 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,12 @@ int	main(void)
 {
 	t_data	data;
 
-	ft_init_mlx(&data);
-	mlx_put_image_to_window(data.mlx, data.mlx_win, data.img, 0, 0);
-	ft_hook(&data);
+	// ft_init_mlx(&data);
+	map_parsing(&data.map, "./map/first_map.cub");
+	// mlx_put_image_to_window(data.mlx, data.mlx_win, data.img, 0, 0);
+	print_map(&data.map);
+	// ft_hook(&data);
+	free_map(data.map);
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 12:51:14 by pvong             #+#    #+#             */
-/*   Updated: 2023/08/24 14:41:31 by pvong            ###   ########.fr       */
+/*   Updated: 2023/08/24 16:21:39 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,6 @@
 /*                                   STRUCT                                   */
 /* -------------------------------------------------------------------------- */
 
-typedef struct s_data
-{
-	void	*mlx;
-	void	*mlx_win;
-	void	*img;
-	char	*relative_path;
-	int		img_width;
-	int		img_height;
-}	t_data;
-
 typedef struct s_map
 {
 	int		size;
@@ -50,6 +40,17 @@ typedef struct s_map
 	char	*c_color;
 	char	**tab;
 }	t_map;
+
+typedef struct s_data
+{
+	void	*mlx;
+	void	*mlx_win;
+	void	*img;
+	char	*relative_path;
+	int		img_width;
+	int		img_height;
+	t_map	map;
+}	t_data;
 
 /* -------------------------------------------------------------------------- */
 /*                                    HOOK                                    */
