@@ -6,7 +6,7 @@
 #    By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/18 12:43:01 by pvong             #+#    #+#              #
-#    Updated: 2023/08/18 14:55:03 by pvong            ###   ########.fr        #
+#    Updated: 2023/08/24 14:37:34 by pvong            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -67,6 +67,8 @@ SRC_DIR			= src
 SRCS			:=	main.c \
 					init/init.c \
 					utils/utils.c \
+					parsing/map_parsing.c \
+					key_hook.c \
 
 SRCS			:=	$(SRCS:%=$(SRC_DIR)/%)
 
