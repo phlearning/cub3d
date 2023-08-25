@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 13:02:52 by pvong             #+#    #+#             */
-/*   Updated: 2023/08/25 13:56:03 by pvong            ###   ########.fr       */
+/*   Updated: 2023/08/25 15:20:34 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ void	free_map(t_map map)
 	i = -1;
 	if (map.tab)
 	{
-		while (++i < map.size)
+		while (map.tab[++i])
 		{
 			free(map.tab[i]);
 		}

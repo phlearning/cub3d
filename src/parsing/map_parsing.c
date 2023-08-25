@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 13:49:27 by pvong             #+#    #+#             */
-/*   Updated: 2023/08/25 13:59:00 by pvong            ###   ########.fr       */
+/*   Updated: 2023/08/25 15:25:14 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,6 @@ int	map_parsing2(t_map *map, char *map_file)
 	map->tab = ft_calloc(map->tab_len + 1, sizeof(char *));
 	if (!map->tab)
 		exit(EXIT_FAILURE);
-	map->size = map->tab_len;
 	while (1)
 	{
 		tmp = get_next_line(fd);
@@ -155,13 +154,13 @@ int	map_parsing(t_map *map, char *map_file)
 			break ;
 		tmp = ft_strtrim2(tmp, "\n");
 		if (!ft_strncmp(tmp, "NO", 2))
-			map->m_no = ft_strdup(tmp);
+			map->m_no = ft_strdup(ft_strchr(tmp, '.'));
 		else if (!ft_strncmp(tmp, "SO", 2))
-			map->m_so = ft_strdup(tmp);
+			map->m_so = ft_strdup(ft_strchr(tmp, '.'));
 		else if (!ft_strncmp(tmp, "WE", 2))
-			map->m_we = ft_strdup(tmp);
+			map->m_we = ft_strdup(ft_strchr(tmp, '.'));
 		else if (!ft_strncmp(tmp, "EA", 2))
-			map->m_ea = ft_strdup(tmp);
+			map->m_ea = ft_strdup(ft_strchr(tmp, '.'));
 		else if (!ft_strncmp(tmp, "F ", 2))
 			map->f_color = ft_strdup(tmp);
 		else if (!ft_strncmp(tmp, "C ", 2))

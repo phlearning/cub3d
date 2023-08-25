@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 12:51:14 by pvong             #+#    #+#             */
-/*   Updated: 2023/08/25 13:26:08 by pvong            ###   ########.fr       */
+/*   Updated: 2023/08/25 17:12:13 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,18 @@
 # endif
 
 /* -------------------------------------------------------------------------- */
+/*                                   DEFINE                                   */
+/* -------------------------------------------------------------------------- */
+
+# define WIDTH	1920
+# define HEIGHT 1080
+
+/* -------------------------------------------------------------------------- */
 /*                                   STRUCT                                   */
 /* -------------------------------------------------------------------------- */
 
 typedef struct s_map
 {
-	int		size;
 	int		tab_len;
 	int		start;
 	int		line;
@@ -46,11 +52,26 @@ typedef struct s_data
 	void	*mlx;
 	void	*mlx_win;
 	void	*img;
+	void	*img_ptr;
+	void	*img2;
+	void	*img_ptr2;
+	int		bpp;
+	int		ll;
+	int		endian;
 	char	*relative_path;
 	int		img_width;
 	int		img_height;
 	t_map	map;
 }	t_data;
+
+typedef struct s_coord
+{
+	int	s_x;
+	int	s_y;
+	int	e_x;
+	int	e_y;
+	int	color;
+}	t_coord;
 
 /* -------------------------------------------------------------------------- */
 /*                                    HOOK                                    */
