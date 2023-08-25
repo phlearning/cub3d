@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 13:02:52 by pvong             #+#    #+#             */
-/*   Updated: 2023/08/24 14:27:31 by pvong            ###   ########.fr       */
+/*   Updated: 2023/08/25 13:56:03 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,18 @@ void	print_map(t_map *map)
 	ft_printf("c_color: %s\n", map->c_color);
 	ft_printf("=====\n");
 	i = -1;
-	while (++i < map->size)
+	while (map->tab[++i])
 		ft_printf("%s\n", map->tab[i]);
 	ft_printf("=====\n");
 }
+
+// void	print_tab(char **tab)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	while (i)
+// }
 
 /* -------------------------------------------------------------------------- */
 /*                                    FREE                                    */
@@ -101,5 +109,22 @@ void	free_map(t_map map)
 			free(map.tab[i]);
 		}
 		free(map.tab);
+	}
+}
+
+void	free_tab(char **tab)
+{
+	int	i;
+
+	i = 0;
+	if (tab)
+	{
+		while (tab[i])
+		{
+			if (tab[i])
+				free(tab[i]);
+			i++;
+		}
+		free(tab);
 	}
 }

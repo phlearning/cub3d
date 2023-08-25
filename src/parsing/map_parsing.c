@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 13:49:27 by pvong             #+#    #+#             */
-/*   Updated: 2023/08/24 18:33:45 by pvong            ###   ########.fr       */
+/*   Updated: 2023/08/25 13:59:00 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,34 @@ int	ft_get_longest_len(char *file)
 		free(tmp);
 	if (len > 0)
 		len--;
-	ft_printf("len: %d\n", len);
 	return (len);
+}
+
+char	**ft_rework_tab(char **tab, int v_len, int h_len, char replace)
+{
+	char	**rework;
+	int		i;
+
+	rework = ft_calloc(v_len + 1, sizeof(char *));
+	if (!rework)
+		exit(EXIT_FAILURE);
+	rework[0] = ft_calloc(h_len, sizeof(char));
+	ft_fill(rework[0], replace, h_len);
+	i = 1;
+	while (i < v_len - 1)
+	{
+		rework[i] = ft_calloc(h_len, sizeof(char));
+		ft_fill(rework[i], replace, h_len - 1);
+		// ft_strlcat(rework[i], tab[i - 1], h_len);
+		ft_strlcpy(rework[i] + 1, tab[i - 1], h_len);
+		ft_change_char(rework[i], ' ', replace);
+		ft_fill(rework[i], replace, h_len - 1);
+		i++;
+	}
+	rework[i] = ft_calloc(h_len, sizeof(char));
+	ft_fill(rework[i], replace, h_len);
+	free_tab(tab);
+	return (rework);
 }
 
 int	map_parsing2(t_map *map, char *map_file)
@@ -79,7 +105,7 @@ int	map_parsing2(t_map *map, char *map_file)
 	j = 0;
 	len = ft_get_longest_len(map_file);
 	fd = open(map_file, O_RDONLY);
-	map->tab = ft_calloc(map->tab_len, sizeof(char *));
+	map->tab = ft_calloc(map->tab_len + 1, sizeof(char *));
 	if (!map->tab)
 		exit(EXIT_FAILURE);
 	map->size = map->tab_len;
@@ -99,8 +125,8 @@ int	map_parsing2(t_map *map, char *map_file)
 		{
 			map->tab[j] = ft_calloc(len + 2, sizeof(char));
 			ft_strlcat(map->tab[j], tmp, len + 1);
-			ft_change_char(map->tab[j], ' ', 'X');
-			ft_fill(map->tab[j], 'X', len + 1);
+			// ft_change_char(map->tab[j], ' ', 'X');
+			// ft_fill(map->tab[j], 'X', len + 1);
 			j++;
 			// map->tab[j++] = ft_strdup(tmp);
 		}
@@ -108,6 +134,7 @@ int	map_parsing2(t_map *map, char *map_file)
 			free(tmp);
 		map->line++;
 	}
+	map->tab = ft_rework_tab(map->tab, map->tab_len + 2, len + 2, '-');
 	close(fd);
 	return (0);
 }

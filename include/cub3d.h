@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 12:51:14 by pvong             #+#    #+#             */
-/*   Updated: 2023/08/24 16:21:39 by pvong            ###   ########.fr       */
+/*   Updated: 2023/08/25 13:26:08 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,9 @@ int			map_parsing(t_map *map, char *map_file);
 char		*ft_strtrim2(char *s1, char *set);
 int			ft_close(void);
 void		print_map(t_map *map);
-void		free_map(t_map map);
 
+/* free */
+void		free_map(t_map map);
+void		free_tab(char **tab);
 
 #endif
