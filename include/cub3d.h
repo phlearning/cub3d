@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 12:51:14 by pvong             #+#    #+#             */
-/*   Updated: 2023/08/25 17:12:13 by pvong            ###   ########.fr       */
+/*   Updated: 2023/08/31 13:21:52 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,9 @@ typedef struct s_map
 
 typedef struct s_data
 {
+	int		x;
+	int		y;
+
 	void	*mlx;
 	void	*mlx_win;
 	void	*img;

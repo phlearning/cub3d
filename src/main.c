@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 12:42:58 by pvong             #+#    #+#             */
-/*   Updated: 2023/08/25 17:26:02 by pvong            ###   ########.fr       */
+/*   Updated: 2023/08/31 14:17:28 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,9 @@ int	main(void)
 	print_map(&data.map);
 	free_map(data.map);
 	xy.s_x = 500; xy.s_y = 500; xy.e_x = 700; xy.e_y = 700; xy.color = 0x0000FF;
-	ft_draw_sq(&data, xy);
+	// ft_draw_sq(&data, xy);
 	xy2.s_x = 250; xy2.s_y = 250; xy2.e_x = 300; xy2.e_y = 300; xy2.color = 0xFF0000;
-	ft_draw_sq(&data, xy2);
+	// ft_draw_sq(&data, xy2);
 	mlx_put_image_to_window(data.mlx, data.mlx_win, data.img, 0, 0);
 	ft_hook(&data);
 	return (0);
