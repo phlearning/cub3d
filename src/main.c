@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 12:42:58 by pvong             #+#    #+#             */
-/*   Updated: 2023/08/31 14:17:28 by pvong            ###   ########.fr       */
+/*   Updated: 2023/09/02 08:44:10 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ int draw_mouse_coordinates(int mousecode, int x, int y, t_data *data)
     	mlx_clear_window(data->mlx, data->mlx_win);
 		mlx_put_image_to_window(data->mlx, data->mlx_win, data->img, 0, 0);
     	mlx_string_put(data->mlx, data->mlx_win, 10, 10, 0xFFFFFF, coordinates_str);
+		free(coordinates_str);
 	}
 	return (0);
 }
@@ -59,10 +60,10 @@ void	ft_hook(t_data *data)
 
 void	ft_draw_sq(t_data *data, t_coord xy)
 {
-	int	x;
+	// int	x;
 	int	y;
 
-	x = xy.s_x;
+	// x = xy.s_x;
 	y = xy.s_y;
 	while (xy.s_x < xy.e_x)
 	{
@@ -79,16 +80,16 @@ void	ft_draw_sq(t_data *data, t_coord xy)
 int	main(void)
 {
 	t_data	data;
-	t_coord	xy;
-	t_coord	xy2;
+	// t_coord	xy;
+	// t_coord	xy2;
 
 	ft_init_mlx(&data);
 	map_parsing(&data.map, "./map/first_map.cub");
 	print_map(&data.map);
 	free_map(data.map);
-	xy.s_x = 500; xy.s_y = 500; xy.e_x = 700; xy.e_y = 700; xy.color = 0x0000FF;
+	// xy.s_x = 500; xy.s_y = 500; xy.e_x = 700; xy.e_y = 700; xy.color = 0x0000FF;
 	// ft_draw_sq(&data, xy);
-	xy2.s_x = 250; xy2.s_y = 250; xy2.e_x = 300; xy2.e_y = 300; xy2.color = 0xFF0000;
+	// xy2.s_x = 250; xy2.s_y = 250; xy2.e_x = 300; xy2.e_y = 300; xy2.color = 0xFF0000;
 	// ft_draw_sq(&data, xy2);
 	mlx_put_image_to_window(data.mlx, data.mlx_win, data.img, 0, 0);
 	ft_hook(&data);
