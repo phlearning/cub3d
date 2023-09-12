@@ -6,7 +6,7 @@
 #    By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/18 12:43:01 by pvong             #+#    #+#              #
-#    Updated: 2023/08/25 15:04:34 by pvong            ###   ########.fr        #
+#    Updated: 2023/09/12 20:28:39 by pvong            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,7 +50,7 @@ INCLUDES		= $(INCLUDE) $(INC_LIB) $(MLX_INC)
 LIB_DIR			= libft
 LIB_NAME		= libft/libft.a
 MY_LDFLAGS		= -L $(LIB_DIR)
-MY_LDLIBS		= -lft
+MY_LDLIBS		= -lft -lm
 
 LDFLAGS			+= $(MY_LDFLAGS)
 LDLIBS			+= $(MY_LDLIBS)
