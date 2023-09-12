@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 14:15:07 by pvong             #+#    #+#             */
-/*   Updated: 2023/09/02 08:42:21 by pvong            ###   ########.fr       */
+/*   Updated: 2023/09/12 20:15:26 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@
 #  define K_J 106
 #  define K_K 107
 #  define K_L 108
+#  define K_M 44
 #  define K_S 115
 #  define K_T 116
 #  define K_U 117
@@ -119,6 +120,7 @@
 #  define K_J 38
 #  define K_K 40
 #  define K_L 37
+#  define K_M 46
 #  define K_S 1
 #  define K_T 17
 #  define K_U 32

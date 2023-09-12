@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 12:51:14 by pvong             #+#    #+#             */
-/*   Updated: 2023/09/02 08:43:16 by pvong            ###   ########.fr       */
+/*   Updated: 2023/09/12 20:00:51 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,9 @@
 /*                                   DEFINE                                   */
 /* -------------------------------------------------------------------------- */
 
-# define WIDTH	1920
-# define HEIGHT 1080
+# define WIDTH	800
+# define HEIGHT 400
+# define INCREMENT 10
 
 /* -------------------------------------------------------------------------- */
 /*                                   STRUCT                                   */
@@ -98,6 +99,7 @@ int			map_parsing(t_map *map, char *map_file);
 char		*ft_strtrim2(char *s1, char *set);
 int			ft_close(void);
 void		print_map(t_map *map);
+void		ft_draw_sq(t_data *data, int x, int y, int size, int color);
 
 /* free */
 void		free_map(t_map map);
