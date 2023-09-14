@@ -29,6 +29,9 @@
 		"unordered_map": "c",
 		"utility": "c",
 		"vector": "c",
-		"keycodes.h": "c"
+		"keycodes.h": "c",
+		"stdbool.h": "c",
+		"__string": "c",
+		"exception": "c"
 	}
 }

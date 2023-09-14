@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 14:35:05 by pvong             #+#    #+#             */
-/*   Updated: 2023/09/12 20:37:31 by pvong            ###   ########.fr       */
+/*   Updated: 2023/09/14 15:52:14 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,5 +20,6 @@ int	ft_control_key(int keycode, t_data *data)
 		mlx_destroy_window(data->mlx, data->mlx_win);
 		exit(0);
 	}
+	ft_move(keycode, data);
 	return (0);
 }
