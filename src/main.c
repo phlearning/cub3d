@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 12:42:58 by pvong             #+#    #+#             */
-/*   Updated: 2023/09/14 15:56:35 by pvong            ###   ########.fr       */
+/*   Updated: 2023/09/21 14:16:25 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ int draw_mouse_coordinates(int mousecode, int x, int y, t_data *data)
 void	ft_hook(t_data *data)
 {
 	mlx_hook(data->mlx_win, DESTROY_NOTIFY, 0, ft_close, data);
+	mlx_hook(data->mlx_win, KEY_PRESS, 0, ft_move, data);
 	mlx_key_hook(data->mlx_win, ft_control_key, data);
 	// mlx_mouse_hook(data->mlx_win, draw_mouse_coordinates, data);
 	mlx_loop(data->mlx);
@@ -158,22 +159,27 @@ int	ft_expose_hook(t_data *data)
 
 int	verLine(t_data *data, int x, int y1, int y2, int color)
 {
+	int	y;
+
 	if(y2 < y1) {y1 += y2; y2 = y1 - y2; y1 -= y2;} //swap y1 and y2
 	if(y2 < 0 || y1 >= screenHeight  || x < 0 || x >= screenWidth) return 0; //no single point of the line is on screen
 	if(y1 < 0) y1 = 0; //clip
 	if(y2 >= screenWidth) y2 = screenHeight - 1; //clip
 
-	for (int y = y1; y <= y2; y++)
+	y = y1;
+	while (y <= y2)
 	{
 		if (x > 0 && x <= screenWidth)
 			put_pxl_to_img2(data, x, y, color);
+		y++;
 	}
 	return (1);
 }
 
 int	ft_move(int keycode, t_data *data)
 {
-	int	action;
+	int		action;
+	double	oldplanex;
 
 	action = 0;
 	// ft_printf("posx: %d, posy: %d\n", data->p.posx, data->p.posy);
@@ -186,6 +192,52 @@ int	ft_move(int keycode, t_data *data)
 		if (worldMap[(int) data->p.posx]\
 		[(int) (data->p.posy + data->p.diry * data->p.movespeed)] == 0)
 			data->p.posy += data->p.diry * data->p.movespeed;
+	}
+	if (keycode == K_A)
+	{
+		action++;
+		if (worldMap[(int) (data->p.posx - data->p.planex * data->p.movespeed)][(int)data->p.posy] == 0)
+			data->p.posx -= data->p.planex * data->p.movespeed;
+		if (worldMap[(int) data->p.posx][(int)(data->p.posy - data->p.planey * data->p.movespeed)] == 0)
+			data->p.posy -= data->p.planey * data->p.movespeed;
+	}
+	if (keycode == K_D)
+	{
+		action++;
+		if (worldMap[(int) (data->p.posx + data->p.planex * data->p.movespeed)][(int)data->p.posy] == 0)
+			data->p.posx += data->p.planex * data->p.movespeed;
+		if (worldMap[(int) data->p.posx][(int)(data->p.posy + data->p.planey * data->p.movespeed)] == 0)
+			data->p.posy += data->p.planey * data->p.movespeed;
+	}
+	if (keycode == K_AR_L)
+	{
+		action++;
+		data->p.old_dirx = data->p.dirx;
+		data->p.dirx = data->p.dirx * cos(data->p.rotspeed) - data->p.diry * sin(data->p.rotspeed);
+		data->p.diry = data->p.old_dirx * sin(data->p.rotspeed) + data->p.diry * cos(data->p.rotspeed);
+		oldplanex = data->p.planex;
+		data->p.planex = data->p.planex * cos(data->p.rotspeed) - data->p.planey * sin(data->p.rotspeed);
+		data->p.planey = oldplanex * sin(data->p.rotspeed) + data->p.planey * cos(data->p.rotspeed);
+	}
+	if (keycode == K_S)
+	{
+		action++;
+		if (worldMap[(int) (data->p.posx - data->p.dirx * data->p.movespeed)]\
+		[(int) data->p.posy] == 0)
+			data->p.posx -= data->p.dirx * data->p.movespeed;
+		if (worldMap[(int) data->p.posx]\
+		[(int) (data->p.posy - data->p.diry * data->p.movespeed)] == 0)
+			data->p.posy -= data->p.diry * data->p.movespeed;
+	}
+	if (keycode == K_AR_R)
+	{
+		action++;
+		data->p.old_dirx = data->p.dirx;
+		data->p.dirx = data->p.dirx * cos(-data->p.rotspeed) - data->p.diry * sin(-data->p.rotspeed);
+		data->p.diry = data->p.old_dirx * sin(-data->p.rotspeed) + data->p.diry * cos(-data->p.rotspeed);
+		oldplanex = data->p.planex;
+		data->p.planex = data->p.planex * cos(-data->p.rotspeed) - data->p.planey * sin(-data->p.rotspeed);
+		data->p.planey = oldplanex * sin(-data->p.rotspeed) + data->p.planey * cos(-data->p.rotspeed);
 	}
 	if (action > 0)
 	{
@@ -202,8 +254,10 @@ void	ft_raycasting(t_data *d)
 {
 	int	h = screenHeight;
 	int	w = screenWidth;
+	int	x;
 
-	for (int x = 0; x < w; x++)
+	x = 0;
+	while (x < w)
 	{
 		d->p.camerax = 2 * x / (double) w - 1;
 		d->p.raydirx = d->p.dirx + d->p.planex * d->p.camerax;
@@ -278,13 +332,14 @@ void	ft_raycasting(t_data *d)
 		if (d->p.side == 1)
 			color = color / 2;
 		verLine(d, x, d->p.drawstart, d->p.drawend, color);
+		x++;
 	}
 }
 
 int	main(void)
 {
 	t_data	data;
-	data.p.posx = 22;
+	data.p.posx = 12;
 	data.p.posy = 12;
 	data.p.dirx = -1;
 	data.p.diry = 0;
@@ -300,107 +355,11 @@ int	main(void)
 	data.img = mlx_new_image(data.mlx, screenWidth, screenHeight);
 	data.img_ptr = mlx_get_data_addr(data.img, &data.bpp, &data.ll, &data.endian);
 	
-	// for(int x = 0; x < w; x++)
-    // {
-    //   //calculate ray position and direction
-    //   double cameraX = 2 * x / (double) w - 1; //x-coordinate in camera space
-    //   double rayDirX = data.p.dirx + data.p.planex * cameraX;
-    //   double rayDirY = data.p.diry + data.p.planey * cameraX;
-
-	//   //which box of the map we're in
-    //   int mapX = (int) data.p.posx;
-    //   int mapY = (int) data.p.posy;
-
-    //   //length of ray from current position to next x or y-side
-    //   double sideDistX;
-    //   double sideDistY;
-
-    //    //length of ray from one x or y-side to next x or y-side
-    //   double deltaDistX = (rayDirX == 0) ? 1e30 : fabs(1 / rayDirX);
-    //   double deltaDistY = (rayDirY == 0) ? 1e30 : fabs(1 / rayDirY);
-    //   double perpWallDist;
-
-    //   //what direction to step in x or y-direction (either +1 or -1)
-    //   int stepX;
-    //   int stepY;
-
-    //   int hit = 0; //was there a wall hit?
-    //   int side; //was a NS or a EW wall hit?
-
-	//    //calculate step and initial sideDist
-    //   if (rayDirX < 0)
-    //   {
-    //     stepX = -1;
-    //     sideDistX = (data.p.posx - mapX) * deltaDistX;
-    //   }
-    //   else
-    //   {
-    //     stepX = 1;
-    //     sideDistX = (mapX + 1.0 - data.p.posx) * deltaDistX;
-    //   }
-    //   if (rayDirY < 0)
-    //   {
-    //     stepY = -1;
-    //     sideDistY = (data.p.posy - mapY) * deltaDistY;
-    //   }
-    //   else
-    //   {
-    //     stepY = 1;
-    //     sideDistY = (mapY + 1.0 - data.p.posy) * deltaDistY;
-    //   }
-	//    //perform DDA
-    //   while (hit == 0)
-    //   {
-    //     //jump to next map square, either in x-direction, or in y-direction
-    //     if (sideDistX < sideDistY)
-    //     {
-    //       sideDistX += deltaDistX;
-    //       mapX += stepX;
-    //       side = 0;
-    //     }
-    //     else
-    //     {
-    //       sideDistY += deltaDistY;
-    //       mapY += stepY;
-    //       side = 1;
-    //     }
-    //     //Check if ray has hit a wall
-    //     if (worldMap[mapX][mapY] > 0) hit = 1;
-    //   } 
-	//         //Calculate distance projected on camera direction (Euclidean distance would give fisheye effect!)
-    //   if(side == 0) perpWallDist = (sideDistX - deltaDistX);
-    //   else          perpWallDist = (sideDistY - deltaDistY);
-	//        //Calculate height of line to draw on screen
-    //   int lineHeight = (int)(h / perpWallDist);
-
-    //   //calculate lowest and highest pixel to fill in current stripe
-    //   int drawStart = -lineHeight / 2 + h / 2;
-    //   if(drawStart < 0)drawStart = 0;
-    //   int drawEnd = lineHeight / 2 + h / 2;
-    //   if(drawEnd >= h)drawEnd = h - 1;
-	//         //choose wall color
-    //   int color;
-    //   switch(worldMap[mapX][mapY])
-    //   {
-    //     case 1:  color = 0xFF0000;  break; //red
-    //     case 2:  color = 0x00FF00;  break; //green
-    //     case 3:  color = 0x0000FF;   break; //blue
-    //     case 4:  color = 0xFFFFFF;  break; //white
-    //     default: color = 0xFFFF00; break; //yellow
-    //   }
-
-    //   //give x and y sides different brightness
-    //   if (side == 1) {color = color / 2;}
-
-    //   //draw the pixels of the stripe as a vertical line
-    //   verLine(&data, x, drawStart, drawEnd, color);
-	// //   ft_printf("x: %d, drawStart: %d, drawEnd: %d\n", x, drawStart, drawEnd);
-    // }
 	ft_raycasting(&data);
 	mlx_put_image_to_window(data.mlx, data.mlx_win, data.img, 0, 0);
 	// HOOKS
 	data.p.movespeed = 5.0 / 10;
-	data.p.rotspeed = 3.0 / 10;
+	data.p.rotspeed = 3.0 / 50;
 	// mlx_key_hook(data.mlx_win, ft_move, &data);
 	ft_hook(&data);
 }
