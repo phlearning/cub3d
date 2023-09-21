@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 12:42:58 by pvong             #+#    #+#             */
-/*   Updated: 2023/09/21 15:01:56 by pvong            ###   ########.fr       */
+/*   Updated: 2023/09/21 16:46:56 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,66 +14,8 @@
 
 int	ft_move(int keycode, t_data *data);
 
-void	put_pxl_to_img(t_data *data, int x, int y, int color)
-{
-	if (x < WIDTH && y < HEIGHT)
-	{
-		color = mlx_get_color_value(data->mlx, color);
-		ft_memcpy(data->img_ptr + 4 * WIDTH * y + x * 4, \
-			&color, sizeof(int));
-	}
-}
-
-void	ft_init_mlx(t_data *data)
-{
-	data->relative_path = "./test.xpm";
-	data->mlx = mlx_init();
-	data->mlx_win = mlx_new_window(data->mlx, WIDTH, HEIGHT, "Hello world!");
-	// data->img = mlx_xpm_file_to_image(data->mlx, data->relative_path, &data->img_width, &data->img_height);
-	data->img = mlx_new_image(data->mlx, WIDTH, HEIGHT);
-	data->img_ptr = mlx_get_data_addr(data->img, &data->bpp, &data->ll, &data->endian);
-}
-
-void	ft_hook(t_data *data)
-{
-	mlx_hook(data->mlx_win, DESTROY_NOTIFY, 0, ft_close, data);
-	mlx_hook(data->mlx_win, KEY_PRESS, 0, ft_move, data);
-	mlx_key_hook(data->mlx_win, ft_control_key, data);
-	mlx_loop(data->mlx);
-}
-
-void	ft_draw_sq(t_data *data, int x, int y, int size, int color)
-{
-	int	start_x;
-	int	start_y;
-
-	start_x = x;
-	start_y = y;
-	while (start_x < x + size)
-	{
-		start_y = y;
-		while (start_y < y + size)
-		{
-			put_pxl_to_img(data, start_x, start_y, color);
-			start_y++;
-		}
-		start_x++;
-	}
-}
-
-
 #define mapWidth 24
 #define mapHeight 24
-
-void	put_pxl_to_img2(t_data *data, int x, int y, int color)
-{
-	if (x < WIDTH && y < HEIGHT)
-	{
-		color = mlx_get_color_value(data->mlx, color);
-		ft_memcpy(data->img_ptr + 4 * WIDTH * y + x * 4, \
-			&color, sizeof(int));
-	}
-}
 
 int worldMap[mapWidth][mapHeight]=
 {
@@ -102,40 +44,6 @@ int worldMap[mapWidth][mapHeight]=
   {1,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
 };
-
-int	ft_expose_hook(t_data *data)
-{
-	data->img = mlx_new_image(data->mlx, WIDTH, HEIGHT);
-	data->img_ptr = mlx_get_data_addr(data->img, &data->bpp, &data->ll, &data->endian);
-	return (0);
-}
-
-int	verLine(t_data *data, int x, int y1, int y2, int color)
-{
-	int	y;
-
-	if (y2 < y1)
-	{
-		y1 += y2;
-		y2 = y1 - y2;
-		y1 -= y2;
-	}
-	if (y2 < 0 || y1 >= HEIGHT || x < 0 || x >= WIDTH)
-		return (0);
-	if (y1 < 0)
-		y1 = 0;
-	if (y2 >= WIDTH)
-		y2 = HEIGHT - 1;
-
-	y = y1;
-	while (y <= y2)
-	{
-		if (x > 0 && x <= WIDTH)
-			put_pxl_to_img2(data, x, y, color);
-		y++;
-	}
-	return (1);
-}
 
 int	ft_move(int keycode, t_data *data)
 {
@@ -290,9 +198,62 @@ void	ft_raycasting(t_data *d)
 		if (d->p.side == 1)
 			color = color / 2;
 		// ft_printf("x: %d || drawstart: %d || drawend: %d || color: %d\n", x, d->p.drawstart, d->p.drawend, color);
-		verLine(d, x, d->p.drawstart, d->p.drawend, color);
+		ft_drawline(d, x, d->p.drawstart, d->p.drawend, color);
 		x++;
 	}
+}
+
+int	ft_contain_player_char(char c)
+{
+	char	char_player[4];
+	int		i;
+
+	char_player[0] = 'N';
+	char_player[1] = 'S';
+	char_player[2] = 'E';
+	char_player[3] = 'W';
+	i = -1;
+	while (++i < 4)
+	{
+		if (c == char_player[i])
+		{
+			return (1);
+		}
+	}
+	return (0);
+}
+
+int	ft_get_player_pos(t_data *data, char **tab, int tab_len)
+{
+	int	x;
+	int	y;
+	int	line_len;
+	int	found;
+
+	x = 0;
+	y = 0;
+	found = 0;
+	line_len = ft_strlen(tab[0]);
+	while (y < tab_len)
+	{
+		x = 0;
+		while (x < line_len)
+		{
+			if (ft_contain_player_char(tab[y][x]))
+			{
+				data->p.posx = (double) x;
+				data->p.posy = (double) y;
+				found++;
+			}
+			x++;
+		}
+		y++;
+	}
+	if (found == 1)
+		return (1);
+	else
+		ft_printf("Error player position in map\n");
+	return (0);
 }
 
 int	main(void)
@@ -306,16 +267,18 @@ int	main(void)
 	data.p.planex = 0;
 	data.p.planey = 0.66;
 
-	ft_init_mlx(&data);
-	// map_parsing(&data.map, "./map/first_map.cub");
-	// print_map(&data.map);
-	// free_map(data.map);
-	ft_raycasting(&data);
-	// ft_draw_sq(&data, 0, 0, HEIGHT, 255);
-	mlx_put_image_to_window(data.mlx, data.mlx_win, data.img, 0, 0);
+	// ft_init_mlx(&data);
+	map_parsing(&data.map, "./map/first_map.cub");
+	print_map(&data.map);
+	ft_get_player_pos(&data, data.map.tab, data.map.tab_len + 2);
+	ft_printf("player_pos: (%d, %d)\n", (int) data.p.posx, (int) data.p.posy);
+	free_map(data.map);
+	// ft_raycasting(&data);
+	// mlx_put_image_to_window(data.mlx, data.mlx_win, data.img, 0, 0);
 	
-	// HOOKS
-	data.p.movespeed = 5.0 / 10;
-	data.p.rotspeed = 3.0 / 50;
-	ft_hook(&data);
+	// // HOOKS
+
+	// data.p.movespeed = 5.0 / 10;
+	// data.p.rotspeed = 3.0 / 50;
+	// ft_hook(&data);
 }

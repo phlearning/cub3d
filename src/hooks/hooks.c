@@ -1,23 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
+/*   hooks.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/21 15:43:48 by pvong             #+#    #+#             */
-/*   Updated: 2023/09/21 15:44:22 by pvong            ###   ########.fr       */
+/*   Created: 2023/09/21 15:46:17 by pvong             #+#    #+#             */
+/*   Updated: 2023/09/21 16:19:15 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	ft_init_mlx(t_data *data)
+int	ft_expose_hook(t_data *data)
 {
-	data->relative_path = "./test.xpm";
-	data->mlx = mlx_init();
-	data->mlx_win = mlx_new_window(data->mlx, WIDTH, HEIGHT, "Hello world!");
-	// data->img = mlx_xpm_file_to_image(data->mlx, data->relative_path, &data->img_width, &data->img_height);
 	data->img = mlx_new_image(data->mlx, WIDTH, HEIGHT);
 	data->img_ptr = mlx_get_data_addr(data->img, &data->bpp, &data->ll, &data->endian);
+	return (0);
+}
+
+void	ft_hook(t_data *data)
+{
+	mlx_hook(data->mlx_win, DESTROY_NOTIFY, 0, ft_close, data);
+	mlx_hook(data->mlx_win, KEY_PRESS, 0, ft_move, data);
+	mlx_key_hook(data->mlx_win, ft_control_key, data);
+	mlx_loop(data->mlx);
 }

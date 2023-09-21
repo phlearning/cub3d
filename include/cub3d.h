@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 12:51:14 by pvong             #+#    #+#             */
-/*   Updated: 2023/09/21 14:55:53 by pvong            ###   ########.fr       */
+/*   Updated: 2023/09/21 15:48:23 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ extern int worldMap[24][24];
 /*                                   DEFINE                                   */
 /* -------------------------------------------------------------------------- */
 
-# define WIDTH	800
-# define HEIGHT 600
+# define WIDTH	640
+# define HEIGHT 480
 # define INCREMENT 10
 
 /* -------------------------------------------------------------------------- */
@@ -120,9 +120,16 @@ void		ft_raycasting(t_data *d);
 /*                                    HOOK                                    */
 /* -------------------------------------------------------------------------- */
 
-void		ft_hook(t_data *data);
 int			ft_control_key(int keycode, t_data *data);
+int			ft_expose_hook(t_data *data);
+void		ft_hook(t_data *data);
 int			ft_move(int keycode, t_data *data);
+
+/* -------------------------------------------------------------------------- */
+/*                                    INIT                                    */
+/* -------------------------------------------------------------------------- */
+
+void		ft_init_mlx(t_data *data);
 
 /* -------------------------------------------------------------------------- */
 /*                                 MAP_PARSING                                */
@@ -140,7 +147,12 @@ int			map_parsing(t_map *map, char *map_file);
 char		*ft_strtrim2(char *s1, char *set);
 int			ft_close(void);
 void		print_map(t_map *map);
+
+/* utils_mlx.c */
+
 void		ft_draw_sq(t_data *data, int x, int y, int size, int color);
+int			ft_drawline(t_data *data, int x, int y1, int y2, int color);
+void		put_pxl_to_img(t_data *data, int x, int y, int color);
 
 /* free */
 void		free_map(t_map map);
