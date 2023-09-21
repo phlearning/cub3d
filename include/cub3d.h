@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 12:51:14 by pvong             #+#    #+#             */
-/*   Updated: 2023/09/12 20:00:51 by pvong            ###   ########.fr       */
+/*   Updated: 2023/09/21 14:29:00 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@
 # include "x11events.h"
 # include "mlx.h"
 # include "keycodes.h"
+# include <math.h>
+
+extern int worldMap[24][24];
 
 /* -------------------------------------------------------------------------- */
 /*                                   DEFINE                                   */
@@ -47,24 +50,55 @@ typedef struct s_map
 	char	**tab;
 }	t_map;
 
+typedef struct s_player
+{
+	double	posx;
+	double	posy;
+	double	dirx;
+	double	old_dirx;
+	double	diry;
+	double	planex;
+	double	planey;
+	double	movespeed;
+	double	rotspeed;
+	double	camerax;
+	double	raydirx;
+	double	raydiry;
+	int		mapx;
+	int		mapy;
+	double	sidedistx;
+	double	sidedisty;
+	double	deltadistx;
+	double	deltadisty;
+	double	perpwalldist;
+	int		stepx;
+	int		stepy;
+	int		hit;
+	int		side;
+	int		lineheight;
+	int		drawstart;
+	int		drawend;
+}	t_player;
+
 typedef struct s_data
 {
-	int		x;
-	int		y;
+	int			x;
+	int			y;
 
-	void	*mlx;
-	void	*mlx_win;
-	void	*img;
-	void	*img_ptr;
-	void	*img2;
-	void	*img_ptr2;
-	int		bpp;
-	int		ll;
-	int		endian;
-	char	*relative_path;
-	int		img_width;
-	int		img_height;
-	t_map	map;
+	void		*mlx;
+	void		*mlx_win;
+	void		*img;
+	void		*img_ptr;
+	void		*img2;
+	void		*img_ptr2;
+	int			bpp;
+	int			ll;
+	int			endian;
+	char		*relative_path;
+	int			img_width;
+	int			img_height;
+	t_player	p;
+	t_map		map;
 }	t_data;
 
 typedef struct s_coord
@@ -77,11 +111,18 @@ typedef struct s_coord
 }	t_coord;
 
 /* -------------------------------------------------------------------------- */
+/*                                 RAYCASTING                                 */
+/* -------------------------------------------------------------------------- */
+
+void		ft_raycasting(t_data *d);
+
+/* -------------------------------------------------------------------------- */
 /*                                    HOOK                                    */
 /* -------------------------------------------------------------------------- */
 
 void		ft_hook(t_data *data);
 int			ft_control_key(int keycode, t_data *data);
+int			ft_move(int keycode, t_data *data);
 
 /* -------------------------------------------------------------------------- */
 /*                                 MAP_PARSING                                */
