@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 12:42:58 by pvong             #+#    #+#             */
-/*   Updated: 2023/09/21 14:47:17 by pvong            ###   ########.fr       */
+/*   Updated: 2023/09/21 15:01:56 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,8 +115,12 @@ int	verLine(t_data *data, int x, int y1, int y2, int color)
 	int	y;
 
 	if (y2 < y1)
-		y1 += y2; y2 = y1 - y2; y1 -= y2;
-	if (y2 < 0 || y1 >= HEIGHT  || x < 0 || x >= WIDTH)
+	{
+		y1 += y2;
+		y2 = y1 - y2;
+		y1 -= y2;
+	}
+	if (y2 < 0 || y1 >= HEIGHT || x < 0 || x >= WIDTH)
 		return (0);
 	if (y1 < 0)
 		y1 = 0;
@@ -248,7 +252,7 @@ void	ft_raycasting(t_data *d)
 		}
 		while (d->p.hit == 0)
 		{
-        	if (d->p.sidedistx < d->p.sidedisty)
+			if (d->p.sidedistx < d->p.sidedisty)
 			{
 				d->p.sidedistx += d->p.deltadistx;
 				d->p.mapx += d->p.stepx;
@@ -285,6 +289,7 @@ void	ft_raycasting(t_data *d)
 		}
 		if (d->p.side == 1)
 			color = color / 2;
+		// ft_printf("x: %d || drawstart: %d || drawend: %d || color: %d\n", x, d->p.drawstart, d->p.drawend, color);
 		verLine(d, x, d->p.drawstart, d->p.drawend, color);
 		x++;
 	}
@@ -294,11 +299,19 @@ int	main(void)
 {
 	t_data	data;
 
+	data.p.posx = 12;
+	data.p.posy = 12;
+	data.p.dirx = -1;
+	data.p.diry = 0;
+	data.p.planex = 0;
+	data.p.planey = 0.66;
+
 	ft_init_mlx(&data);
 	// map_parsing(&data.map, "./map/first_map.cub");
 	// print_map(&data.map);
 	// free_map(data.map);
 	ft_raycasting(&data);
+	// ft_draw_sq(&data, 0, 0, HEIGHT, 255);
 	mlx_put_image_to_window(data.mlx, data.mlx_win, data.img, 0, 0);
 	
 	// HOOKS
