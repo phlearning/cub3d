@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 13:02:52 by pvong             #+#    #+#             */
-/*   Updated: 2023/08/25 15:20:34 by pvong            ###   ########.fr       */
+/*   Updated: 2023/09/25 17:05:51 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ void	print_map(t_map *map)
 {
 	int	i;
 
+	if (!map)
+		return ;
 	ft_printf("=====\n");
 	ft_printf("m_no: %s\n", map->m_no);
 	ft_printf("m_so: %s\n", map->m_so);
@@ -68,8 +70,12 @@ void	print_map(t_map *map)
 	ft_printf("c_color: %s\n", map->c_color);
 	ft_printf("=====\n");
 	i = -1;
-	while (map->tab[++i])
-		ft_printf("%s\n", map->tab[i]);
+	// ft_printf("map->tab[0]: %s\n", map->tab[0]);
+	if (map->tab)
+	{
+		while (map->tab[++i])
+			ft_printf("%s\n", map->tab[i]);
+	}
 	ft_printf("=====\n");
 }
 
@@ -107,8 +113,22 @@ void	free_map(t_map map)
 		while (map.tab[++i])
 		{
 			free(map.tab[i]);
+			map.tab[i] = NULL;
 		}
 		free(map.tab);
+		map.tab = NULL;
+	}
+	i = 0;
+	if (map.tmp)
+	{
+		while (i < map.tab_len && map.tmp[i])
+		{
+			free(map.tmp[i]);
+			map.tmp[i] = NULL;
+			i++;
+		}	
+		free(map.tmp);
+		map.tmp = NULL;
 	}
 }
 
@@ -122,9 +142,25 @@ void	free_tab(char **tab)
 		while (tab[i])
 		{
 			if (tab[i])
+			{
 				free(tab[i]);
+				tab[i] = NULL;
+			}
 			i++;
 		}
 		free(tab);
+		tab = NULL;
 	}
+}
+
+void	error_exit(char *s, int n)
+{
+	perror(s);
+	exit(n);
+}
+
+void	error_exit2(char *s, int n)
+{
+	write(2, s, ft_strlen(s));
+	exit(n);
 }

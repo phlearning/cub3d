@@ -6,7 +6,7 @@
 #    By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/18 12:43:01 by pvong             #+#    #+#              #
-#    Updated: 2023/09/21 15:50:44 by pvong            ###   ########.fr        #
+#    Updated: 2023/09/25 17:06:10 by pvong            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -64,15 +64,15 @@ CFLAGS			= -Wall -Wextra -Werror -g3 -fsanitize=address
 
 SRC_DIR			= src
 
-SRCS			:=	main.c \
+SRCS			:=	main/main.c \
 					hooks/hooks.c \
+					hooks/key_hook.c \
 					init/init.c \
 					raycasting/raycasting.c \
 					utils/utils.c \
 					utils/utils_mlx.c \
 					parsing/map_parsing.c \
 					parsing/flood_fill.c \
-					key_hook.c \
 
 SRCS			:=	$(SRCS:%=$(SRC_DIR)/%)
 

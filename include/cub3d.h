@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 12:51:14 by pvong             #+#    #+#             */
-/*   Updated: 2023/09/21 15:48:23 by pvong            ###   ########.fr       */
+/*   Updated: 2023/09/25 16:57:59 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef struct s_map
 	char	*f_color;
 	char	*c_color;
 	char	**tab;
+	char	**tmp;
 }	t_map;
 
 typedef struct s_player
@@ -146,6 +147,8 @@ int			map_parsing(t_map *map, char *map_file);
 
 char		*ft_strtrim2(char *s1, char *set);
 int			ft_close(void);
+void		error_exit(char *s, int n);
+void		error_exit2(char *s, int n);
 void		print_map(t_map *map);
 
 /* utils_mlx.c */

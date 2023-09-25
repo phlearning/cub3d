@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 12:42:58 by pvong             #+#    #+#             */
-/*   Updated: 2023/09/21 16:46:56 by pvong            ###   ########.fr       */
+/*   Updated: 2023/09/25 17:38:18 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ int	ft_move(int keycode, t_data *data);
 int worldMap[mapWidth][mapHeight]=
 {
   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+  {2,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
   {1,0,0,0,0,0,2,2,2,2,2,0,0,0,0,3,0,3,0,3,0,0,0,1},
   {1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,1},
   {1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,3,0,0,0,3,0,0,0,1},
@@ -45,6 +45,21 @@ int worldMap[mapWidth][mapHeight]=
   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
 };
 
+int	ft_compare_set(int n, char *s)
+{
+	int	len;
+	int	i;
+
+	i = -1;
+	len = ft_strlen(s);
+	while (s[++i])
+	{
+		if (n == (int) s[i])
+			return (1);
+	}
+	return (0);
+}
+
 int	ft_move(int keycode, t_data *data)
 {
 	int		action;
@@ -54,27 +69,31 @@ int	ft_move(int keycode, t_data *data)
 	if (keycode == K_W)
 	{
 		action++;
-		if (worldMap[(int) (data->p.posx + data->p.dirx * data->p.movespeed)]\
-		[(int) data->p.posy] == 0)
+		if (ft_compare_set(data->map.tab[(int) (data->p.posx + data->p.dirx * data->p.movespeed)]\
+		[(int) data->p.posy], "0NSEW"))
 			data->p.posx += data->p.dirx * data->p.movespeed;
-		if (worldMap[(int) data->p.posx]\
-		[(int) (data->p.posy + data->p.diry * data->p.movespeed)] == 0)
+		if (ft_compare_set(data->map.tab[(int) data->p.posx]\
+		[(int) (data->p.posy + data->p.diry * data->p.movespeed)], "0NSEW"))
 			data->p.posy += data->p.diry * data->p.movespeed;
 	}
 	if (keycode == K_A)
 	{
 		action++;
-		if (worldMap[(int) (data->p.posx - data->p.planex * data->p.movespeed)][(int)data->p.posy] == 0)
+		if (ft_compare_set(data->map.tab[(int) (data->p.posx - data->p.planex * data->p.movespeed)] \
+			[(int)data->p.posy], "0NSEW"))
 			data->p.posx -= data->p.planex * data->p.movespeed;
-		if (worldMap[(int) data->p.posx][(int)(data->p.posy - data->p.planey * data->p.movespeed)] == 0)
+		if (ft_compare_set(data->map.tab[(int) data->p.posx] \
+			[(int)(data->p.posy - data->p.planey * data->p.movespeed)], "0NSEW"))
 			data->p.posy -= data->p.planey * data->p.movespeed;
 	}
 	if (keycode == K_D)
 	{
 		action++;
-		if (worldMap[(int) (data->p.posx + data->p.planex * data->p.movespeed)][(int)data->p.posy] == 0)
+		if (ft_compare_set(data->map.tab[(int) (data->p.posx + data->p.planex * data->p.movespeed)] \
+			[(int)data->p.posy], "0NSEW"))
 			data->p.posx += data->p.planex * data->p.movespeed;
-		if (worldMap[(int) data->p.posx][(int)(data->p.posy + data->p.planey * data->p.movespeed)] == 0)
+		if (ft_compare_set(data->map.tab[(int) data->p.posx] \
+			[(int)(data->p.posy + data->p.planey * data->p.movespeed)], "0NSEW"))
 			data->p.posy += data->p.planey * data->p.movespeed;
 	}
 	if (keycode == K_AR_L)
@@ -90,11 +109,11 @@ int	ft_move(int keycode, t_data *data)
 	if (keycode == K_S)
 	{
 		action++;
-		if (worldMap[(int) (data->p.posx - data->p.dirx * data->p.movespeed)]\
-		[(int) data->p.posy] == 0)
+		if (ft_compare_set(data->map.tab[(int) (data->p.posx - data->p.dirx * data->p.movespeed)]\
+			[(int) data->p.posy], "0NSEW"))
 			data->p.posx -= data->p.dirx * data->p.movespeed;
-		if (worldMap[(int) data->p.posx]\
-		[(int) (data->p.posy - data->p.diry * data->p.movespeed)] == 0)
+		if (ft_compare_set(data->map.tab[(int) data->p.posx]\
+			[(int) (data->p.posy - data->p.diry * data->p.movespeed)], "0NSEW"))
 			data->p.posy -= data->p.diry * data->p.movespeed;
 	}
 	if (keycode == K_AR_R)
@@ -172,29 +191,35 @@ void	ft_raycasting(t_data *d)
 				d->p.mapy += d->p.stepy;
 				d->p.side = 1;
 			}
-			if (worldMap[d->p.mapx][d->p.mapy] > 0)
+			if (d->map.tab[d->p.mapx][d->p.mapy] != '0' && \
+				d->map.tab[d->p.mapx][d->p.mapy] != 'N' && \
+				d->map.tab[d->p.mapx][d->p.mapy] != 'S' && \
+				d->map.tab[d->p.mapx][d->p.mapy] != 'E' && \
+				d->map.tab[d->p.mapx][d->p.mapy] != 'W')
 				d->p.hit = 1;
+			// if (data->map.tab[d->p.mapx][d->p.mapy] > 0)
+			// 	d->p.hit = 1;
 		}
 		if (d->p.side == 0)
 			d->p.perpwalldist = (d->p.sidedistx - d->p.deltadistx);
 		else
 			d->p.perpwalldist = (d->p.sidedisty - d->p.deltadisty);
 		d->p.lineheight = (int) (h / d->p.perpwalldist);
-		
 		d->p.drawstart = -(d->p.lineheight) / 2 + h / 2;
 		if (d->p.drawstart < 0)
 			d->p.drawstart = 0;
 		d->p.drawend = d->p.lineheight / 2 + h / 2;
 		if (d->p.drawend >= h) d->p.drawend = h - 1;
 		int color;
-		switch(worldMap[d->p.mapx][d->p.mapy])
-		{
-			case 1:  color = 0xFF0000;  break; //red
-			case 2:  color = 0x00FF00;  break; //green
-			case 3:  color = 0x0000FF;   break; //blue
-			case 4:  color = 0xFFFFFF;  break; //white
-			default: color = 0xFFFF00; break; //yellow
-		}
+		color = 255;
+		// switch(worldMap[d->p.mapx][d->p.mapy])
+		// {
+		// 	case 1:  color = 0xFF0000;  break; //red
+		// 	case 2:  color = 0x00FF00;  break; //green
+		// 	case 3:  color = 0x0000FF;   break; //blue
+		// 	case 4:  color = 0xFFFFFF;  break; //white
+		// 	default: color = 0xFFFF00; break; //yellow
+		// }
 		if (d->p.side == 1)
 			color = color / 2;
 		// ft_printf("x: %d || drawstart: %d || drawend: %d || color: %d\n", x, d->p.drawstart, d->p.drawend, color);
@@ -203,7 +228,46 @@ void	ft_raycasting(t_data *d)
 	}
 }
 
-int	ft_contain_player_char(char c)
+/**
+ * (dirx , diry) || (planex, planey):
+ * 	(-1, 0) || (0, 0.66) - North
+ * 	(1, 0) || (0, -0.66) - South
+ * 	(0, -1) || (0.66, 0) - West
+ * 	(0, 1) || (-0.66, 0) - East
+ */
+void	ft_get_player_direction(t_data *d, char c)
+{
+	if (c == 'N')
+	{
+		d->p.dirx = -1;
+		d->p.diry = 0;
+		d->p.planex = 0;
+		d->p.planey = 0.66;
+	}
+	if (c == 'S')
+	{
+		d->p.dirx = 1;
+		d->p.diry = 0;
+		d->p.planex = 0;
+		d->p.planey = -0.66;
+	}
+	if (c == 'E')
+	{
+		d->p.dirx = 0;
+		d->p.diry = 1;
+		d->p.planex = 0.66;
+		d->p.planey = 0;
+	}
+	if (c == 'W')
+	{
+		d->p.dirx = 0;
+		d->p.diry = -1;
+		d->p.planex = -0.66;
+		d->p.planey = 0;
+	}
+}
+
+int	ft_contain_player_char(t_data *data, char c)
 {
 	char	char_player[4];
 	int		i;
@@ -213,10 +277,12 @@ int	ft_contain_player_char(char c)
 	char_player[2] = 'E';
 	char_player[3] = 'W';
 	i = -1;
+	(void) data;
 	while (++i < 4)
 	{
 		if (c == char_player[i])
 		{
+			ft_get_player_direction(data, c);
 			return (1);
 		}
 	}
@@ -239,10 +305,10 @@ int	ft_get_player_pos(t_data *data, char **tab, int tab_len)
 		x = 0;
 		while (x < line_len)
 		{
-			if (ft_contain_player_char(tab[y][x]))
+			if (ft_contain_player_char(data, tab[y][x]))
 			{
-				data->p.posx = (double) x;
-				data->p.posy = (double) y;
+				data->p.posx = (double) y;
+				data->p.posy = (double) x;
 				found++;
 			}
 			x++;
@@ -260,25 +326,27 @@ int	main(void)
 {
 	t_data	data;
 
-	data.p.posx = 12;
-	data.p.posy = 12;
-	data.p.dirx = -1;
+	data.p.posx = 2;
+	data.p.posy = 2;
+	data.p.dirx = 1;
 	data.p.diry = 0;
 	data.p.planex = 0;
-	data.p.planey = 0.66;
+	data.p.planey = -0.66;
 
-	// ft_init_mlx(&data);
-	map_parsing(&data.map, "./map/first_map.cub");
+	ft_init_mlx(&data);
+	// map_parsing(&data.map, "./map/first_map.cub");
+	map_parsing(&data.map, "./map/test.cub");
 	print_map(&data.map);
 	ft_get_player_pos(&data, data.map.tab, data.map.tab_len + 2);
 	ft_printf("player_pos: (%d, %d)\n", (int) data.p.posx, (int) data.p.posy);
-	free_map(data.map);
-	// ft_raycasting(&data);
-	// mlx_put_image_to_window(data.mlx, data.mlx_win, data.img, 0, 0);
+	ft_printf("player direction: dirx: %d || diry: %d\n", (int) data.p.dirx, (int) data.p.diry);
+	// free_map(data.map);
+	ft_raycasting(&data);
+	mlx_put_image_to_window(data.mlx, data.mlx_win, data.img, 0, 0);
 	
 	// // HOOKS
 
-	// data.p.movespeed = 5.0 / 10;
-	// data.p.rotspeed = 3.0 / 50;
-	// ft_hook(&data);
+	data.p.movespeed = 5.0 / 10;
+	data.p.rotspeed = 3.0 / 50;
+	ft_hook(&data);
 }

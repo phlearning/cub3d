@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 13:49:27 by pvong             #+#    #+#             */
-/*   Updated: 2023/08/25 15:25:14 by pvong            ###   ########.fr       */
+/*   Updated: 2023/09/25 16:59:03 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,31 +38,23 @@ void	ft_fill(char *s, char c, int len)
 	}
 }
 
-int	ft_get_longest_len(char *file)
+int	ft_get_longest_tab_len(char **tab, int tab_len)
 {
-	int		fd;
-	int		len;
-	int		tmp_len;
-	char	*tmp;
+	int	len;
+	int	len2;
+	int	i;
 
-	fd = open(file, O_RDONLY);
+	i = -1;
 	len = 0;
-	tmp_len = 0;
-	while (1)
+	if (tab_len <= 0 || !tab)
+		return (0);
+	while (tab[++i] && i < tab_len - 1)
 	{
-		tmp = get_next_line(fd);
-		if (!tmp)
-			break ;
-		tmp_len = ft_strlen(tmp);
-		if (len < tmp_len)
-			len = tmp_len;
-		free(tmp);
+		len2 = len;
+		len = ft_strlen(tab[i]);
+		if (len2 > len)
+			len = len2;
 	}
-	close(fd);
-	if (tmp)
-		free(tmp);
-	if (len > 0)
-		len--;
 	return (len);
 }
 
@@ -103,8 +95,13 @@ int	map_parsing2(t_map *map, char *map_file)
 
 	i = 0;
 	j = 0;
-	len = ft_get_longest_len(map_file);
+	len = ft_get_longest_tab_len(map->tmp, map->tab_len) - 1;
+	if (len <= 0)
+		error_exit2("Error len map_parsing\n", EXIT_FAILURE);
+	// free_tab(map->tmp);
 	fd = open(map_file, O_RDONLY);
+	if (fd < 0)
+		error_exit("Error fd: map_parsing2: ", EXIT_FAILURE);
 	map->tab = ft_calloc(map->tab_len + 1, sizeof(char *));
 	if (!map->tab)
 		exit(EXIT_FAILURE);
@@ -124,10 +121,7 @@ int	map_parsing2(t_map *map, char *map_file)
 		{
 			map->tab[j] = ft_calloc(len + 2, sizeof(char));
 			ft_strlcat(map->tab[j], tmp, len + 1);
-			// ft_change_char(map->tab[j], ' ', 'X');
-			// ft_fill(map->tab[j], 'X', len + 1);
 			j++;
-			// map->tab[j++] = ft_strdup(tmp);
 		}
 		if (tmp)
 			free(tmp);
@@ -138,15 +132,72 @@ int	map_parsing2(t_map *map, char *map_file)
 	return (0);
 }
 
+/**
+ * This function needs the start line given in map->start.
+ * It open the files and read the line until the given start line.
+ * Then it copies the line unto the tab.
+ * @param map
+ * @param map_file 
+ * @return char** 
+ */
+char	**ft_copy_map(t_map *map, char *map_file)
+{
+	int		i;
+	int		j;
+	int		fd;
+	char	*tmp;
+	char	**ret_map;
+
+	fd = open(map_file, O_RDONLY);
+	if (fd < 0)
+		error_exit("Error fd: ", EXIT_FAILURE);
+	ret_map = ft_calloc(map->tab_len, sizeof(char *));
+	if (!ret_map)
+		error_exit("Error malloc: ret_map: ", EXIT_FAILURE);
+	i = 0;
+	j = 0;
+	while (1)
+	{
+		tmp = get_next_line(fd);
+		if (!tmp)
+			break ;
+		if (i < map->start)
+		{
+			i++;
+			free(tmp);
+			continue ;
+		}
+		tmp = ft_strtrim2(tmp, "\n");
+		ret_map[j] = ft_strdup(tmp);
+		j++;
+		if (tmp)
+			free(tmp);
+	}
+	if (tmp)
+		free(tmp);
+	return (ret_map);
+}
+
+/**
+ * Open the given map file, looks for the texture and map
+ * to add them to the struct t_map
+ * @param map 
+ * @param map_file 
+ * @return int 
+ */
 int	map_parsing(t_map *map, char *map_file)
 {
 	int		fd;
+	int		i;
 	char	*tmp;
 
 	map->line = 0;
 	map->tab_len = 0;
 	map->start = 0;
+	i = 0;
 	fd = open(map_file, O_RDONLY);
+	if (fd < 0)
+		error_exit("Error fd: ", EXIT_FAILURE);
 	while (1)
 	{
 		tmp = get_next_line(fd);
@@ -176,6 +227,7 @@ int	map_parsing(t_map *map, char *map_file)
 		map->line++;
 	}
 	close(fd);
+	map->tmp = ft_copy_map(map, map_file);
 	map_parsing2(map, map_file);
 	return (0);
 }
