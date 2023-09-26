@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 13:02:52 by pvong             #+#    #+#             */
-/*   Updated: 2023/09/25 17:05:51 by pvong            ###   ########.fr       */
+/*   Updated: 2023/09/26 15:38:07 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,11 @@ char	*ft_strtrim2(char *s1, char *set)
  * we exit the program. It needs to be an int for the mlx_hook.
  * @return int 
  */
-int	ft_close(void)
+int	ft_close(t_data *data)
 {
-	exit(1);
+	mlx_destroy_window(data->mlx, data->mlx_win);
+	mlx_destroy_image(data->mlx, data->img);
+	exit(0);
 	return (0);
 }
 
@@ -70,7 +72,6 @@ void	print_map(t_map *map)
 	ft_printf("c_color: %s\n", map->c_color);
 	ft_printf("=====\n");
 	i = -1;
-	// ft_printf("map->tab[0]: %s\n", map->tab[0]);
 	if (map->tab)
 	{
 		while (map->tab[++i])
@@ -79,13 +80,6 @@ void	print_map(t_map *map)
 	ft_printf("=====\n");
 }
 
-// void	print_tab(char **tab)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (i)
-// }
 
 /* -------------------------------------------------------------------------- */
 /*                                    FREE                                    */
@@ -163,4 +157,41 @@ void	error_exit2(char *s, int n)
 {
 	write(2, s, ft_strlen(s));
 	exit(n);
+}
+
+int	ft_open(char *file)
+{
+	int		opened_file;
+	char	*str;
+
+	str = ft_strjoin("Error ", file);
+	opened_file = open(file, O_RDONLY);
+	if (opened_file == -1)
+	{
+		perror(str);
+		free(str);
+		exit(EXIT_FAILURE);
+	}
+	return (opened_file);
+}
+
+/**
+ * To compare the char in the map to the tile_set "0NSEW"
+ * @param n 
+ * @param s 
+ * @return int 
+ */
+int	ft_compare_set(int n, char *s)
+{
+	int	len;
+	int	i;
+
+	i = -1;
+	len = ft_strlen(s);
+	while (s[++i])
+	{
+		if (n == (int) s[i])
+			return (1);
+	}
+	return (0);
 }

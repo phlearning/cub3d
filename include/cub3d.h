@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 12:51:14 by pvong             #+#    #+#             */
-/*   Updated: 2023/09/26 11:55:58 by pvong            ###   ########.fr       */
+/*   Updated: 2023/09/26 15:27:44 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,15 @@
 # include "keycodes.h"
 # include <math.h>
 
-extern int worldMap[24][24];
-
 /* -------------------------------------------------------------------------- */
 /*                                   DEFINE                                   */
 /* -------------------------------------------------------------------------- */
 
-# define WIDTH	640
-# define HEIGHT 480
+# define WIDTH	1280
+# define HEIGHT 960
 # define INCREMENT 10
 # define TILE_SET "0NSEW"
+# define SIZE_XPM 64
 
 /* tmp color */
 # define RGB_RED 0xff0000
@@ -123,7 +122,17 @@ typedef struct s_coord
 /*                                 RAYCASTING                                 */
 /* -------------------------------------------------------------------------- */
 
+/* raycasting.c */
+
+void		ft_advance_ray_step(t_data *d);
+void		ft_calc_drawing_range(t_data *d);
 void		ft_raycasting(t_data *d);
+
+/* raycasting2.c */
+
+int			ft_get_color(int side, double ray_dir_y, double ray_dir_x);
+void		ft_init_ray(t_data *d, int x);
+void		ft_calc_sidedist(t_data *d);
 
 /* -------------------------------------------------------------------------- */
 /*                                    HOOK                                    */
@@ -141,11 +150,23 @@ int			ft_move(int keycode, t_data *data);
 void		ft_init_mlx(t_data *data);
 
 /* -------------------------------------------------------------------------- */
-/*                                 MAP_PARSING                                */
+/*                                   PARSING                                  */
 /* -------------------------------------------------------------------------- */
 
-int			map_parsing2(t_map *map, char *map_file);
+/* map_parsing.c */
+
+void		ft_change_char(char *s, char c1, char replace_by);
+void		ft_fill(char *s, char c, int len);
+int			ft_get_longest_tab_len(char **tab, int tab_len);
+char		**ft_rework_tab(char **tab, int v_len, int h_len, char replace);
 int			map_parsing(t_map *map, char *map_file);
+int			map_parsing2(t_map *map, char *map_file);
+
+/* player_parsing.c */
+
+void		ft_get_player_direction(t_data *d, char c);
+int			ft_contain_player_char(t_data *data, char c);
+int			ft_get_player_pos(t_data *data, char **tab, int tab_len);
 
 /* -------------------------------------------------------------------------- */
 /*                                    UTILS                                   */
@@ -154,10 +175,12 @@ int			map_parsing(t_map *map, char *map_file);
 /* utils.c */
 
 char		*ft_strtrim2(char *s1, char *set);
-int			ft_close(void);
+int			ft_close(t_data *data);
 void		error_exit(char *s, int n);
 void		error_exit2(char *s, int n);
 void		print_map(t_map *map);
+int			ft_open(char *file);
+int			ft_compare_set(int n, char *s);
 
 /* utils_mlx.c */
 

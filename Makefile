@@ -6,7 +6,7 @@
 #    By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/18 12:43:01 by pvong             #+#    #+#              #
-#    Updated: 2023/09/25 17:06:10 by pvong            ###   ########.fr        #
+#    Updated: 2023/09/26 15:25:38 by pvong            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,11 +68,14 @@ SRCS			:=	main/main.c \
 					hooks/hooks.c \
 					hooks/key_hook.c \
 					init/init.c \
+					parsing/map_parsing.c \
+					parsing/player_parsing.c \
+					parsing/texture_parsing.c \
 					raycasting/raycasting.c \
+					raycasting/raycasting2.c \
 					utils/utils.c \
 					utils/utils_mlx.c \
-					parsing/map_parsing.c \
-					parsing/flood_fill.c \
+					
 
 SRCS			:=	$(SRCS:%=$(SRC_DIR)/%)
 
