@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 12:51:14 by pvong             #+#    #+#             */
-/*   Updated: 2023/09/25 16:57:59 by pvong            ###   ########.fr       */
+/*   Updated: 2023/09/26 11:55:58 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,14 @@ extern int worldMap[24][24];
 # define WIDTH	640
 # define HEIGHT 480
 # define INCREMENT 10
+# define TILE_SET "0NSEW"
+
+/* tmp color */
+# define RGB_RED 0xff0000
+# define RGB_GREEN 0x00ff00
+# define RGB_BLUE 0x0000ff
+# define RGB_MAGENTA 0xff00ff
+# define RGB_BROWN 0xa52a2a
 
 /* -------------------------------------------------------------------------- */
 /*                                   STRUCT                                   */

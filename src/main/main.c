@@ -6,44 +6,11 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 12:42:58 by pvong             #+#    #+#             */
-/*   Updated: 2023/09/25 17:38:18 by pvong            ###   ########.fr       */
+/*   Updated: 2023/09/26 11:56:04 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-int	ft_move(int keycode, t_data *data);
-
-#define mapWidth 24
-#define mapHeight 24
-
-int worldMap[mapWidth][mapHeight]=
-{
-  {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-  {2,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,2,2,2,2,2,0,0,0,0,3,0,3,0,3,0,0,0,1},
-  {1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,3,0,0,0,3,0,0,0,1},
-  {1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,2,2,0,2,2,0,0,0,0,3,0,3,0,3,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,4,0,4,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,4,0,0,0,0,5,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,4,0,4,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,4,0,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
-};
 
 int	ft_compare_set(int n, char *s)
 {
@@ -137,6 +104,27 @@ int	ft_move(int keycode, t_data *data)
 	return (0);
 }
 
+int	ft_get_color(int side, double ray_dir_y, double ray_dir_x)
+{
+	int	color;
+
+	if (side == 1)
+	{
+		if (ray_dir_y < 0)
+			color = RGB_BLUE;
+		else
+			color = RGB_RED;
+	}
+	else
+	{
+		if (ray_dir_x < 0)
+			color = RGB_GREEN;
+		else
+			color = RGB_BROWN;
+	}
+	return (color);
+}
+
 void	ft_raycasting(t_data *d)
 {
 	int	h = HEIGHT;
@@ -191,11 +179,7 @@ void	ft_raycasting(t_data *d)
 				d->p.mapy += d->p.stepy;
 				d->p.side = 1;
 			}
-			if (d->map.tab[d->p.mapx][d->p.mapy] != '0' && \
-				d->map.tab[d->p.mapx][d->p.mapy] != 'N' && \
-				d->map.tab[d->p.mapx][d->p.mapy] != 'S' && \
-				d->map.tab[d->p.mapx][d->p.mapy] != 'E' && \
-				d->map.tab[d->p.mapx][d->p.mapy] != 'W')
+			if (!ft_compare_set(d->map.tab[d->p.mapx][d->p.mapy], "0NSEW"))
 				d->p.hit = 1;
 			// if (data->map.tab[d->p.mapx][d->p.mapy] > 0)
 			// 	d->p.hit = 1;
@@ -211,18 +195,7 @@ void	ft_raycasting(t_data *d)
 		d->p.drawend = d->p.lineheight / 2 + h / 2;
 		if (d->p.drawend >= h) d->p.drawend = h - 1;
 		int color;
-		color = 255;
-		// switch(worldMap[d->p.mapx][d->p.mapy])
-		// {
-		// 	case 1:  color = 0xFF0000;  break; //red
-		// 	case 2:  color = 0x00FF00;  break; //green
-		// 	case 3:  color = 0x0000FF;   break; //blue
-		// 	case 4:  color = 0xFFFFFF;  break; //white
-		// 	default: color = 0xFFFF00; break; //yellow
-		// }
-		if (d->p.side == 1)
-			color = color / 2;
-		// ft_printf("x: %d || drawstart: %d || drawend: %d || color: %d\n", x, d->p.drawstart, d->p.drawend, color);
+		color = ft_get_color(d->p.side, d->p.raydiry, d->p.raydirx);
 		ft_drawline(d, x, d->p.drawstart, d->p.drawend, color);
 		x++;
 	}
