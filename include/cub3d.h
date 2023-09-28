@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 12:51:14 by pvong             #+#    #+#             */
-/*   Updated: 2023/09/26 15:27:44 by pvong            ###   ########.fr       */
+/*   Updated: 2023/09/28 18:10:53 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,12 @@ typedef struct s_player
 	double	planey;
 	double	movespeed;
 	double	rotspeed;
+	int		mapx;
+	int		mapy;
+	// Variables concernant les rayons
 	double	camerax;
 	double	raydirx;
 	double	raydiry;
-	int		mapx;
-	int		mapy;
 	double	sidedistx;
 	double	sidedisty;
 	double	deltadistx;
@@ -83,9 +84,18 @@ typedef struct s_player
 	int		stepy;
 	int		hit;
 	int		side;
+	// -----
+	// Draw vertical line
 	int		lineheight;
 	int		drawstart;
 	int		drawend;
+	// ----
+	int		forward;
+	int		backward;
+	int		left;
+	int		right;
+	int		rotate_left;
+	int		rotate_right;
 }	t_player;
 
 typedef struct s_data
@@ -138,16 +148,35 @@ void		ft_calc_sidedist(t_data *d);
 /*                                    HOOK                                    */
 /* -------------------------------------------------------------------------- */
 
-int			ft_control_key(int keycode, t_data *data);
+/* events.c */
+
+void		ft_move_up_down(t_data *d, int dir, char **map);
+void		ft_move_left_right(t_data *d, int dir, char **map);
+void		ft_rotate_left_right(t_data *d, int dir);
+int			ft_move(int keycode, t_data *data);
+
+/* hooks.c */
+
 int			ft_expose_hook(t_data *data);
 void		ft_hook(t_data *data);
-int			ft_move(int keycode, t_data *data);
+int			ft_loop(t_data *data);
+int			ft_read_movement(t_data *d);
+void		ft_update_img(t_data *data);
+
+/* key_hook.c */
+
+void		ft_key_hook(t_data *data);
+int			ft_key_press(int keycode, t_data *data);
+int			ft_key_release(int keycode, t_data *data);
+int			ft_move_press(int k, t_data *d);
+int			ft_move_release(int k, t_data *d);
 
 /* -------------------------------------------------------------------------- */
 /*                                    INIT                                    */
 /* -------------------------------------------------------------------------- */
 
 void		ft_init_mlx(t_data *data);
+void		ft_init_data(t_data *data);
 
 /* -------------------------------------------------------------------------- */
 /*                                   PARSING                                  */

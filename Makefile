@@ -6,7 +6,7 @@
 #    By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/18 12:43:01 by pvong             #+#    #+#              #
-#    Updated: 2023/09/26 15:25:38 by pvong            ###   ########.fr        #
+#    Updated: 2023/09/28 17:10:47 by pvong            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,6 +65,7 @@ CFLAGS			= -Wall -Wextra -Werror -g3 -fsanitize=address
 SRC_DIR			= src
 
 SRCS			:=	main/main.c \
+					hooks/events.c \
 					hooks/hooks.c \
 					hooks/key_hook.c \
 					init/init.c \

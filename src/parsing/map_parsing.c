@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 13:49:27 by pvong             #+#    #+#             */
-/*   Updated: 2023/09/25 16:59:03 by pvong            ###   ########.fr       */
+/*   Updated: 2023/09/28 15:14:56 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int	map_parsing2(t_map *map, char *map_file)
 
 	i = 0;
 	j = 0;
-	len = ft_get_longest_tab_len(map->tmp, map->tab_len) - 1;
+	len = ft_get_longest_tab_len(map->tmp, map->tab_len);
 	if (len <= 0)
 		error_exit2("Error len map_parsing\n", EXIT_FAILURE);
 	// free_tab(map->tmp);

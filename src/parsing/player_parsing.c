@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 13:45:46 by pvong             #+#    #+#             */
-/*   Updated: 2023/09/26 13:58:18 by pvong            ###   ########.fr       */
+/*   Updated: 2023/09/28 14:59:04 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,8 +108,8 @@ int	ft_get_player_pos(t_data *data, char **tab, int tab_len)
 		{
 			if (ft_contain_player_char(data, tab[y][x]))
 			{
-				data->p.posx = (double) y;
-				data->p.posy = (double) x;
+				data->p.posx = (double) y + 0.5;
+				data->p.posy = (double) x + 0.5;
 				found++;
 			}
 			x++;
