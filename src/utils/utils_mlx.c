@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 15:36:20 by pvong             #+#    #+#             */
-/*   Updated: 2023/09/21 15:49:52 by pvong            ###   ########.fr       */
+/*   Updated: 2023/09/29 14:38:25 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	put_pxl_to_img(t_data *data, int x, int y, int color)
 	if (x < WIDTH && y < HEIGHT)
 	{
 		color = mlx_get_color_value(data->mlx, color);
-		ft_memcpy(data->img_ptr + 4 * WIDTH * y + x * 4, \
+		ft_memcpy(data->addr + 4 * WIDTH * y + x * 4, \
 			&color, sizeof(int));
 	}
 }

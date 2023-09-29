@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 15:50:29 by pvong             #+#    #+#             */
-/*   Updated: 2023/09/26 15:26:18 by pvong            ###   ########.fr       */
+/*   Updated: 2023/09/29 17:56:02 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,43 +14,69 @@
 
 void	ft_advance_ray_step(t_data *d)
 {
-		while (d->p.hit == 0)
+	while (d->p.hit == 0)
+	{
+		if (d->p.sidedistx < d->p.sidedisty)
 		{
-			if (d->p.sidedistx < d->p.sidedisty)
-			{
-				d->p.sidedistx += d->p.deltadistx;
-				d->p.mapx += d->p.stepx;
-				d->p.side = 0;
-			}
-			else
-			{
-				d->p.sidedisty += d->p.deltadisty;
-				d->p.mapy += d->p.stepy;
-				d->p.side = 1;
-			}
-			if (!ft_compare_set(d->map.tab[d->p.mapx][d->p.mapy], TILE_SET))
-				d->p.hit = 1;
+			d->p.sidedistx += d->p.deltadistx;
+			d->p.mapx += d->p.stepx;
+			d->p.side = 0;
 		}
+		else
+		{
+			d->p.sidedisty += d->p.deltadisty;
+			d->p.mapy += d->p.stepy;
+			d->p.side = 1;
+		}
+		if (!ft_compare_set(d->map.tab[d->p.mapx][d->p.mapy], TILE_SET))
+			d->p.hit = 1;
+	}
 }
 
 void	ft_calc_drawing_range(t_data *d)
 {
 	if (d->p.side == 0)
 			d->p.perpwalldist = (d->p.sidedistx - d->p.deltadistx);
+	else
+		d->p.perpwalldist = (d->p.sidedisty - d->p.deltadisty);
+	d->p.lineheight = (int) (HEIGHT / d->p.perpwalldist);
+	d->p.drawstart = -(d->p.lineheight) / 2 + HEIGHT / 2;
+	if (d->p.drawstart < 0)
+		d->p.drawstart = 0;
+	d->p.drawend = d->p.lineheight / 2 + HEIGHT / 2;
+	if (d->p.drawend >= HEIGHT)
+		d->p.drawend = HEIGHT - 1;
+}
+
+void	ft_get_wall_dir(t_data *d)
+{
+	int		side;
+	double	ray_dir_y;
+	double	ray_dir_x;
+
+	side = d->p.side;
+	ray_dir_x = d->p.raydirx;
+	ray_dir_y = d->p.raydiry;
+	if (side == 1)
+	{
+		if (ray_dir_y < 0)
+			d->p.wall_dir = 1;
 		else
-			d->p.perpwalldist = (d->p.sidedisty - d->p.deltadisty);
-		d->p.lineheight = (int) (HEIGHT / d->p.perpwalldist);
-		d->p.drawstart = -(d->p.lineheight) / 2 + HEIGHT / 2;
-		if (d->p.drawstart < 0)
-			d->p.drawstart = 0;
-		d->p.drawend = d->p.lineheight / 2 + HEIGHT / 2;
-		if (d->p.drawend >= HEIGHT)
-			d->p.drawend = HEIGHT - 1;
+			d->p.wall_dir = 2;
+	}
+	else
+	{
+		if (ray_dir_x < 0)
+			d->p.wall_dir = 3;
+		else
+			d->p.wall_dir = 4;
+	}
 }
 
 void	ft_raycasting(t_data *d)
 {
 	int	x;
+	// int	color;
 
 	x = 0;
 	while (x < WIDTH)
@@ -59,9 +85,10 @@ void	ft_raycasting(t_data *d)
 		ft_calc_sidedist(d);
 		ft_advance_ray_step(d);
 		ft_calc_drawing_range(d);
-		int color;
-		color = ft_get_color(d->p.side, d->p.raydiry, d->p.raydirx);
-		ft_drawline(d, x, d->p.drawstart, d->p.drawend, color);
+		ft_get_wall_dir(d);
+		// color = ft_get_color(d->p.side, d->p.raydiry, d->p.raydirx);
+		ft_apply_texture(d, &d->p, x, d->p.wall_dir);
+		// ft_drawline(d, x, d->p.drawstart, d->p.drawend, color);
 		x++;
 	}
 }

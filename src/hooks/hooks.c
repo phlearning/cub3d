@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 15:46:17 by pvong             #+#    #+#             */
-/*   Updated: 2023/09/28 18:08:34 by pvong            ###   ########.fr       */
+/*   Updated: 2023/09/29 14:38:25 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	ft_expose_hook(t_data *data)
 {
 	data->img = mlx_new_image(data->mlx, WIDTH, HEIGHT);
-	data->img_ptr = mlx_get_data_addr(data->img, &data->bpp, \
+	data->addr = mlx_get_data_addr(data->img, &data->bpp, \
 		&data->ll, &data->endian);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 12:51:14 by pvong             #+#    #+#             */
-/*   Updated: 2023/09/28 18:10:53 by pvong            ###   ########.fr       */
+/*   Updated: 2023/09/29 17:54:51 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 # define INCREMENT 10
 # define TILE_SET "0NSEW"
 # define SIZE_XPM 64
+# define TEXTURE_NB 4
 
 /* tmp color */
 # define RGB_RED 0xff0000
@@ -42,6 +43,25 @@
 /* -------------------------------------------------------------------------- */
 /*                                   STRUCT                                   */
 /* -------------------------------------------------------------------------- */
+
+typedef struct	s_img
+{
+	void	*img;
+	void	*addr;
+	int		bpp;
+	int		ll;
+	int		endian;
+	int		width;
+	int		height;
+}	t_img;
+
+typedef struct s_texture
+{
+	char	*file;
+	float	step;
+	float	pos;
+	t_img	*i;
+}	t_texture;
 
 typedef struct s_map
 {
@@ -85,6 +105,7 @@ typedef struct s_player
 	int		hit;
 	int		side;
 	// -----
+	int		wall_dir;
 	// Draw vertical line
 	int		lineheight;
 	int		drawstart;
@@ -106,9 +127,7 @@ typedef struct s_data
 	void		*mlx;
 	void		*mlx_win;
 	void		*img;
-	void		*img_ptr;
-	void		*img2;
-	void		*img_ptr2;
+	void		*addr;
 	int			bpp;
 	int			ll;
 	int			endian;
@@ -117,6 +136,8 @@ typedef struct s_data
 	int			img_height;
 	t_player	p;
 	t_map		map;
+	t_texture	*t_north;
+	int			**tex;
 }	t_data;
 
 typedef struct s_coord
@@ -128,6 +149,14 @@ typedef struct s_coord
 	int	color;
 }	t_coord;
 
+
+/* -------------------------------------------------------------------------- */
+/*                            TEMPORARY_WILL_DELETE                           */
+/* -------------------------------------------------------------------------- */
+
+void		ft_apply_texture(t_data *data, t_player *p, int x, int id);
+
+
 /* -------------------------------------------------------------------------- */
 /*                                 RAYCASTING                                 */
 /* -------------------------------------------------------------------------- */
@@ -137,6 +166,7 @@ typedef struct s_coord
 void		ft_advance_ray_step(t_data *d);
 void		ft_calc_drawing_range(t_data *d);
 void		ft_raycasting(t_data *d);
+void		ft_get_wall_dir(t_data *d);
 
 /* raycasting2.c */
 
