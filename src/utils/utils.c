@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 13:02:52 by pvong             #+#    #+#             */
-/*   Updated: 2023/10/02 19:37:26 by pvong            ###   ########.fr       */
+/*   Updated: 2023/10/03 16:26:07 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,17 @@
 /* -------------------------------------------------------------------------- */
 /*                                    UTILS                                   */
 /* -------------------------------------------------------------------------- */
+
+void	print_tab(char **tab)
+{
+	int	i;
+
+	i = -1;
+	if (!tab)
+		return ;
+	while (tab[++i])
+		ft_printf("tab[%d]: %s\n", i, tab[i]);
+}
 
 char	*ft_strtrim2(char *s1, char *set)
 {
@@ -85,10 +96,11 @@ void	free_all_textures(t_data *data)
 int	ft_close(t_data *data)
 {
 	free_all_textures(data);
+	free_map(data->map);
 	mlx_destroy_window(data->mlx, data->mlx_win);
 	if (data->img)
 		mlx_destroy_image(data->mlx, data->img);
-	mlx_destroy_display(data->mlx);
+	// mlx_destroy_display(data->mlx);
 	exit(EXIT_SUCCESS);
 	return (0);
 }
@@ -195,7 +207,8 @@ void	error_exit(char *s, int n)
 
 void	error_exit2(char *s, int n)
 {
-	write(2, s, ft_strlen(s));
+	// write(2, s, ft_strlen(s));
+	ft_printf("%s\n", s);
 	exit(n);
 }
 

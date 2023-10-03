@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 13:49:27 by pvong             #+#    #+#             */
-/*   Updated: 2023/10/02 11:57:38 by pvong            ###   ########.fr       */
+/*   Updated: 2023/10/03 16:40:57 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,20 +66,19 @@ char	**ft_rework_tab(char **tab, int v_len, int h_len, char replace)
 	rework = ft_calloc(v_len + 1, sizeof(char *));
 	if (!rework)
 		exit(EXIT_FAILURE);
-	rework[0] = ft_calloc(h_len, sizeof(char));
+	rework[0] = ft_calloc(h_len + 1, sizeof(char));
 	ft_fill(rework[0], replace, h_len);
 	i = 1;
 	while (i < v_len - 1)
 	{
-		rework[i] = ft_calloc(h_len, sizeof(char));
-		ft_fill(rework[i], replace, h_len - 1);
-		// ft_strlcat(rework[i], tab[i - 1], h_len);
+		rework[i] = ft_calloc(h_len + 1, sizeof(char));
+		ft_fill(rework[i], replace, h_len);
 		ft_strlcpy(rework[i] + 1, tab[i - 1], h_len);
 		ft_change_char(rework[i], ' ', replace);
 		ft_fill(rework[i], replace, h_len - 1);
 		i++;
 	}
-	rework[i] = ft_calloc(h_len, sizeof(char));
+	rework[i] = ft_calloc(h_len + 1, sizeof(char));
 	ft_fill(rework[i], replace, h_len);
 	free_tab(tab);
 	return (rework);
@@ -156,7 +155,7 @@ char	**ft_copy_map(t_map *map, char *map_file)
 		error_exit("Error malloc: ret_map: ", EXIT_FAILURE);
 	i = 0;
 	j = 0;
-	while (1)
+	while (1 && j < map->tab_len)
 	{
 		tmp = get_next_line(fd);
 		if (!tmp)
@@ -171,7 +170,10 @@ char	**ft_copy_map(t_map *map, char *map_file)
 		ret_map[j] = ft_strdup(tmp);
 		j++;
 		if (tmp)
+		{
 			free(tmp);
+			tmp = NULL;
+		}
 	}
 	if (tmp)
 		free(tmp);
@@ -188,13 +190,11 @@ char	**ft_copy_map(t_map *map, char *map_file)
 int	map_parsing(t_map *map, char *map_file)
 {
 	int		fd;
-	// int		i;
 	char	*tmp;
 
 	map->line = 0;
 	map->tab_len = 0;
 	map->start = 0;
-	// i = 0;
 	fd = open(map_file, O_RDONLY);
 	if (fd < 0)
 		error_exit("Error fd: ", EXIT_FAILURE);
@@ -227,6 +227,8 @@ int	map_parsing(t_map *map, char *map_file)
 		map->line++;
 	}
 	close(fd);
+	ft_printf("map->line: %d\n", map->line);
+	ft_printf("tab_len: %d\n", map->tab_len);
 	map->tmp = ft_copy_map(map, map_file);
 	map_parsing2(map, map_file);
 	return (0);

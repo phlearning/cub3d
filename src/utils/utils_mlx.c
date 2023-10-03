@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 15:36:20 by pvong             #+#    #+#             */
-/*   Updated: 2023/09/29 14:38:25 by pvong            ###   ########.fr       */
+/*   Updated: 2023/10/03 11:38:53 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,29 @@ int	ft_drawline(t_data *data, int x, int y1, int y2, int color)
 		if (x > 0 && x <= WIDTH)
 			put_pxl_to_img(data, x, y, color);
 		y++;
+	}
+	return (1);
+}
+
+int	ft_draw_verline(t_data *data, t_pos *start_pos, int length, int color)
+{
+	int		i;
+	int		j;
+	int		limit;
+	t_pos	pos;
+
+	if (start_pos->x || start_pos->x > WIDTH)
+		return (1);
+	pos.x = start_pos->x;
+	limit = HEIGHT;
+	i = 0;
+	j = start_pos->y + i;
+	while (i < length && j < limit)
+	{
+		j = start_pos->y + i;
+		pos.y = j;
+		put_pxl_to_img(data, (int) pos.x, (int) pos.y, color);
+		i++;
 	}
 	return (1);
 }

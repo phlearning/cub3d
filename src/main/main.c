@@ -6,15 +6,13 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 12:42:58 by pvong             #+#    #+#             */
-/*   Updated: 2023/10/02 19:37:50 by pvong            ###   ########.fr       */
+/*   Updated: 2023/10/03 16:32:20 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-// D/M/Y : 29/09/2023
-// Started working on rendering the texture
-// Need to parse it and change the structures
+// La texture semble etre divisé en 4 ou en 2 _ a retravaille
 
 void	ft_init_data(t_data *data)
 {
@@ -107,7 +105,6 @@ t_texture	*ft_get_tex(t_data *data, int id)
 	return (NULL);
 }
 
-
 void	ft_apply_texture(t_data *data, t_player *p, int x, int id)
 {
 	double		wall_x;
@@ -119,11 +116,9 @@ void	ft_apply_texture(t_data *data, t_player *p, int x, int id)
 
 	(void) id;
 	wall_x = 0.0;
-	// To change later on
-	// tex = data->t_north;
 	tex = ft_get_tex(data, id);
-	// 
 	wall_x = ft_get_wall_x(data->p);
+	// wall_x -= floor(wall_x);
 	t_x = (int)(wall_x * (double)tex->i->width);
 	t_x = tex->i->width - t_x - 1;
 	tex->step = 1.0 * tex->i->width / p->lineheight;
@@ -141,25 +136,55 @@ void	ft_apply_texture(t_data *data, t_player *p, int x, int id)
 	}
 }
 
+// void	parsing_param(t_data *data)
+// {
+	
+// }
+
+// int	main(void)
+// {
+// 	t_data	data;
+
+// 	ft_init_mlx(&data);
+// 	ft_init_data(&data);
+// 	// Temporary
+// 	data.tex = ft_calloc(TEXTURE_NB, sizeof(int *));
+// 	data.t_north = ft_get_texture_img(&data, "./textures/xpm/bluestone.xpm", 0);
+// 	data.t_south = ft_get_texture_img(&data, "./textures/xpm/colorstone.xpm", 1);
+// 	data.t_east = ft_get_texture_img(&data, "./textures/xpm/greystone.xpm", 2);
+// 	data.t_west = ft_get_texture_img(&data, "./textures/xpm/mossy.xpm", 3);
+// 	// 
+// 	// map_parsing(&data.map, "./map/first_map.cub");
+// 	map_parsing(&data.map, "./map/test.cub");
+// 	// parsing_param(data);
+// 	print_map(&data.map);
+// 	ft_get_player_pos(&data, data.map.tab, data.map.tab_len + 2);
+// 	// free_map(data.map);
+
+// 	ft_hook(&data);
+//	ft_close(&data);
+// }
+
 int	main(void)
 {
 	t_data	data;
+	// char	**tab;
 
+	// tab = ft_split("hello        world\n", ' ');
+	// print_tab(tab);
 	ft_init_mlx(&data);
 	ft_init_data(&data);
-	// Temporary
 	data.tex = ft_calloc(TEXTURE_NB, sizeof(int *));
-	data.t_north = ft_get_texture_img(&data, "./textures/brick.xpm", 0);
-	data.t_south = ft_get_texture_img(&data, "./textures/cave.xpm", 1);
-	data.t_east = ft_get_texture_img(&data, "./textures/stone.xpm", 2);
-	data.t_west = ft_get_texture_img(&data, "./textures/wood.xpm", 3);
-	// 
-	// map_parsing(&data.map, "./map/first_map.cub");
+	data.t_north = ft_calloc(1, sizeof(t_texture));
+	data.t_south = ft_calloc(1, sizeof(t_texture));
+	data.t_east = ft_calloc(1, sizeof(t_texture));
+	data.t_west = ft_calloc(1, sizeof(t_texture));
+	// data.t_north = ft_get_texture_img(&data, "./textures/xpm/bluestone.xpm", 0);
+	// data.t_south = ft_get_texture_img(&data, "./textures/xpm/colorstone.xpm", 1);
+	// data.t_east = ft_get_texture_img(&data, "./textures/xpm/greystone.xpm", 2);
+	// data.t_west = ft_get_texture_img(&data, "./textures/xpm/mossy.xpm", 3);
 	map_parsing(&data.map, "./map/test.cub");
 	print_map(&data.map);
-	ft_get_player_pos(&data, data.map.tab, data.map.tab_len + 2);
-	// free_map(data.map);
-
-	ft_hook(&data);
 	ft_close(&data);
+	return (0);
 }

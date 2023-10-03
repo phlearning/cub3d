@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 12:51:14 by pvong             #+#    #+#             */
-/*   Updated: 2023/10/02 19:09:36 by pvong            ###   ########.fr       */
+/*   Updated: 2023/10/03 16:26:16 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@
 /*                                   DEFINE                                   */
 /* -------------------------------------------------------------------------- */
 
-# define WIDTH	1280
-# define HEIGHT 960
+# define WIDTH	1920
+# define HEIGHT 1080
 # define INCREMENT 10
 # define TILE_SET "0NSEW"
 # define SIZE_XPM 64
@@ -44,7 +44,13 @@
 /*                                   STRUCT                                   */
 /* -------------------------------------------------------------------------- */
 
-typedef struct	s_img
+typedef struct s_pos
+{
+	double	x;
+	double	y;
+}	t_pos;
+
+typedef struct s_img
 {
 	void	*img;
 	void	*addr;
@@ -119,6 +125,13 @@ typedef struct s_player
 	int		rotate_right;
 }	t_player;
 
+typedef struct s_color
+{
+	int	r;
+	int	g;
+	int	b;
+}	t_color;
+
 typedef struct s_data
 {
 	int			x;
@@ -140,17 +153,11 @@ typedef struct s_data
 	t_texture	*t_south;
 	t_texture	*t_east;
 	t_texture	*t_west;
+	t_color		*f_color;
+	t_color		*c_color;
 	int			**tex;
 }	t_data;
 
-typedef struct s_coord
-{
-	int	s_x;
-	int	s_y;
-	int	e_x;
-	int	e_y;
-	int	color;
-}	t_coord;
 
 
 /* -------------------------------------------------------------------------- */
@@ -236,6 +243,7 @@ int			ft_get_player_pos(t_data *data, char **tab, int tab_len);
 
 /* utils.c */
 
+void		print_tab(char **tab);
 char		*ft_strtrim2(char *s1, char *set);
 int			ft_close(t_data *data);
 void		error_exit(char *s, int n);
@@ -248,6 +256,8 @@ int			ft_compare_set(int n, char *s);
 
 void		ft_draw_sq(t_data *data, int x, int y, int size, int color);
 int			ft_drawline(t_data *data, int x, int y1, int y2, int color);
+int			ft_draw_verline(t_data *data, t_pos *start_pos, \
+				int length, int color);
 void		put_pxl_to_img(t_data *data, int x, int y, int color);
 
 /* free */
