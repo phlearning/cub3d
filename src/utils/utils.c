@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 13:02:52 by pvong             #+#    #+#             */
-/*   Updated: 2023/09/26 15:38:07 by pvong            ###   ########.fr       */
+/*   Updated: 2023/10/02 19:37:26 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,43 @@ char	*ft_strtrim2(char *s1, char *set)
 	return (str);
 }
 
+void	free_texture(t_data *data, t_texture *tex)
+{
+	if (!tex)
+		return ;
+	if (tex->file)
+		free(tex->file);
+	if (tex->i)
+	{
+		if (tex->i->img)
+			mlx_destroy_image(data->mlx, tex->i->img);
+		free(tex->i);
+	}
+	free(tex);
+}
+
+void	free_all_textures(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	if (data->t_north)
+		free_texture(data, data->t_north);
+	if (data->t_south)
+		free_texture(data, data->t_south);
+	if (data->t_east)
+		free_texture(data, data->t_east);
+	if (data->t_west)
+		free_texture(data, data->t_west);
+	while (i < TEXTURE_NB)
+	{
+		if (data->tex[i])
+			free(data->tex[i]);
+		i++;
+		// free(data->tex);
+	}
+}
+
 /**
  * Works in conjunction with mlx_hook when closing the window, 
  * we exit the program. It needs to be an int for the mlx_hook.
@@ -47,9 +84,12 @@ char	*ft_strtrim2(char *s1, char *set)
  */
 int	ft_close(t_data *data)
 {
+	free_all_textures(data);
 	mlx_destroy_window(data->mlx, data->mlx_win);
-	mlx_destroy_image(data->mlx, data->img);
-	exit(0);
+	if (data->img)
+		mlx_destroy_image(data->mlx, data->img);
+	mlx_destroy_display(data->mlx);
+	exit(EXIT_SUCCESS);
 	return (0);
 }
 
@@ -183,11 +223,11 @@ int	ft_open(char *file)
  */
 int	ft_compare_set(int n, char *s)
 {
-	int	len;
+	// int	len;
 	int	i;
 
 	i = -1;
-	len = ft_strlen(s);
+	// len = ft_strlen(s);
 	while (s[++i])
 	{
 		if (n == (int) s[i])

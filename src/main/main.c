@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 12:42:58 by pvong             #+#    #+#             */
-/*   Updated: 2023/09/29 18:05:31 by pvong            ###   ########.fr       */
+/*   Updated: 2023/10/02 19:37:50 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,16 +83,30 @@ int	*ft_get_texture_addr(t_img *i)
 	return (tmp);
 }
 
-t_texture	*ft_get_texture_img(t_data *data, char *file)
+t_texture	*ft_get_texture_img(t_data *data, char *file, int n)
 {
 	t_texture	*tex;
 
 	tex = ft_calloc(1, sizeof(t_texture));
 	tex->i = ft_calloc(1, sizeof(t_img));
 	ft_load_img(data, tex->i, file);
-	data->tex[0] = ft_get_texture_addr(tex->i);
+	data->tex[n] = ft_get_texture_addr(tex->i);
 	return (tex);
 }
+
+t_texture	*ft_get_tex(t_data *data, int id)
+{
+	if (id == 1)
+		return (data->t_north);
+	else if (id == 2)
+		return (data->t_south);
+	else if (id == 3)
+		return (data->t_east);
+	else if (id == 4)
+		return (data->t_west);
+	return (NULL);
+}
+
 
 void	ft_apply_texture(t_data *data, t_player *p, int x, int id)
 {
@@ -106,8 +120,8 @@ void	ft_apply_texture(t_data *data, t_player *p, int x, int id)
 	(void) id;
 	wall_x = 0.0;
 	// To change later on
-	// tex = ft_get_texture_img(data, "./textures/pics_xpm/bluestone.xpm");
-	tex = data->t_north;
+	// tex = data->t_north;
+	tex = ft_get_tex(data, id);
 	// 
 	wall_x = ft_get_wall_x(data->p);
 	t_x = (int)(wall_x * (double)tex->i->width);
@@ -135,16 +149,17 @@ int	main(void)
 	ft_init_data(&data);
 	// Temporary
 	data.tex = ft_calloc(TEXTURE_NB, sizeof(int *));
-	data.t_north = ft_calloc(1, sizeof(t_texture));
-	data.t_north = ft_get_texture_img(&data, "./textures/pics_xpm/bluestone.xpm");
+	data.t_north = ft_get_texture_img(&data, "./textures/brick.xpm", 0);
+	data.t_south = ft_get_texture_img(&data, "./textures/cave.xpm", 1);
+	data.t_east = ft_get_texture_img(&data, "./textures/stone.xpm", 2);
+	data.t_west = ft_get_texture_img(&data, "./textures/wood.xpm", 3);
 	// 
 	// map_parsing(&data.map, "./map/first_map.cub");
 	map_parsing(&data.map, "./map/test.cub");
 	print_map(&data.map);
 	ft_get_player_pos(&data, data.map.tab, data.map.tab_len + 2);
-	ft_printf("player_pos: (%d, %d)\n", (int) data.p.posx, (int) data.p.posy);
-	ft_printf("player direction: dirx: %d || diry: %d\n", (int) data.p.dirx, (int) data.p.diry);
 	// free_map(data.map);
 
 	ft_hook(&data);
+	ft_close(&data);
 }

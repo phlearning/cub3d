@@ -6,14 +6,14 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 14:15:07 by pvong             #+#    #+#             */
-/*   Updated: 2023/09/12 20:15:26 by pvong            ###   ########.fr       */
+/*   Updated: 2023/10/02 12:23:07 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef KEYCODES_H
 # define KEYCODES_H
 
-# if __linux__
+# ifdef __linux__
 // French keyboard azerty
 
 /*

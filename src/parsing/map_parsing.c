@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 13:49:27 by pvong             #+#    #+#             */
-/*   Updated: 2023/09/28 15:14:56 by pvong            ###   ########.fr       */
+/*   Updated: 2023/10/02 11:57:38 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,13 +188,13 @@ char	**ft_copy_map(t_map *map, char *map_file)
 int	map_parsing(t_map *map, char *map_file)
 {
 	int		fd;
-	int		i;
+	// int		i;
 	char	*tmp;
 
 	map->line = 0;
 	map->tab_len = 0;
 	map->start = 0;
-	i = 0;
+	// i = 0;
 	fd = open(map_file, O_RDONLY);
 	if (fd < 0)
 		error_exit("Error fd: ", EXIT_FAILURE);

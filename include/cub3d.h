@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 12:51:14 by pvong             #+#    #+#             */
-/*   Updated: 2023/09/29 17:54:51 by pvong            ###   ########.fr       */
+/*   Updated: 2023/10/02 19:09:36 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,9 @@ typedef struct s_data
 	t_player	p;
 	t_map		map;
 	t_texture	*t_north;
+	t_texture	*t_south;
+	t_texture	*t_east;
+	t_texture	*t_west;
 	int			**tex;
 }	t_data;
 
@@ -250,5 +253,7 @@ void		put_pxl_to_img(t_data *data, int x, int y, int color);
 /* free */
 void		free_map(t_map map);
 void		free_tab(char **tab);
+void		free_texture(t_data *data, t_texture *tex);
+void		free_all_textures(t_data *data);
 
 #endif
