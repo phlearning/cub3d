@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 12:42:58 by pvong             #+#    #+#             */
-/*   Updated: 2023/10/05 16:42:09 by pvong            ###   ########.fr       */
+/*   Updated: 2023/10/05 17:26:14 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	main(void)
 	ft_init_data(&data);
 	// Temporary
 	data.tex = ft_calloc(TEXTURE_NB, sizeof(int *));
-	data.t_north = ft_get_texture_img(&data, "./textures/xpm/bluestone.xpm", 0);
+	data.t_north = ft_get_texture_img(&data, "./textures/xpm/barrel.xpm", 0);
 	data.t_south = ft_get_texture_img(&data, "./textures/xpm/colorstone.xpm", 1);
 	data.t_east = ft_get_texture_img(&data, "./textures/xpm/greystone.xpm", 2);
 	data.t_west = ft_get_texture_img(&data, "./textures/xpm/mossy.xpm", 3);
