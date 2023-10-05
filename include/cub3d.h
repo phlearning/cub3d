@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 12:51:14 by pvong             #+#    #+#             */
-/*   Updated: 2023/10/03 16:26:16 by pvong            ###   ########.fr       */
+/*   Updated: 2023/10/05 17:16:35 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@
 # define WIDTH	1920
 # define HEIGHT 1080
 # define INCREMENT 10
-# define TILE_SET "0NSEW"
+# define TILE_SET "0NEWS"
+# define TILE_N_WALLS "10NEWS-"
 # define SIZE_XPM 64
 # define TEXTURE_NB 4
 
@@ -72,6 +73,7 @@ typedef struct s_texture
 typedef struct s_map
 {
 	int		tab_len;
+	int		max_line_len;
 	int		start;
 	int		line;
 	char	*m_no;
@@ -158,15 +160,6 @@ typedef struct s_data
 	int			**tex;
 }	t_data;
 
-
-
-/* -------------------------------------------------------------------------- */
-/*                            TEMPORARY_WILL_DELETE                           */
-/* -------------------------------------------------------------------------- */
-
-void		ft_apply_texture(t_data *data, t_player *p, int x, int id);
-
-
 /* -------------------------------------------------------------------------- */
 /*                                 RAYCASTING                                 */
 /* -------------------------------------------------------------------------- */
@@ -175,14 +168,23 @@ void		ft_apply_texture(t_data *data, t_player *p, int x, int id);
 
 void		ft_advance_ray_step(t_data *d);
 void		ft_calc_drawing_range(t_data *d);
+void	    render_ceilling_floor(t_data *d);
 void		ft_raycasting(t_data *d);
 void		ft_get_wall_dir(t_data *d);
 
 /* raycasting2.c */
 
-int			ft_get_color(int side, double ray_dir_y, double ray_dir_x);
-void		ft_init_ray(t_data *d, int x);
 void		ft_calc_sidedist(t_data *d);
+int			ft_get_color(int side, double ray_dir_y, double ray_dir_x);
+double		ft_get_wall_x(t_player p);
+void		ft_init_ray(t_data *d, int x);
+
+/* texture.c */
+
+t_texture	*ft_get_tex(t_data *data, int id);
+t_texture	*ft_get_texture_img(t_data *data, char *file, int n);
+int			*ft_get_texture_addr(t_img *i);
+void		ft_apply_texture(t_data *data, t_player *p, int x, int id);
 
 /* -------------------------------------------------------------------------- */
 /*                                    HOOK                                    */
@@ -222,6 +224,10 @@ void		ft_init_data(t_data *data);
 /*                                   PARSING                                  */
 /* -------------------------------------------------------------------------- */
 
+// TEMPORAY TMP TEMP
+
+int			ft_map_is_last(t_map *map);
+
 /* map_parsing.c */
 
 void		ft_change_char(char *s, char c1, char replace_by);
@@ -258,6 +264,8 @@ void		ft_draw_sq(t_data *data, int x, int y, int size, int color);
 int			ft_drawline(t_data *data, int x, int y1, int y2, int color);
 int			ft_draw_verline(t_data *data, t_pos *start_pos, \
 				int length, int color);
+int			ft_get_img_pixel_color(t_img *img, int x, int y);
+void		ft_load_img(t_data *data, t_img *img, char *file);
 void		put_pxl_to_img(t_data *data, int x, int y, int color);
 
 /* free */

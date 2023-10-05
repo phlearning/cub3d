@@ -6,36 +6,63 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 17:10:20 by pvong             #+#    #+#             */
-/*   Updated: 2023/09/28 18:11:19 by pvong            ###   ########.fr       */
+/*   Updated: 2023/10/05 17:10:20 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
+void	ft_check_wall_hit(t_data *data, double tmp_x, double tmp_y, char **tab)
+{
+	double	pos_x;
+	double	pos_y;
+
+	pos_x = data->p.posx;
+	pos_y = data->p.posy;
+	if (tab[(int)data->p.posx][(int)data->p.posy] == '1' || tab[(int)data->p.posx][(int)data->p.posy] == '-')
+	{
+		data->p.posx = tmp_x;
+		data->p.posy = tmp_y;
+	}
+}
+
 void	ft_move_up_down(t_data *d, int dir, char **map)
 {
 	t_player	p;
 	double		speed;
+	double		old_posx;
+	double		old_posy;
 
+	(void) map;
 	p = d->p;
 	speed = p.movespeed;
 	if (dir)
 	{
-		if (ft_compare_set(map[(int)(p.posx + p.dirx * speed)] \
-				[(int)p.posy], TILE_SET))
-			d->p.posx += p.dirx * speed;
-		if (ft_compare_set(map[(int) p.posx] \
-				[(int)(p.posy + p.diry * speed)], TILE_SET))
-			d->p.posy += p.diry * speed;
+		old_posx = d->p.posx;
+		old_posy = d->p.posy;
+		d->p.posx += p.dirx * speed;
+		d->p.posy += p.diry * speed;
+		ft_check_wall_hit(d, old_posx, old_posy, map);
+		// if (ft_compare_set(map[(int)(p.posx + p.dirx * speed)] \
+		// 		[(int)p.posy], TILE_SET))
+		// 	d->p.posx += p.dirx * speed;
+		// if (ft_compare_set(map[(int) p.posx] \
+		// 		[(int)(p.posy + p.diry * speed)], TILE_SET))
+		// 	d->p.posy += p.diry * speed;
 	}
 	else
 	{
-		if (ft_compare_set(map[(int)(p.posx - p.dirx * speed)] \
-				[(int)p.posy], TILE_SET))
-			d->p.posx -= p.dirx * speed;
-		if (ft_compare_set(map[(int) p.posx] \
-				[(int)(p.posy - p.diry * speed)], TILE_SET))
-			d->p.posy -= p.diry * speed;
+		old_posx = d->p.posx;
+		old_posy = d->p.posy;
+		d->p.posx -= p.dirx * speed;
+		d->p.posy -= p.diry * speed;
+		ft_check_wall_hit(d, old_posx, old_posy, map);
+		// if (ft_compare_set(map[(int)(p.posx - p.dirx * speed)] \
+		// 		[(int)p.posy], TILE_SET))
+		// 	d->p.posx -= p.dirx * speed;
+		// if (ft_compare_set(map[(int) p.posx] \
+		// 		[(int)(p.posy - p.diry * speed)], TILE_SET))
+		// 	d->p.posy -= p.diry * speed;
 	}
 }
 
@@ -43,26 +70,39 @@ void	ft_move_left_right(t_data *d, int dir, char **map)
 {
 	t_player	p;
 	double		speed;
+	double		old_posx;
+	double		old_posy;
 
+	(void) map;
 	p = d->p;
 	speed = p.movespeed;
 	if (dir)
 	{
-		if (ft_compare_set(map[(int)(p.posx - p.planex * speed)] \
-				[(int)p.posy], TILE_SET))
-			d->p.posx -= p.planex * speed;
-		if (ft_compare_set(map[(int)p.posx] \
-				[(int)(p.posy - p.planey * speed)], TILE_SET))
-			d->p.posy -= p.planey * speed;
+		old_posx = d->p.posx;
+		old_posy = d->p.posy;
+		d->p.posx -= p.planex * speed;
+		d->p.posy -= p.planey * speed;
+		ft_check_wall_hit(d, old_posx, old_posy, map);
+		// if (ft_compare_set(map[(int)(p.posx - p.planex * speed)] \
+		// 		[(int)p.posy], TILE_SET))
+		// 	d->p.posx -= p.planex * speed;
+		// if (ft_compare_set(map[(int)p.posx] \
+		// 		[(int)(p.posy - p.planey * speed)], TILE_SET))
+		// 	d->p.posy -= p.planey * speed;
 	}
 	else
 	{
-		if (ft_compare_set(map[(int)(p.posx + p.planex * speed)] \
-				[(int)p.posy], TILE_SET))
-			d->p.posx += p.planex * speed;
-		if (ft_compare_set(map[(int)p.posx] \
-				[(int)(p.posy + p.planey * speed)], TILE_SET))
-			d->p.posy += p.planey * speed;
+		old_posx = d->p.posx;
+		old_posy = d->p.posy;
+		d->p.posx += p.planex * speed;
+		d->p.posy += p.planey * speed;
+		ft_check_wall_hit(d, old_posx, old_posy, map);
+		// if (ft_compare_set(map[(int)(p.posx + p.planex * speed)] \
+		// 		[(int)p.posy], TILE_SET))
+		// 	d->p.posx += p.planex * speed;
+		// if (ft_compare_set(map[(int)p.posx] \
+		// 		[(int)(p.posy + p.planey * speed)], TILE_SET))
+		// 	d->p.posy += p.planey * speed;
 	}
 }
 

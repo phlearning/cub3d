@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 15:50:29 by pvong             #+#    #+#             */
-/*   Updated: 2023/09/29 17:56:02 by pvong            ###   ########.fr       */
+/*   Updated: 2023/10/05 17:20:20 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,12 +73,38 @@ void	ft_get_wall_dir(t_data *d)
 	}
 }
 
+void    render_ceilling_floor(t_data *d)
+{
+    int                x;
+    int                y;
+    unsigned int    cc;
+    unsigned int    fc;
+
+    x = 0;
+    cc = 0x72a1f7;
+    fc = 0x031a05;
+    while (x++ < WIDTH)
+    {
+        y = 0;
+        while (y++ <= HEIGHT / 2)
+            put_pxl_to_img(d, x, y, cc);
+        while (y < HEIGHT)
+        {
+            put_pxl_to_img(d, x, y, fc);
+            y++;
+        }
+    }
+    mlx_put_image_to_window(d->mlx, d->mlx_win,
+        d->img, 0, 0);
+}
+
 void	ft_raycasting(t_data *d)
 {
 	int	x;
 	// int	color;
 
 	x = 0;
+	render_ceilling_floor(d);
 	while (x < WIDTH)
 	{
 		ft_init_ray(d, x);

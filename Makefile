@@ -6,7 +6,7 @@
 #    By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/18 12:43:01 by pvong             #+#    #+#              #
-#    Updated: 2023/10/03 16:15:29 by pvong            ###   ########.fr        #
+#    Updated: 2023/10/05 13:01:31 by pvong            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -74,6 +74,7 @@ SRCS			:=	main/main.c \
 					parsing/texture_parsing.c \
 					raycasting/raycasting.c \
 					raycasting/raycasting2.c \
+					raycasting/texture.c \
 					utils/utils.c \
 					utils/utils_mlx.c \
 					

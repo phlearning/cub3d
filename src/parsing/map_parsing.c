@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 13:49:27 by pvong             #+#    #+#             */
-/*   Updated: 2023/10/03 16:40:57 by pvong            ###   ########.fr       */
+/*   Updated: 2023/10/05 16:39:33 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ int	map_parsing2(t_map *map, char *map_file)
 	i = 0;
 	j = 0;
 	len = ft_get_longest_tab_len(map->tmp, map->tab_len);
+	map->max_line_len = len;
 	if (len <= 0)
 		error_exit2("Error len map_parsing\n", EXIT_FAILURE);
 	// free_tab(map->tmp);
@@ -116,10 +117,11 @@ int	map_parsing2(t_map *map, char *map_file)
 			continue ;
 		}
 		tmp = ft_strtrim2(tmp, "\n");
-		if (ft_strchr(tmp, '1') || ft_strchr(tmp, '0'))
+		if ((ft_strchr(tmp, '1') || ft_strchr(tmp, '0')) && j < map->tab_len)
 		{
 			map->tab[j] = ft_calloc(len + 2, sizeof(char));
 			ft_strlcat(map->tab[j], tmp, len + 1);
+			// To delete
 			j++;
 		}
 		if (tmp)
@@ -181,6 +183,62 @@ char	**ft_copy_map(t_map *map, char *map_file)
 }
 
 /**
+ * Check if the end line of the map correspond to the last line
+ * of the .cub file.
+ * 1 -> Wrong end and enter the exit condition.
+ * 0 -> Correspond end line to the last line of the doc 
+ *  and continue the parsing
+ * @param map 
+ * @return int 
+ */
+int	ft_map_is_last(t_map *map)
+{
+	if (map->start + map->tab_len == map->line)
+		return (0);
+	return (1);
+}
+
+/**
+ * Check if the map is locked between walls horizontally 
+ * by checking that there is no 0 and '-' near each other;
+ * @param tab 		the map
+ * @param l_len 	the longest len
+ * @param c 		the border of the map
+ * @return int 
+ */
+int	ft_check_map_horizontally(char **tab, char *c)
+{
+	int	y;
+	int	x;
+	int	len;
+
+	if (!tab || !tab[0])
+		return (1);
+	y = 0;
+	while (tab[y])
+	{
+		len = ft_strlen(tab[y]);
+		x = 0;
+		while (x < len - 1)
+		{
+			if (!ft_compare_set(tab[y][x], TILE_N_WALLS))
+				error_exit2("Error: Char not accepted in map\n", 1);
+			if (ft_strncmp(&tab[y][x], c, 1) == 0 && ft_strncmp(&tab[y][x + 1], "0", 1) == 0)
+				error_exit2("Error: Walls not closed horizontally on the left\n", 1);
+			else if (ft_strncmp(&tab[y][x], "0", 1) == 0 && ft_strncmp(&tab[y][x + 1], c, 1) == 0)
+				error_exit2("Error: Walls not closed horizontally on the right\n", 1);
+			else if (ft_strncmp(&tab[y][x], c, 1) == 0 && ft_compare_set(tab[y][x + 1], TILE_SET))
+				error_exit2("Error: Walls not closed horizontally on the left\n", 1);
+			else if (ft_compare_set(tab[y][x], TILE_SET) && ft_strncmp(&tab[y][x + 1], c, 1) == 0)
+				error_exit2("Error: Walls not closed horizontally on the right\n", 1);
+			x++;
+		}
+		y++;
+	}
+	return (0);
+}
+
+/**
  * Open the given map file, looks for the texture and map
  * to add them to the struct t_map
  * @param map 
@@ -220,16 +278,20 @@ int	map_parsing(t_map *map, char *map_file)
 		{
 			if (map->start == 0)
 				map->start = map->line;
-			map->tab_len++;
+			if	(!ft_strchr(tmp, 'F') || !ft_strchr(tmp, 'C'))
+				map->tab_len++;
 		}
 		if (tmp)
 			free(tmp);
 		map->line++;
 	}
 	close(fd);
+	if (ft_map_is_last(map))
+		error_exit2("Error: map is not last", 0);
 	ft_printf("map->line: %d\n", map->line);
 	ft_printf("tab_len: %d\n", map->tab_len);
 	map->tmp = ft_copy_map(map, map_file);
 	map_parsing2(map, map_file);
+	ft_check_map_horizontally(map->tab, "-");
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 15:25:23 by pvong             #+#    #+#             */
-/*   Updated: 2023/09/26 16:08:57 by pvong            ###   ########.fr       */
+/*   Updated: 2023/10/05 13:12:01 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,4 +84,21 @@ void	ft_calc_sidedist(t_data *d)
 		d->p.stepy = 1;
 		d->p.sidedisty = (d->p.mapy + 1.0 - d->p.posy) * d->p.deltadisty;
 	}
+}
+
+double	ft_get_wall_x(t_player p)
+{
+	double	wall_x;
+
+	if (!p.side)
+	{
+		wall_x = p.posy + p.perpwalldist * p.raydiry;
+		wall_x -= p.mapy;
+	}
+	else
+	{
+		wall_x = p.posx + p.perpwalldist * p.raydirx;
+		wall_x -= p.mapx;
+	}
+	return (wall_x);
 }
