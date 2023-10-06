@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 12:51:14 by pvong             #+#    #+#             */
-/*   Updated: 2023/10/06 14:21:57 by pvong            ###   ########.fr       */
+/*   Updated: 2023/10/06 14:35:43 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,8 +167,8 @@ typedef struct s_data
 	t_texture	*t_south;
 	t_texture	*t_east;
 	t_texture	*t_west;
-	t_color		*f_color;
-	t_color		*c_color;
+	char		*f_color;
+	char		*c_color;
 	int			**tex;
 }	t_data;
 
