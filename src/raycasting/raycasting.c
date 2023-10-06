@@ -6,7 +6,7 @@
 /*   By: bkukaqi <bkukaqi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 15:50:29 by pvong             #+#    #+#             */
-/*   Updated: 2023/10/06 14:18:45 by bkukaqi          ###   ########.fr       */
+/*   Updated: 2023/10/06 16:29:54 by bkukaqi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,12 +75,17 @@ void	ft_get_wall_dir(t_data *d)
 
 int	rgbtoint(char *c)
 {
+	char	**colors;
 	int		red;
 	int		green;
 	int		blue;
-	char	**colors;
 
 	colors = ft_split(c, ',');
+	if (!colors[0] || !colors[1] || !colors[2])
+	{
+		ft_printf("Error: Invalid color range\n");
+		exit(EXIT_FAILURE);
+	}
 	red = ft_atoi(colors[0]);
 	green = ft_atoi(colors[1]);
 	blue = ft_atoi(colors[2]);
