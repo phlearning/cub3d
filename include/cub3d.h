@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 12:51:14 by pvong             #+#    #+#             */
-/*   Updated: 2023/10/06 14:35:43 by pvong            ###   ########.fr       */
+/*   Updated: 2023/10/06 15:41:03 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -246,7 +246,7 @@ void		ft_change_char(char *s, char c1, char replace_by);
 void		ft_fill(char *s, char c, int len);
 int			ft_get_longest_tab_len(char **tab, int tab_len);
 char		**ft_rework_tab(char **tab, int v_len, int h_len, char replace);
-int			map_parsing(t_map *map, char *map_file);
+int			map_parsing(t_data *data, t_map *map, char *map_file);
 int			map_parsing2(t_map *map, char *map_file);
 int			ft_check_map_vertically(char **tab, char *c);
 int			ft_check_map_horizontally(char **tab, char *c);

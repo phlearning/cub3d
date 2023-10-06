@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 13:49:27 by pvong             #+#    #+#             */
-/*   Updated: 2023/10/06 14:23:01 by pvong            ###   ########.fr       */
+/*   Updated: 2023/10/06 16:45:21 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -311,6 +311,39 @@ int	ft_check_for_invalid_char(char **tab)
 	return (0);
 }
 
+int	ft_is_identifier(t_data *data, t_map *map, char *line)
+{
+	char	**tab;
+
+	(void) data;
+	if (!line)
+		return (1);
+	if (ft_strncmp(line, "NO ", 3) == 0 || ft_strncmp(line, "EA ", 3) == 0 \
+		|| ft_strncmp(line, "WE ", 3) == 0 || ft_strncmp(line, "SO ", 3) == 0)
+	{
+		tab = ft_split(line, ' ');
+		if (ft_strncmp(line, "NO ", 3) == 0)
+			map->m_no = ft_strdup(tab[1]);
+		else if (ft_strncmp(line, "EA ", 3) == 0)
+			map->m_ea = ft_strdup(tab[1]);
+		else if (ft_strncmp(line, "WE ", 3) == 0)
+			map->m_we = ft_strdup(tab[1]);
+		else if (ft_strncmp(line, "SO ", 3) == 0)
+			map->m_so = ft_strdup(tab[1]);
+		free_tab(tab);
+	}
+	else if (ft_strncmp(line, "F ", 2) == 0 || ft_strncmp(line, "C ", 2) == 0)
+	{
+		tab = ft_split(line, ' ');
+		if (ft_strncmp(line, "F ", 2) == 0)
+			map->f_color = ft_strdup(tab[1]);
+		else if (ft_strncmp(line, "C ", 2) == 0)
+			map->c_color = ft_strdup(tab[1]);
+		free_tab(tab);
+	}
+	return (0);
+}
+
 /**
  * Open the given map file, looks for the texture and map
  * to add them to the struct t_map
@@ -318,11 +351,12 @@ int	ft_check_for_invalid_char(char **tab)
  * @param map_file 
  * @return int 
  */
-int	map_parsing(t_map *map, char *map_file)
+int	map_parsing(t_data *data, t_map *map, char *map_file)
 {
 	int		fd;
 	char	*tmp;
 
+	(void) data;
 	map->line = 0;
 	map->tab_len = 0;
 	map->start = 0;

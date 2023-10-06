@@ -1,4 +1,4 @@
-NO    1     ./textures/xpm/bluestone.xpm
+NO    ./textures/xpm/bluestone.xpm
 SO      ./textures/xpm/colorstone.xpm
 WE    ./textures/xpm/greystone.xpm
 EA ./textures/xpm/mossy.xpm
