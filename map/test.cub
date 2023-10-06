@@ -1,6 +1,6 @@
-NO    ./textures/xpm/bluestone.xpm
-SO      ./textures/xpm/colorstone.xpm
-WE    ./textures/xpm/greystone.xpm
+NO    ./textures/xpm/bluestone.xpm 
+SO      ./textures/xpm/colorstone.xpm 
+WE    ./textures/xpm/greystone.xpm 
 EA ./textures/xpm/mossy.xpm
 
 F 102,106,110

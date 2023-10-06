@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 13:49:27 by pvong             #+#    #+#             */
-/*   Updated: 2023/10/06 16:45:21 by pvong            ###   ########.fr       */
+/*   Updated: 2023/10/06 17:42:38 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -311,36 +311,56 @@ int	ft_check_for_invalid_char(char **tab)
 	return (0);
 }
 
-int	ft_is_identifier(t_data *data, t_map *map, char *line)
+int	ft_empty_space(t_data *data, t_map *map)
+{
+	(void) data;
+	if (!map->m_no || map->m_no[0] == '\0' || map->m_no[0] == ' ')
+		error_exit2("Error: Invalid .cub file", 1);
+	if (!map->m_ea || map->m_ea[0] == '\0' || map->m_ea[0] == ' ')
+		error_exit2("Error: Invalid .cub file", 1);
+	if (!map->m_we || map->m_we[0] == '\0' || map->m_we[0] == ' ')
+		error_exit2("Error: Invalid .cub file", 1);
+	if (!map->m_so || map->m_so[0] == '\0' || map->m_so[0] == ' ')
+		error_exit2("Error: Invalid .cub file", 1);
+	if (!map->f_color || map->f_color[0] == '\0' || map->f_color[0] == ' ')
+		error_exit2("Error: Invalid .cub file", 1);
+	if (!map->c_color || map->c_color[0] == '\0' || map->c_color[0] == ' ')
+		error_exit2("Error: Invalid .cub file", 1);
+	return (0);
+}
+
+int	ft_stock_info(t_data *data, t_map *map, char *line)
 {
 	char	**tab;
 
 	(void) data;
+	tab = ft_split(line, ' ');
+	if (ft_strncmp(line, "NO ", 3) == 0)
+		map->m_no = ft_strdup(tab[1]);
+	else if (ft_strncmp(line, "EA ", 3) == 0)
+		map->m_ea = ft_strdup(tab[1]);
+	else if (ft_strncmp(line, "WE ", 3) == 0)
+		map->m_we = ft_strdup(tab[1]);
+	else if (ft_strncmp(line, "SO ", 3) == 0)
+		map->m_so = ft_strdup(tab[1]);
+	else if (ft_strncmp(line, "F ", 2) == 0)
+		map->f_color = ft_strdup(tab[1]);
+	else if (ft_strncmp(line, "C ", 2) == 0)
+		map->c_color = ft_strdup(tab[1]);
+	free_tab(tab);
+	return (0);
+}
+
+int	ft_is_identifier(t_data *data, t_map *map, char *line)
+{
+	(void) map;
+	(void) data;
 	if (!line)
-		return (1);
+		return (0);
 	if (ft_strncmp(line, "NO ", 3) == 0 || ft_strncmp(line, "EA ", 3) == 0 \
-		|| ft_strncmp(line, "WE ", 3) == 0 || ft_strncmp(line, "SO ", 3) == 0)
-	{
-		tab = ft_split(line, ' ');
-		if (ft_strncmp(line, "NO ", 3) == 0)
-			map->m_no = ft_strdup(tab[1]);
-		else if (ft_strncmp(line, "EA ", 3) == 0)
-			map->m_ea = ft_strdup(tab[1]);
-		else if (ft_strncmp(line, "WE ", 3) == 0)
-			map->m_we = ft_strdup(tab[1]);
-		else if (ft_strncmp(line, "SO ", 3) == 0)
-			map->m_so = ft_strdup(tab[1]);
-		free_tab(tab);
-	}
-	else if (ft_strncmp(line, "F ", 2) == 0 || ft_strncmp(line, "C ", 2) == 0)
-	{
-		tab = ft_split(line, ' ');
-		if (ft_strncmp(line, "F ", 2) == 0)
-			map->f_color = ft_strdup(tab[1]);
-		else if (ft_strncmp(line, "C ", 2) == 0)
-			map->c_color = ft_strdup(tab[1]);
-		free_tab(tab);
-	}
+		|| ft_strncmp(line, "WE ", 3) == 0 || ft_strncmp(line, "SO ", 3) == 0 \
+		|| ft_strncmp(line, "F ", 2) == 0 || ft_strncmp(line, "C ", 2) == 0)
+		return (1);
 	return (0);
 }
 
@@ -370,18 +390,20 @@ int	map_parsing(t_data *data, t_map *map, char *map_file)
 		if (tmp == NULL)
 			break ;
 		tmp = ft_strtrim2(tmp, "\n");
-		if (!ft_strncmp(tmp, "NO", 2))
-			map->m_no = ft_check_and_dup(map, tmp, ERR_NORTH_TEX);
-		else if (!ft_strncmp(tmp, "SO", 2))
-			map->m_so = ft_check_and_dup(map, tmp, ERR_SOUTH_TEX);
-		else if (!ft_strncmp(tmp, "WE", 2))
-			map->m_we = ft_check_and_dup(map, tmp, ERR_WEST_TEX);
-		else if (!ft_strncmp(tmp, "EA", 2))
-			map->m_ea = ft_check_and_dup(map, tmp, ERR_EAST_TEX);
-		else if (!ft_strncmp(tmp, "F ", 2))
-			map->f_color = ft_check_and_dup(map, tmp, ERR_F_COLOR);
-		else if (!ft_strncmp(tmp, "C ", 2))
-			map->c_color = ft_check_and_dup(map, tmp, ERR_C_COLOR);
+		// if (!ft_strncmp(tmp, "NO", 2))
+		// 	map->m_no = ft_check_and_dup(map, tmp, ERR_NORTH_TEX);
+		// else if (!ft_strncmp(tmp, "SO", 2))
+		// 	map->m_so = ft_check_and_dup(map, tmp, ERR_SOUTH_TEX);
+		// else if (!ft_strncmp(tmp, "WE", 2))
+		// 	map->m_we = ft_check_and_dup(map, tmp, ERR_WEST_TEX);
+		// else if (!ft_strncmp(tmp, "EA", 2))
+		// 	map->m_ea = ft_check_and_dup(map, tmp, ERR_EAST_TEX);
+		// else if (!ft_strncmp(tmp, "F ", 2))
+		// 	map->f_color = ft_check_and_dup(map, tmp, ERR_F_COLOR);
+		// else if (!ft_strncmp(tmp, "C ", 2))
+		// 	map->c_color = ft_check_and_dup(map, tmp, ERR_C_COLOR);
+		if (ft_is_identifier(data, map, tmp))
+			ft_stock_info(data, map, tmp);
 		else if (ft_strchr(tmp, '1') || ft_strchr(tmp, '0'))
 		{
 			if (map->start == 0)
@@ -394,6 +416,7 @@ int	map_parsing(t_data *data, t_map *map, char *map_file)
 		map->line++;
 	}
 	close(fd);
+	ft_empty_space(data, map);
 	if (ft_map_is_last(map))
 		error_exit2("Error: map is not last", 0);
 	ft_printf("map->line: %d\n", map->line);
