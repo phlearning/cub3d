@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
+/*   By: bkukaqi <bkukaqi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 15:50:29 by pvong             #+#    #+#             */
-/*   Updated: 2023/10/05 17:20:20 by pvong            ###   ########.fr       */
+/*   Updated: 2023/10/06 14:18:45 by bkukaqi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,16 +73,37 @@ void	ft_get_wall_dir(t_data *d)
 	}
 }
 
-void    render_ceilling_floor(t_data *d)
+int	rgbtoint(char *c)
 {
-    int                x;
-    int                y;
-    unsigned int    cc;
-    unsigned int    fc;
+	int		red;
+	int		green;
+	int		blue;
+	char	**colors;
+
+	colors = ft_split(c, ',');
+	red = ft_atoi(colors[0]);
+	green = ft_atoi(colors[1]);
+	blue = ft_atoi(colors[2]);
+	free_tab(colors);
+	if (red < 0 || red > 255 || green < 0 || green > 255 \
+	|| blue < 0 || blue > 255)
+	{
+		ft_printf("Error: Invalid color range\n");
+		exit(EXIT_FAILURE);
+	}
+	return ((red << 16) | (green << 8) | blue);
+}
+
+void	render_ceilling_floor(t_data *d)
+{
+    int				x;
+    int				y;
+    unsigned int	cc;
+    unsigned int	fc;
 
     x = 0;
-    cc = 0x72a1f7;
-    fc = 0x031a05;
+    cc = rgbtoint(d->map.c_color);
+    fc = rgbtoint(d->map.f_color);
     while (x++ < WIDTH)
     {
         y = 0;

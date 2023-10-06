@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
+/*   By: bkukaqi <bkukaqi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 12:51:14 by pvong             #+#    #+#             */
-/*   Updated: 2023/10/05 17:16:35 by pvong            ###   ########.fr       */
+/*   Updated: 2023/10/06 13:58:32 by bkukaqi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,8 +155,8 @@ typedef struct s_data
 	t_texture	*t_south;
 	t_texture	*t_east;
 	t_texture	*t_west;
-	t_color		*f_color;
-	t_color		*c_color;
+	char		*f_color;
+	char		*c_color;
 	int			**tex;
 }	t_data;
 
