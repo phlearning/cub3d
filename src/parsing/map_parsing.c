@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 13:49:27 by pvong             #+#    #+#             */
-/*   Updated: 2023/10/05 16:39:33 by pvong            ###   ########.fr       */
+/*   Updated: 2023/10/06 10:52:59 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -263,17 +263,17 @@ int	map_parsing(t_map *map, char *map_file)
 			break ;
 		tmp = ft_strtrim2(tmp, "\n");
 		if (!ft_strncmp(tmp, "NO", 2))
-			map->m_no = ft_strdup(ft_strchr(tmp, '.'));
+			map->m_no = ft_strdup(ft_strrchr(tmp, ' ') + 1);
 		else if (!ft_strncmp(tmp, "SO", 2))
-			map->m_so = ft_strdup(ft_strchr(tmp, '.'));
+			map->m_so = ft_strdup(ft_strrchr(tmp, ' ') + 1);
 		else if (!ft_strncmp(tmp, "WE", 2))
-			map->m_we = ft_strdup(ft_strchr(tmp, '.'));
+			map->m_we = ft_strdup(ft_strrchr(tmp, ' ') + 1);
 		else if (!ft_strncmp(tmp, "EA", 2))
-			map->m_ea = ft_strdup(ft_strchr(tmp, '.'));
+			map->m_ea = ft_strdup(ft_strrchr(tmp, ' ') + 1);
 		else if (!ft_strncmp(tmp, "F ", 2))
-			map->f_color = ft_strdup(tmp);
+			map->f_color = ft_strdup(ft_strrchr(tmp, ' ') + 1);
 		else if (!ft_strncmp(tmp, "C ", 2))
-			map->c_color = ft_strdup(tmp);
+			map->c_color = ft_strdup(ft_strrchr(tmp, ' ') + 1);
 		else if (ft_strchr(tmp, '1') || ft_strchr(tmp, '0'))
 		{
 			if (map->start == 0)
