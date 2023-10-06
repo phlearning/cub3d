@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 14:35:05 by pvong             #+#    #+#             */
-/*   Updated: 2023/10/02 18:24:07 by pvong            ###   ########.fr       */
+/*   Updated: 2023/10/06 13:14:58 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,34 +31,34 @@ int	ft_key_release(int keycode, t_data *data)
 int	ft_move_press(int k, t_data *d)
 {
 	if (k == K_W)
-		return (d->p.forward = 1, 0);
+		return (d->p.forward = TRUE, 0);
 	else if (k == K_S)
-		return (d->p.backward = 1, 0);
+		return (d->p.backward = TRUE, 0);
 	else if (k == K_A)
-		return (d->p.left = 1, 0);
+		return (d->p.left = TRUE, 0);
 	else if (k == K_D)
-		return (d->p.right = 1, 0);
+		return (d->p.right = TRUE, 0);
 	else if (k == K_AR_L)
-		return (d->p.rotate_left = 1, 0);
+		return (d->p.rotate_left = TRUE, 0);
 	else if (k == K_AR_R)
-		return (d->p.rotate_right = 1, 0);
+		return (d->p.rotate_right = TRUE, 0);
 	return (0);
 }
 
 int	ft_move_release(int k, t_data *d)
 {
 	if (k == K_W)
-		return (d->p.forward = 0, 0);
+		return (d->p.forward = FALSE, 0);
 	else if (k == K_S)
-		return (d->p.backward = 0, 0);
+		return (d->p.backward = FALSE, 0);
 	else if (k == K_A)
-		return (d->p.left = 0, 0);
+		return (d->p.left = FALSE, 0);
 	else if (k == K_D)
-		return (d->p.right = 0, 0);
+		return (d->p.right = FALSE, 0);
 	else if (k == K_AR_L)
-		return (d->p.rotate_left = 0, 0);
+		return (d->p.rotate_left = FALSE, 0);
 	else if (k == K_AR_R)
-		return (d->p.rotate_right = 0, 0);
+		return (d->p.rotate_right = FALSE, 0);
 	return (0);
 }
 

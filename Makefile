@@ -6,7 +6,7 @@
 #    By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/18 12:43:01 by pvong             #+#    #+#              #
-#    Updated: 2023/10/05 13:01:31 by pvong            ###   ########.fr        #
+#    Updated: 2023/10/06 14:19:58 by pvong            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,7 +58,7 @@ LDLIBS			+= $(MY_LDLIBS)
 #COMPILATION FLAGS
 
 CC				= gcc
-CFLAGS			= -Wall -Wextra -Werror -g3 -fsanitize=address
+CFLAGS			= -Wall -Wextra -Werror -g3 #-fsanitize=address
 
 #SOURCES
 

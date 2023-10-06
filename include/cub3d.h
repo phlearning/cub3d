@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 12:51:14 by pvong             #+#    #+#             */
-/*   Updated: 2023/10/05 17:16:35 by pvong            ###   ########.fr       */
+/*   Updated: 2023/10/06 14:21:57 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,20 @@
 # define INCREMENT 10
 # define TILE_SET "0NEWS"
 # define TILE_N_WALLS "10NEWS-"
+# define TILE_N_WALL "10NEWS"
 # define SIZE_XPM 64
 # define TEXTURE_NB 4
+# define TRUE 1
+# define FALSE 0
+
+/* Error message */
+
+# define ERR_NORTH_TEX "Error: North's texture is invalid"
+# define ERR_EAST_TEX "Error: East's texture is invalid"
+# define ERR_WEST_TEX "Error: West's texture is invalid"
+# define ERR_SOUTH_TEX "Error: South's texture is invalid"
+# define ERR_F_COLOR "Error: Floor's color is invalid"
+# define ERR_C_COLOR "Error: Ceiling's color is invalid"
 
 /* tmp color */
 # define RGB_RED 0xff0000
@@ -76,6 +88,7 @@ typedef struct s_map
 	int		max_line_len;
 	int		start;
 	int		line;
+	int		error;
 	char	*m_no;
 	char	*m_so;
 	char	*m_we;
@@ -146,7 +159,6 @@ typedef struct s_data
 	int			bpp;
 	int			ll;
 	int			endian;
-	char		*relative_path;
 	int			img_width;
 	int			img_height;
 	t_player	p;
@@ -236,6 +248,8 @@ int			ft_get_longest_tab_len(char **tab, int tab_len);
 char		**ft_rework_tab(char **tab, int v_len, int h_len, char replace);
 int			map_parsing(t_map *map, char *map_file);
 int			map_parsing2(t_map *map, char *map_file);
+int			ft_check_map_vertically(char **tab, char *c);
+int			ft_check_map_horizontally(char **tab, char *c);
 
 /* player_parsing.c */
 

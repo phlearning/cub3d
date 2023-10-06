@@ -32,6 +32,13 @@
 		"keycodes.h": "c",
 		"stdbool.h": "c",
 		"__string": "c",
-		"exception": "c"
+		"exception": "c",
+		"__functional_base": "c",
+		"__memory": "c",
+		"iosfwd": "c",
+		"mutex": "c",
+		"optional": "c",
+		"tuple": "c",
+		"type_traits": "c"
 	}
 }

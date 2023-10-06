@@ -6,11 +6,24 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 12:42:58 by pvong             #+#    #+#             */
-/*   Updated: 2023/10/06 10:43:51 by pvong            ###   ########.fr       */
+/*   Updated: 2023/10/06 14:23:46 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+int	ft_init(t_data *data, int ac, char **av)
+{
+	(void) ac;
+	(void) av;
+	data->mlx = NULL;
+	data->mlx_win = NULL;
+	ft_init_mlx(data);
+	if (!data->mlx || !data->mlx_win)
+		error_exit2("Error: mlx unitialized", 1);
+	ft_init_data(data);
+	return (0);
+}
 
 // int	main(void)
 // {
@@ -36,15 +49,13 @@
 // 	ft_close(&data);
 // }
 
-int	main(void)
+int	main(int ac, char **av)
 {
 	t_data	data;
-	// char	**tab;
 
-	// tab = ft_split("hello        world\n", ' ');
-	// print_tab(tab);
-	ft_init_mlx(&data);
-	ft_init_data(&data);
+	(void) ac;
+	(void) av;
+	ft_init(&data, ac, av);
 	data.tex = ft_calloc(TEXTURE_NB, sizeof(int *));
 	data.t_north = ft_calloc(1, sizeof(t_texture));
 	data.t_south = ft_calloc(1, sizeof(t_texture));

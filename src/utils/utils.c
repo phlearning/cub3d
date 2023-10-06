@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 13:02:52 by pvong             #+#    #+#             */
-/*   Updated: 2023/10/03 16:26:07 by pvong            ###   ########.fr       */
+/*   Updated: 2023/10/06 12:56:15 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,8 @@ void	free_all_textures(t_data *data)
  */
 int	ft_close(t_data *data)
 {
+	if (!data)
+		exit(EXIT_FAILURE);
 	free_all_textures(data);
 	free_map(data->map);
 	mlx_destroy_window(data->mlx, data->mlx_win);
