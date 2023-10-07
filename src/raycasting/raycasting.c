@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bkukaqi <bkukaqi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 15:50:29 by pvong             #+#    #+#             */
-/*   Updated: 2023/10/06 16:29:54 by bkukaqi          ###   ########.fr       */
+/*   Updated: 2023/10/07 21:06:04 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,16 +60,16 @@ void	ft_get_wall_dir(t_data *d)
 	if (side == 1)
 	{
 		if (ray_dir_y < 0)
-			d->p.wall_dir = 1;
+			d->p.wall_dir = 3;
 		else
-			d->p.wall_dir = 2;
+			d->p.wall_dir = 4;
 	}
 	else
 	{
 		if (ray_dir_x < 0)
-			d->p.wall_dir = 3;
+			d->p.wall_dir = 1;
 		else
-			d->p.wall_dir = 4;
+			d->p.wall_dir = 2;
 	}
 }
 
@@ -138,9 +138,7 @@ void	ft_raycasting(t_data *d)
 		ft_advance_ray_step(d);
 		ft_calc_drawing_range(d);
 		ft_get_wall_dir(d);
-		// color = ft_get_color(d->p.side, d->p.raydiry, d->p.raydirx);
 		ft_apply_texture(d, &d->p, x, d->p.wall_dir);
-		// ft_drawline(d, x, d->p.drawstart, d->p.drawend, color);
 		x++;
 	}
 }

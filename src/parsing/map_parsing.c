@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 13:49:27 by pvong             #+#    #+#             */
-/*   Updated: 2023/10/07 20:19:20 by pvong            ###   ########.fr       */
+/*   Updated: 2023/10/07 20:58:53 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,43 @@ int	map_parsing2(t_data *data, t_map *map, char *map_file)
 	return (0);
 }
 
+int	ft_is_only_space(char *s)
+{
+	int	i;
+	int	sp_flag;
+
+	i = 0;
+	sp_flag = 0;
+	while (s[i])
+	{
+		if (s[i] == ' ')
+			sp_flag = 1;
+		else
+		{
+			sp_flag = 0;
+			break ;
+		}
+		i++;
+	}
+	return (sp_flag);
+}
+
+void	ft_check_empty_line_in_tab(char **tab)
+{
+	int	i;
+
+	i = 0;
+	while (tab[i])
+	{
+		if (!tab[i][0] || tab[i][0] == '\n' || ft_is_only_space(tab[i]))
+		{
+			free_tab(tab);
+			error_exit2("Error: empty line in map", 1);
+		}
+		i++;
+	}
+}
+
 /**
  * This function needs the start line given in map->start.
  * It open the files and read the line until the given start line.
@@ -182,6 +219,7 @@ char	**ft_copy_map(t_map *map, char *map_file)
 	ret_map[j] = NULL;
 	if (tmp)
 		free(tmp);
+	ft_check_empty_line_in_tab(ret_map);
 	return (ret_map);
 }
 
@@ -276,7 +314,7 @@ char	*ft_check_and_dup(char *src, char *str, char *message)
 		exit(EXIT_FAILURE);
 	}
 	ret = ft_strdup(str);
-	if (!ret || ret[0] == '\0')
+	if (!ret || ret[0] == '\0' || ret[0] == ' ')
 		error_exit2("Error: Malloc failed", 1);
 	return (ret);
 }
@@ -389,8 +427,7 @@ int	map_parsing(t_data *data, t_map *map, char *map_file)
 		{
 			if (map->start == 0)
 				map->start = map->line;
-			if	(!ft_strchr(tmp, 'F') || !ft_strchr(tmp, 'C'))
-				map->tab_len++;
+			map->tab_len++;
 		}
 		if (tmp)
 			free(tmp);
@@ -400,10 +437,12 @@ int	map_parsing(t_data *data, t_map *map, char *map_file)
 	ft_empty_param(data, map);
 	if (ft_map_is_last(map))
 		error_exit2("Error: map is not last", 0);
+	ft_printf("tab_len: %d\n", map->tab_len);
 	map->tmp = ft_copy_map(map, map_file);
+	print_tab(map->tmp);
 	ft_check_for_invalid_char(map->tmp);
 	map_parsing2(data, map, map_file);
-	print_map(map);
+	// print_map(map);
 	ft_check_map_horizontally(map->tab, "-");
 	ft_check_map_vertically(map->tab, "-");
 	return (0);
