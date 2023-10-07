@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 13:02:52 by pvong             #+#    #+#             */
-/*   Updated: 2023/10/06 12:56:15 by pvong            ###   ########.fr       */
+/*   Updated: 2023/10/07 20:20:13 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,6 +211,16 @@ void	error_exit2(char *s, int n)
 {
 	// write(2, s, ft_strlen(s));
 	ft_printf("%s\n", s);
+	exit(n);
+}
+
+void	error_exit3(char *s, char *s2, int n)
+{
+	char *str;
+
+	str = ft_strjoin(s, s2);
+	perror(str);
+	free(str);
 	exit(n);
 }
 

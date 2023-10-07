@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 13:49:27 by pvong             #+#    #+#             */
-/*   Updated: 2023/10/06 17:42:38 by pvong            ###   ########.fr       */
+/*   Updated: 2023/10/07 20:19:20 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ char	**ft_rework_tab(char **tab, int v_len, int h_len, char replace)
 	return (rework);
 }
 
-int	map_parsing2(t_map *map, char *map_file)
+int	map_parsing2(t_data *data, t_map *map, char *map_file)
 {
 	char	*tmp;
 	int		fd;
@@ -95,13 +95,11 @@ int	map_parsing2(t_map *map, char *map_file)
 	i = 0;
 	j = 0;
 	len = ft_get_longest_tab_len(map->tmp, map->tab_len);
-	map->max_line_len = len;
 	if (len <= 0)
-		error_exit2("Error len map_parsing\n", EXIT_FAILURE);
-	// free_tab(map->tmp);
+		error_exit2("Error: len map_parsing\n", EXIT_FAILURE);
 	fd = open(map_file, O_RDONLY);
 	if (fd < 0)
-		error_exit("Error fd: map_parsing2: ", EXIT_FAILURE);
+		error_exit("Error: map_parsing2: ", EXIT_FAILURE);
 	map->tab = ft_calloc(map->tab_len + 1, sizeof(char *));
 	if (!map->tab)
 		exit(EXIT_FAILURE);
@@ -117,17 +115,21 @@ int	map_parsing2(t_map *map, char *map_file)
 			continue ;
 		}
 		tmp = ft_strtrim2(tmp, "\n");
+		if (ft_is_identifier(data, map, tmp))
+		{
+			free(tmp);
+			continue ;
+		}
 		if ((ft_strchr(tmp, '1') || ft_strchr(tmp, '0')) && j < map->tab_len)
 		{
 			map->tab[j] = ft_calloc(len + 2, sizeof(char));
 			ft_strlcat(map->tab[j], tmp, len + 1);
-			// To delete
 			j++;
 		}
 		if (tmp)
 			free(tmp);
-		map->line++;
 	}
+	ft_printf("map->line: %d\n", map->line);
 	map->tab = ft_rework_tab(map->tab, map->tab_len + 2, len + 2, '-');
 	close(fd);
 	return (0);
@@ -194,7 +196,8 @@ char	**ft_copy_map(t_map *map, char *map_file)
  */
 int	ft_map_is_last(t_map *map)
 {
-	if (map->start + map->tab_len == map->line)
+	if (map->start + map->tab_len == map->line \
+	|| map->start > map->last_param_line)
 		return (0);
 	return (1);
 }
@@ -212,23 +215,16 @@ int	ft_check_map_vertically(char **tab, char *c)
 	tab_len = 0;
 	while (tab[tab_len])
 		tab_len++;
-	// ft_printf("tab_len in ft: %d\n", tab_len);
 	while (tab[y] && y < tab_len - 1)
 	{
 		len = ft_strlen(tab[y]);
 		x = 0;
 		while (x < len)
 		{
-			if (!ft_compare_set(tab[y][x], TILE_N_WALLS))
-				error_exit2("Error: Char not accepted in map\n", 1);
-			if (ft_strncmp(&tab[y][x], c, 1) == 0 && ft_strncmp(&tab[y + 1][x], "0", 1) == 0)
-				error_exit2("Error: Walls not closed horizontally on the top\n", 1);
-			else if (ft_strncmp(&tab[y][x], "0", 1) == 0 && ft_strncmp(&tab[y + 1][x], c, 1) == 0)
-				error_exit2("Error: Walls not closed horizontally on the bottom\n", 1);
-			else if (ft_strncmp(&tab[y][x], c, 1) == 0 && ft_compare_set(tab[y + 1][x], TILE_SET))
-				error_exit2("Error: Walls not closed horizontally on the top\n", 1);
+			if (ft_strncmp(&tab[y][x], c, 1) == 0 && ft_compare_set(tab[y + 1][x], TILE_SET))
+				error_exit2("Error: Walls not closed on the top.", 1);
 			else if (ft_compare_set(tab[y][x], TILE_SET) && ft_strncmp(&tab[y + 1][x], c, 1) == 0)
-				error_exit2("Error: Walls not closed horizontally on the bottom\n", 1);
+				error_exit2("Error: Walls not closed on the bottom.", 1);
 			x++;
 		}
 		y++;
@@ -259,16 +255,10 @@ int	ft_check_map_horizontally(char **tab, char *c)
 		x = 0;
 		while (x < len - 1)
 		{
-			if (!ft_compare_set(tab[y][x], TILE_N_WALLS))
-				error_exit2("Error: Char not accepted in map\n", 1);
-			if (ft_strncmp(&tab[y][x], c, 1) == 0 && ft_strncmp(&tab[y][x + 1], "0", 1) == 0)
-				error_exit2("Error: Walls not closed horizontally on the left\n", 1);
-			else if (ft_strncmp(&tab[y][x], "0", 1) == 0 && ft_strncmp(&tab[y][x + 1], c, 1) == 0)
-				error_exit2("Error: Walls not closed horizontally on the right\n", 1);
-			else if (ft_strncmp(&tab[y][x], c, 1) == 0 && ft_compare_set(tab[y][x + 1], TILE_SET))
-				error_exit2("Error: Walls not closed horizontally on the left\n", 1);
+			if (ft_strncmp(&tab[y][x], c, 1) == 0 && ft_compare_set(tab[y][x + 1], TILE_SET))
+				error_exit2("Error: Walls not closed left.", 1);
 			else if (ft_compare_set(tab[y][x], TILE_SET) && ft_strncmp(&tab[y][x + 1], c, 1) == 0)
-				error_exit2("Error: Walls not closed horizontally on the right\n", 1);
+				error_exit2("Error: Walls not closed right.", 1);
 			x++;
 		}
 		y++;
@@ -276,16 +266,18 @@ int	ft_check_map_horizontally(char **tab, char *c)
 	return (0);
 }
 
-char	*ft_check_and_dup(t_map *map, char *str, char *message)
+char	*ft_check_and_dup(char *src, char *str, char *message)
 {
 	char	*ret;
 
-	ret = ft_strdup(ft_strrchr(str, ' ') + 1);
-	if (!ret || ret[0] == '\0')
+	if (src != NULL)
 	{
-		map->error++;
-		error_exit2(message, 1);
+		ft_printf("Error: %s's duplicate\n", message);
+		exit(EXIT_FAILURE);
 	}
+	ret = ft_strdup(str);
+	if (!ret || ret[0] == '\0')
+		error_exit2("Error: Malloc failed", 1);
 	return (ret);
 }
 
@@ -303,7 +295,7 @@ int	ft_check_for_invalid_char(char **tab)
 		while (tab[y][x])
 		{
 			if (!ft_compare_set(tab[y][x], TILE_N_WALL))
-				error_exit2("Error: Char not accepted in map\n", 1);
+				error_exit2("Error: Char not accepted in map", 1);
 			x++;
 		}
 		y++;
@@ -311,21 +303,23 @@ int	ft_check_for_invalid_char(char **tab)
 	return (0);
 }
 
-int	ft_empty_space(t_data *data, t_map *map)
+int	ft_empty_param(t_data *data, t_map *map)
 {
 	(void) data;
+	if (map->line < 6)
+		error_exit2("Error: Invalid .cub file", 1);
 	if (!map->m_no || map->m_no[0] == '\0' || map->m_no[0] == ' ')
-		error_exit2("Error: Invalid .cub file", 1);
+		error_exit2("Error: NO's empty", 1);
 	if (!map->m_ea || map->m_ea[0] == '\0' || map->m_ea[0] == ' ')
-		error_exit2("Error: Invalid .cub file", 1);
+		error_exit2("Error: EA's empty", 1);
 	if (!map->m_we || map->m_we[0] == '\0' || map->m_we[0] == ' ')
-		error_exit2("Error: Invalid .cub file", 1);
+		error_exit2("Error: WE's empty", 1);
 	if (!map->m_so || map->m_so[0] == '\0' || map->m_so[0] == ' ')
-		error_exit2("Error: Invalid .cub file", 1);
+		error_exit2("Error: SO's empty", 1);
 	if (!map->f_color || map->f_color[0] == '\0' || map->f_color[0] == ' ')
-		error_exit2("Error: Invalid .cub file", 1);
+		error_exit2("Error: F's empty", 1);
 	if (!map->c_color || map->c_color[0] == '\0' || map->c_color[0] == ' ')
-		error_exit2("Error: Invalid .cub file", 1);
+		error_exit2("Error: C's empty", 1);
 	return (0);
 }
 
@@ -334,19 +328,22 @@ int	ft_stock_info(t_data *data, t_map *map, char *line)
 	char	**tab;
 
 	(void) data;
+	map->last_param_line = map->line;
 	tab = ft_split(line, ' ');
+	if (!tab || !tab[0] || !tab[1])
+		error_exit2("Error: empty parameter(s)", 1);
 	if (ft_strncmp(line, "NO ", 3) == 0)
-		map->m_no = ft_strdup(tab[1]);
+		map->m_no = ft_check_and_dup(map->m_no, tab[1], "NO");
 	else if (ft_strncmp(line, "EA ", 3) == 0)
-		map->m_ea = ft_strdup(tab[1]);
+		map->m_ea = ft_check_and_dup(map->m_ea, tab[1], "EA");
 	else if (ft_strncmp(line, "WE ", 3) == 0)
-		map->m_we = ft_strdup(tab[1]);
+		map->m_we = ft_check_and_dup(map->m_we, tab[1], "WE");
 	else if (ft_strncmp(line, "SO ", 3) == 0)
-		map->m_so = ft_strdup(tab[1]);
+		map->m_so = ft_check_and_dup(map->m_so, tab[1], "SO");
 	else if (ft_strncmp(line, "F ", 2) == 0)
-		map->f_color = ft_strdup(tab[1]);
+		map->f_color = ft_check_and_dup(map->f_color, tab[1], "F");
 	else if (ft_strncmp(line, "C ", 2) == 0)
-		map->c_color = ft_strdup(tab[1]);
+		map->c_color = ft_check_and_dup(map->c_color, tab[1], "C");
 	free_tab(tab);
 	return (0);
 }
@@ -377,31 +374,15 @@ int	map_parsing(t_data *data, t_map *map, char *map_file)
 	char	*tmp;
 
 	(void) data;
-	map->line = 0;
-	map->tab_len = 0;
-	map->start = 0;
-	map->error = 0;
 	fd = open(map_file, O_RDONLY);
 	if (fd < 0)
-		error_exit("Error fd: ", EXIT_FAILURE);
+		error_exit3("Error: ", map_file, EXIT_FAILURE);
 	while (1)
 	{
 		tmp = get_next_line(fd);
 		if (tmp == NULL)
 			break ;
 		tmp = ft_strtrim2(tmp, "\n");
-		// if (!ft_strncmp(tmp, "NO", 2))
-		// 	map->m_no = ft_check_and_dup(map, tmp, ERR_NORTH_TEX);
-		// else if (!ft_strncmp(tmp, "SO", 2))
-		// 	map->m_so = ft_check_and_dup(map, tmp, ERR_SOUTH_TEX);
-		// else if (!ft_strncmp(tmp, "WE", 2))
-		// 	map->m_we = ft_check_and_dup(map, tmp, ERR_WEST_TEX);
-		// else if (!ft_strncmp(tmp, "EA", 2))
-		// 	map->m_ea = ft_check_and_dup(map, tmp, ERR_EAST_TEX);
-		// else if (!ft_strncmp(tmp, "F ", 2))
-		// 	map->f_color = ft_check_and_dup(map, tmp, ERR_F_COLOR);
-		// else if (!ft_strncmp(tmp, "C ", 2))
-		// 	map->c_color = ft_check_and_dup(map, tmp, ERR_C_COLOR);
 		if (ft_is_identifier(data, map, tmp))
 			ft_stock_info(data, map, tmp);
 		else if (ft_strchr(tmp, '1') || ft_strchr(tmp, '0'))
@@ -416,14 +397,13 @@ int	map_parsing(t_data *data, t_map *map, char *map_file)
 		map->line++;
 	}
 	close(fd);
-	ft_empty_space(data, map);
+	ft_empty_param(data, map);
 	if (ft_map_is_last(map))
 		error_exit2("Error: map is not last", 0);
-	ft_printf("map->line: %d\n", map->line);
-	ft_printf("tab_len: %d\n", map->tab_len);
 	map->tmp = ft_copy_map(map, map_file);
 	ft_check_for_invalid_char(map->tmp);
-	map_parsing2(map, map_file);
+	map_parsing2(data, map, map_file);
+	print_map(map);
 	ft_check_map_horizontally(map->tab, "-");
 	ft_check_map_vertically(map->tab, "-");
 	return (0);

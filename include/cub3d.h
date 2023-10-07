@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 12:51:14 by pvong             #+#    #+#             */
-/*   Updated: 2023/10/06 15:41:03 by pvong            ###   ########.fr       */
+/*   Updated: 2023/10/07 20:19:07 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@
 # define HEIGHT 1080
 # define INCREMENT 10
 # define TILE_SET "0NEWS"
-# define TILE_N_WALLS "10NEWS-"
-# define TILE_N_WALL "10NEWS"
+# define TILE_N_WALLS " 10NEWS-"
+# define TILE_N_WALL " 10NEWS"
 # define SIZE_XPM 64
 # define TEXTURE_NB 4
 # define TRUE 1
@@ -85,10 +85,9 @@ typedef struct s_texture
 typedef struct s_map
 {
 	int		tab_len;
-	int		max_line_len;
 	int		start;
 	int		line;
-	int		error;
+	int		last_param_line;
 	char	*m_no;
 	char	*m_so;
 	char	*m_we;
@@ -246,8 +245,9 @@ void		ft_change_char(char *s, char c1, char replace_by);
 void		ft_fill(char *s, char c, int len);
 int			ft_get_longest_tab_len(char **tab, int tab_len);
 char		**ft_rework_tab(char **tab, int v_len, int h_len, char replace);
+int			ft_is_identifier(t_data *data, t_map *map, char *line);
 int			map_parsing(t_data *data, t_map *map, char *map_file);
-int			map_parsing2(t_map *map, char *map_file);
+int			map_parsing2(t_data *data, t_map *map, char *map_file);
 int			ft_check_map_vertically(char **tab, char *c);
 int			ft_check_map_horizontally(char **tab, char *c);
 
@@ -268,6 +268,7 @@ char		*ft_strtrim2(char *s1, char *set);
 int			ft_close(t_data *data);
 void		error_exit(char *s, int n);
 void		error_exit2(char *s, int n);
+void		error_exit3(char *s, char *s2, int n);
 void		print_map(t_map *map);
 int			ft_open(char *file);
 int			ft_compare_set(int n, char *s);

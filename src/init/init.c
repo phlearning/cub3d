@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 15:43:48 by pvong             #+#    #+#             */
-/*   Updated: 2023/10/06 13:14:00 by pvong            ###   ########.fr       */
+/*   Updated: 2023/10/07 19:48:58 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,16 @@ void	ft_init_data(t_data *data)
 	data->p.right = FALSE;
 	data->p.rotate_left = FALSE;
 	data->p.rotate_right = FALSE;
+	data->map.line = 0;
+	data->map.tab_len = 0;
+	data->map.start = 0;
+	data->map.last_param_line = 0;
+	data->map.tmp = NULL;
+	data->map.tab = NULL;
+	data->map.m_no = NULL;
+	data->map.m_ea = NULL;
+	data->map.m_we = NULL;
+	data->map.m_so = NULL;
+	data->map.f_color = NULL;
+	data->map.c_color = NULL;
 }
