@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 12:51:14 by pvong             #+#    #+#             */
-/*   Updated: 2023/10/07 20:19:07 by pvong            ###   ########.fr       */
+/*   Updated: 2023/10/07 21:43:57 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,7 +186,6 @@ void		ft_get_wall_dir(t_data *d);
 /* raycasting2.c */
 
 void		ft_calc_sidedist(t_data *d);
-int			ft_get_color(int side, double ray_dir_y, double ray_dir_x);
 double		ft_get_wall_x(t_player p);
 void		ft_init_ray(t_data *d, int x);
 

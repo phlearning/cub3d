@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:48:50 by pvong             #+#    #+#             */
-/*   Updated: 2023/10/07 21:12:43 by pvong            ###   ########.fr       */
+/*   Updated: 2023/10/07 22:08:55 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ t_texture	*ft_get_tex(t_data *data, int id)
 	else if (id == 2)
 		return (data->t_south);
 	else if (id == 3)
-		return (data->t_east);
-	else if (id == 4)
 		return (data->t_west);
+	else if (id == 4)
+		return (data->t_east);
 	return (NULL);
 }
 
@@ -69,7 +69,6 @@ void	ft_apply_texture(t_data *data, t_player *p, int x, int id)
 	wall_x = 0.0;
 	tex = ft_get_tex(data, id);
 	wall_x = ft_get_wall_x(data->p);
-	// wall_x -= floor(wall_x);
 	t_x = (int)(wall_x * (double)tex->i->width);
 	t_x = tex->i->width - t_x - 1;
 	tex->step = 1.0 * tex->i->width / p->lineheight;

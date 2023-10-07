@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 18:34:33 by pvong             #+#    #+#             */
-/*   Updated: 2023/03/08 14:53:38 by pvong            ###   ########.fr       */
+/*   Updated: 2023/10/07 22:02:36 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,21 +18,3 @@ int	ft_tolower(int c)
 		c += 32;
 	return (c);
 }
-
-/*
-#include <stdio.h>
-
-int	main(int argc, char **argv)
-{
-	char	a;
-
-	if (argc < 3 && argv[1][1] == '\0')
-	{
-		a = argv[1][0];
-		printf("Before ft: %c\n", a);
-		a = ft_tolower(a);
-		printf("After ft: %c\n", a);
-	}
-	return (0);
-}
-*/

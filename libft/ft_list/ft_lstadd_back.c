@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 14:22:36 by pvong             #+#    #+#             */
-/*   Updated: 2022/10/20 16:30:11 by pvong            ###   ########.fr       */
+/*   Updated: 2023/10/07 22:03:31 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,3 @@ void	ft_lstadd_back(t_list **lst, t_list *new)
 		tmp->next = new;
 	}
 }
-
-/* typedef struct s_list
-	{
-		void			*content;
-		struct s_list	*next;
-	}	t_list;
-*/

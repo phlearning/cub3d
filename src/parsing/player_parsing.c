@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 13:45:46 by pvong             #+#    #+#             */
-/*   Updated: 2023/10/07 21:28:04 by pvong            ###   ########.fr       */
+/*   Updated: 2023/10/07 21:41:02 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,31 +26,31 @@ void	ft_get_player_direction(t_data *d, char c)
 {
 	if (c == 'N')
 	{
-		d->p.dirx = -1;
-		d->p.diry = 0;
-		d->p.planex = 0;
-		d->p.planey = 0.66;
+		d->p.dirx = 0;
+		d->p.diry = -1;
+		d->p.planex = 0.66;
+		d->p.planey = 0;
 	}
 	if (c == 'S')
+	{
+		d->p.dirx = 0;
+		d->p.diry = 1;
+		d->p.planex = -0.66;
+		d->p.planey = 0;
+	}
+	if (c == 'E')
 	{
 		d->p.dirx = 1;
 		d->p.diry = 0;
 		d->p.planex = 0;
-		d->p.planey = -0.66;
-	}
-	if (c == 'E')
-	{
-		d->p.dirx = 0;
-		d->p.diry = 1;
-		d->p.planex = 0.66;
-		d->p.planey = 0;
+		d->p.planey = 0.66;
 	}
 	if (c == 'W')
 	{
-		d->p.dirx = 0;
-		d->p.diry = -1;
-		d->p.planex = -0.66;
-		d->p.planey = 0;
+		d->p.dirx = -1;
+		d->p.diry = 0;
+		d->p.planex = 0;
+		d->p.planey = -0.66;
 	}
 }
 
@@ -108,8 +108,8 @@ int	ft_get_player_pos(t_data *data, char **tab, int tab_len)
 		{
 			if (ft_contain_player_char(data, tab[y][x]))
 			{
-				data->p.posx = (double) y + 0.5;
-				data->p.posy = (double) x + 0.5;
+				data->p.posx = (double) x + 0.5;
+				data->p.posy = (double) y + 0.5;
 				found++;
 			}
 			x++;

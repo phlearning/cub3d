@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 10:45:03 by pvong             #+#    #+#             */
-/*   Updated: 2022/10/13 10:35:35 by pvong            ###   ########.fr       */
+/*   Updated: 2023/10/07 22:02:20 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,22 +29,3 @@ char	*ft_strrchr(const char *str, int c)
 		return ((char *) str + len);
 	return (0);
 }
-/*
-#include <stdio.h>
-
-int	main(void)
-{
-	int len;
-	const char str[] = "123.456.789.10";
-	const char ch = '.';
-	char *ret;
-	char *ret2;
-
-	ret = strrchr(str, ch);
-	ret2 = ft_strrchr(str, ch);
-
-	printf("Org ft: String after |%c| is - |%s|\n", ch, ret);
-	printf("My  ft: String after |%c| is - |%s|\n", ch, ret2);
-	return (0);
-}
-*/

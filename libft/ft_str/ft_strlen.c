@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 17:43:40 by pvong             #+#    #+#             */
-/*   Updated: 2023/03/08 14:52:58 by pvong            ###   ########.fr       */
+/*   Updated: 2023/10/07 22:01:52 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,3 @@ size_t	ft_strlen(const char *str)
 		i++;
 	return (i);
 }
-/*
-#include <stdio.h>
-
-int	main(int argc, char **argv)
-{
-	int	n;
-	if (argc < 3)
-	{
-		n = ft_strlen(argv[1]);
-		printf("%s has %d nb of characters\n", argv[1], n);
-	}
-	return (0);
-}
-*/

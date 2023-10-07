@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 15:02:02 by pvong             #+#    #+#             */
-/*   Updated: 2022/10/12 16:44:39 by pvong            ###   ########.fr       */
+/*   Updated: 2023/10/07 22:01:46 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,23 +29,3 @@ size_t	ft_strlcpy(char *dest, const char *src, size_t dstsize)
 	dest[i] = '\0';
 	return (len);
 }
-/*
-#include <stdio.h>
-
-int	main(void)
-{
-	char	source[] = "Hello World";
-	char	destination[0];
-	char	source2[] = "Hello World";
-	char	destination2[0];
-	int		dsize;
-
-	dsize = 100;
-	printf("Source : %s\n",source);
-//	printf("Strlcpy:    %lu\n", strlcpy(destination, source, dsize));
-	printf("ft_strlcpy: %lu\n", ft_strlcpy(destination, source, dsize));
-	printf("Source after: %s\n",source);
-	printf("Destination after: %s\n",destination);
-	return (0);
-}
-*/

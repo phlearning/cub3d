@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 17:10:20 by pvong             #+#    #+#             */
-/*   Updated: 2023/10/07 18:30:43 by pvong            ###   ########.fr       */
+/*   Updated: 2023/10/07 21:56:38 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_check_wall_hit(t_data *data, double tmp_x, double tmp_y, char **tab)
 {
-	if (tab[(int)data->p.posx][(int)data->p.posy] == '1' || tab[(int)data->p.posx][(int)data->p.posy] == '-')
+	if (tab[(int)data->p.posy][(int)data->p.posx] == '1' || tab[(int)data->p.posy][(int)data->p.posx] == '-')
 	{
 		data->p.posx = tmp_x;
 		data->p.posy = tmp_y;
@@ -38,12 +38,6 @@ void	ft_move_up_down(t_data *d, int dir, char **map)
 		d->p.posx += p.dirx * speed;
 		d->p.posy += p.diry * speed;
 		ft_check_wall_hit(d, old_posx, old_posy, map);
-/* 		if (ft_compare_set(map[(int)(p.posx + p.dirx * speed)] \
-				[(int)p.posy], TILE_SET))
-			d->p.posx += p.dirx * speed;
-		if (ft_compare_set(map[(int) p.posx] \
-				[(int)(p.posy + p.diry * speed)], TILE_SET))
-			d->p.posy += p.diry * speed; */
 	}
 	else
 	{
@@ -52,12 +46,6 @@ void	ft_move_up_down(t_data *d, int dir, char **map)
 		d->p.posx -= p.dirx * speed;
 		d->p.posy -= p.diry * speed;
 		ft_check_wall_hit(d, old_posx, old_posy, map);
-/* 		if (ft_compare_set(map[(int)(p.posx - p.dirx * speed)] \
-				[(int)p.posy], TILE_SET))
-			d->p.posx -= p.dirx * speed;
-		if (ft_compare_set(map[(int) p.posx] \
-				[(int)(p.posy - p.diry * speed)], TILE_SET))
-			d->p.posy -= p.diry * speed; */
 	}
 }
 
@@ -78,12 +66,6 @@ void	ft_move_left_right(t_data *d, int dir, char **map)
 		d->p.posx -= p.planex * speed;
 		d->p.posy -= p.planey * speed;
 		ft_check_wall_hit(d, old_posx, old_posy, map);
-/* 		if (ft_compare_set(map[(int)(p.posx - p.planex * speed)] \
-				[(int)p.posy], TILE_SET))
-			d->p.posx -= p.planex * speed;
-		if (ft_compare_set(map[(int)p.posx] \
-				[(int)(p.posy - p.planey * speed)], TILE_SET))
-			d->p.posy -= p.planey * speed; */
 	}
 	else
 	{
@@ -92,12 +74,6 @@ void	ft_move_left_right(t_data *d, int dir, char **map)
 		d->p.posx += p.planex * speed;
 		d->p.posy += p.planey * speed;
 		ft_check_wall_hit(d, old_posx, old_posy, map);
-/* 		if (ft_compare_set(map[(int)(p.posx + p.planex * speed)] \
-				[(int)p.posy], TILE_SET))
-			d->p.posx += p.planex * speed;
-		if (ft_compare_set(map[(int)p.posx] \
-				[(int)(p.posy + p.planey * speed)], TILE_SET))
-			d->p.posy += p.planey * speed; */
 	}
 }
 
@@ -108,25 +84,15 @@ void	ft_rotate_left_right(t_data *d, int dir)
 	double		oldplanex;
 
 	p = d->p;
-	r_speed = p.rotspeed;
-	if (dir)
-	{
-		d->p.old_dirx = p.dirx;
-		d->p.dirx = p.dirx * cos(r_speed) - p.diry * sin(r_speed);
-		d->p.diry = d->p.old_dirx * sin(r_speed) + p.diry * cos(r_speed);
-		oldplanex = p.planex;
-		d->p.planex = p.planex * cos(r_speed) - p.planey * sin(r_speed);
-		d->p.planey = oldplanex * sin(r_speed) + p.planey * cos(r_speed);
-	}
-	else
-	{
-		d->p.old_dirx = p.dirx;
-		d->p.dirx = p.dirx * cos(-r_speed) - p.diry * sin(-r_speed);
-		d->p.diry = d->p.old_dirx * sin(-r_speed) + p.diry * cos(-r_speed);
-		oldplanex = p.planex;
-		d->p.planex = p.planex * cos(-r_speed) - p.planey * sin(-r_speed);
-		d->p.planey = oldplanex * sin(-r_speed) + p.planey * cos(-r_speed);
-	}
+	if (dir == 0)
+		dir = -1;
+	r_speed = p.rotspeed * dir;
+	d->p.old_dirx = p.dirx;
+	d->p.dirx = p.dirx * cos(r_speed) - p.diry * sin(r_speed);
+	d->p.diry = d->p.old_dirx * sin(r_speed) + p.diry * cos(r_speed);
+	oldplanex = p.planex;
+	d->p.planex = p.planex * cos(r_speed) - p.planey * sin(r_speed);
+	d->p.planey = oldplanex * sin(r_speed) + p.planey * cos(r_speed);
 }
 
 int	ft_move(int k, t_data *data)
@@ -147,9 +113,9 @@ int	ft_move(int k, t_data *data)
 		else if (k == K_D)
 			ft_move_left_right(data, 0, data->map.tab);
 		if (k == K_AR_L)
-			ft_rotate_left_right(data, 1);
-		if (k == K_AR_R)
 			ft_rotate_left_right(data, 0);
+		if (k == K_AR_R)
+			ft_rotate_left_right(data, 1);
 	}
 	if (action > 0)
 		ft_update_img(data);
@@ -167,8 +133,8 @@ int	ft_read_movement(t_data *d)
 	if (d->p.right)
 		ft_move_left_right(d, 0, d->map.tab);
 	if (d->p.rotate_left)
-		ft_rotate_left_right(d, 1);
-	if (d->p.rotate_right)
 		ft_rotate_left_right(d, 0);
+	if (d->p.rotate_right)
+		ft_rotate_left_right(d, 1);
 	return (0);
 }
