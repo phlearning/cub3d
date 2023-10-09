@@ -6,7 +6,7 @@
 #    By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/18 12:43:01 by pvong             #+#    #+#              #
-#    Updated: 2023/10/07 20:16:58 by pvong            ###   ########.fr        #
+#    Updated: 2023/10/09 11:12:54 by pvong            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,6 +70,7 @@ SRCS			:=	main/main.c \
 					hooks/key_hook.c \
 					init/init.c \
 					parsing/map_parsing.c \
+					parsing/map_parsing_utils.c \
 					parsing/player_parsing.c \
 					parsing/texture_parsing.c \
 					raycasting/raycasting.c \

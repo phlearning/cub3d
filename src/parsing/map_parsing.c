@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 13:49:27 by pvong             #+#    #+#             */
-/*   Updated: 2023/10/08 20:54:13 by pvong            ###   ########.fr       */
+/*   Updated: 2023/10/09 11:49:31 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -311,15 +311,17 @@ void	ft_check_extension_xpm(char *file)
 
 	res = 0;
 	len = ft_strlen(file);
-	if (file[len - 4] == '.')
-		res = 1;
-	if (file[len - 3] == 'x')
-		res = 1;
-	if (file[len - 2] == 'p')
-		res = 1;
-	if (file[len - 1] == 'm')
-		res = 1;
-	if (res)
+	if (len < 5)
+		error_exit2("Error: Unnamed file (.xpm)", 1);
+	if (file[len - 4] != '.')
+		res++;
+	if (file[len - 3] != 'x')
+		res++;
+	if (file[len - 2] != 'p')
+		res++;
+	if (file[len - 1] != 'm')
+		res++;
+	if (res >= 1)
 		error_exit2("Error: Wrong extension (.xpm)", 1);
 }
 
