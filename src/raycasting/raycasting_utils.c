@@ -6,11 +6,29 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:14:24 by pvong             #+#    #+#             */
-/*   Updated: 2023/10/09 16:16:27 by pvong            ###   ########.fr       */
+/*   Updated: 2023/10/09 17:24:36 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+int	ft_count_char_exit(char *s, char c, int exit_n)
+{
+	int	i;
+	int	n;
+
+	i = 0;
+	n = 0;
+	while (s[i])
+	{
+		if (s[i] == c)
+			n++;
+		i++;
+	}
+	if (n > exit_n)
+		error_exit2("Error: Invalid color range", 1);
+	return (0);
+}
 
 int	ft_rgbtoint(char *c)
 {
@@ -19,6 +37,7 @@ int	ft_rgbtoint(char *c)
 	int		green;
 	int		blue;
 
+	ft_count_char_exit(c, ',', 2);
 	colors = ft_split(c, ',');
 	if (!colors[0] || !colors[1] || !colors[2])
 	{
@@ -71,8 +90,8 @@ void	ft_render_ceilling_floor(t_data *d)
 	unsigned int	fc;
 
 	x = 0;
-	cc = ft_rgbtoint(d->map.c_color);
-	fc = ft_rgbtoint(d->map.f_color);
+	cc = d->int_c_color;
+	fc = d->int_f_color;
 	while (x++ < WIDTH)
 	{
 		y = 0;

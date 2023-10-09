@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 12:42:58 by pvong             #+#    #+#             */
-/*   Updated: 2023/10/09 15:10:43 by pvong            ###   ########.fr       */
+/*   Updated: 2023/10/09 17:19:09 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ int	ft_init(t_data *data, int ac, char **av)
 	else
 		error_exit2("Error: Usage: ./cub3D [map.cub]", 0);
 	ft_test_open_text(data);
+	data->int_f_color = ft_rgbtoint(data->map.f_color);
+	data->int_c_color = ft_rgbtoint(data->map.c_color);
 	ft_init_mlx(data);
 	if (!data->mlx)
 		error_exit2("Error: mlx unitialized", 1);
