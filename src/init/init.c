@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 15:43:48 by pvong             #+#    #+#             */
-/*   Updated: 2023/10/07 19:48:58 by pvong            ###   ########.fr       */
+/*   Updated: 2023/10/09 16:40:57 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 void	ft_init_mlx(t_data *data)
 {
 	data->mlx = mlx_init();
-	data->mlx_win = mlx_new_window(data->mlx, WIDTH, HEIGHT, "Hello world!");
 	data->img = mlx_new_image(data->mlx, WIDTH, HEIGHT);
-	data->addr = mlx_get_data_addr(data->img, &data->bpp, &data->ll, &data->endian);
+	data->addr = mlx_get_data_addr(data->img, \
+		&data->bpp, &data->ll, &data->endian);
 }
 
 void	ft_init_data(t_data *data)

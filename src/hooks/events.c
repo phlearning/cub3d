@@ -6,15 +6,16 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 17:10:20 by pvong             #+#    #+#             */
-/*   Updated: 2023/10/07 21:56:38 by pvong            ###   ########.fr       */
+/*   Updated: 2023/10/09 16:43:40 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	ft_check_wall_hit(t_data *data, double tmp_x, double tmp_y, char **tab)
+void	ft_check_collision(t_data *data, double tmp_x, double tmp_y, char **tab)
 {
-	if (tab[(int)data->p.posy][(int)data->p.posx] == '1' || tab[(int)data->p.posy][(int)data->p.posx] == '-')
+	if (tab[(int)data->p.posy][(int)data->p.posx] == '1' \
+		|| tab[(int)data->p.posy][(int)data->p.posx] == '-')
 	{
 		data->p.posx = tmp_x;
 		data->p.posy = tmp_y;
@@ -37,7 +38,7 @@ void	ft_move_up_down(t_data *d, int dir, char **map)
 		old_posy = d->p.posy;
 		d->p.posx += p.dirx * speed;
 		d->p.posy += p.diry * speed;
-		ft_check_wall_hit(d, old_posx, old_posy, map);
+		ft_check_collision(d, old_posx, old_posy, map);
 	}
 	else
 	{
@@ -45,7 +46,7 @@ void	ft_move_up_down(t_data *d, int dir, char **map)
 		old_posy = d->p.posy;
 		d->p.posx -= p.dirx * speed;
 		d->p.posy -= p.diry * speed;
-		ft_check_wall_hit(d, old_posx, old_posy, map);
+		ft_check_collision(d, old_posx, old_posy, map);
 	}
 }
 
@@ -65,7 +66,7 @@ void	ft_move_left_right(t_data *d, int dir, char **map)
 		old_posy = d->p.posy;
 		d->p.posx -= p.planex * speed;
 		d->p.posy -= p.planey * speed;
-		ft_check_wall_hit(d, old_posx, old_posy, map);
+		ft_check_collision(d, old_posx, old_posy, map);
 	}
 	else
 	{
@@ -73,7 +74,7 @@ void	ft_move_left_right(t_data *d, int dir, char **map)
 		old_posy = d->p.posy;
 		d->p.posx += p.planex * speed;
 		d->p.posy += p.planey * speed;
-		ft_check_wall_hit(d, old_posx, old_posy, map);
+		ft_check_collision(d, old_posx, old_posy, map);
 	}
 }
 
@@ -119,22 +120,5 @@ int	ft_move(int k, t_data *data)
 	}
 	if (action > 0)
 		ft_update_img(data);
-	return (0);
-}
-
-int	ft_read_movement(t_data *d)
-{
-	if (d->p.forward)
-		ft_move_up_down(d, 1, d->map.tab);
-	if (d->p.backward)
-		ft_move_up_down(d, 0, d->map.tab);
-	if (d->p.left)
-		ft_move_left_right(d, 1, d->map.tab);
-	if (d->p.right)
-		ft_move_left_right(d, 0, d->map.tab);
-	if (d->p.rotate_left)
-		ft_rotate_left_right(d, 0);
-	if (d->p.rotate_right)
-		ft_rotate_left_right(d, 1);
 	return (0);
 }

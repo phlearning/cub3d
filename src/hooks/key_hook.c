@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 14:35:05 by pvong             #+#    #+#             */
-/*   Updated: 2023/10/06 13:14:58 by pvong            ###   ########.fr       */
+/*   Updated: 2023/10/09 16:41:43 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,6 @@ int	ft_move_release(int k, t_data *d)
 void	ft_key_hook(t_data *data)
 {
 	mlx_hook(data->mlx_win, DESTROY_NOTIFY, 0L, ft_close, data);
-	mlx_hook(data->mlx_win, KEY_PRESS, 1L<<0, ft_key_press, data);
-	mlx_hook(data->mlx_win, KEY_RELEASE, 1L<<1, ft_key_release, data);
+	mlx_hook(data->mlx_win, KEY_PRESS, 1L << 0, ft_key_press, data);
+	mlx_hook(data->mlx_win, KEY_RELEASE, 1L << 1, ft_key_release, data);
 }

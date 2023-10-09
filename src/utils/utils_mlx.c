@@ -6,13 +6,13 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 15:36:20 by pvong             #+#    #+#             */
-/*   Updated: 2023/10/05 13:13:30 by pvong            ###   ########.fr       */
+/*   Updated: 2023/10/09 16:11:12 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	put_pxl_to_img(t_data *data, int x, int y, int color)
+void	ft_pxl_to_img(t_data *data, int x, int y, int color)
 {
 	if (x < WIDTH && y < HEIGHT)
 	{
@@ -22,97 +22,12 @@ void	put_pxl_to_img(t_data *data, int x, int y, int color)
 	}
 }
 
-/**
- * Draw a vertical line going from y1 to y2 on x
- * @param t_data *data, the struct containing the mlx info
- * @param int x 
- * @param int y1
- * @param int y2
- * @param int color 
- * @return int 0 or 1, 0 if the coords are out of the screen and 1 if ok
- */
-int	ft_drawline(t_data *data, int x, int y1, int y2, int color)
-{
-	int	y;
-
-	if (y2 < y1)
-	{
-		y1 += y2;
-		y2 = y1 - y2;
-		y1 -= y2;
-	}
-	if (y2 < 0 || y1 >= HEIGHT || x < 0 || x >= WIDTH)
-		return (0);
-	if (y1 < 0)
-		y1 = 0;
-	if (y2 >= WIDTH)
-		y2 = HEIGHT - 1;
-
-	y = y1;
-	while (y <= y2)
-	{
-		if (x > 0 && x <= WIDTH)
-			put_pxl_to_img(data, x, y, color);
-		y++;
-	}
-	return (1);
-}
-
-int	ft_draw_verline(t_data *data, t_pos *start_pos, int length, int color)
-{
-	int		i;
-	int		j;
-	int		limit;
-	t_pos	pos;
-
-	if (start_pos->x || start_pos->x > WIDTH)
-		return (1);
-	pos.x = start_pos->x;
-	limit = HEIGHT;
-	i = 0;
-	j = start_pos->y + i;
-	while (i < length && j < limit)
-	{
-		j = start_pos->y + i;
-		pos.y = j;
-		put_pxl_to_img(data, (int) pos.x, (int) pos.y, color);
-		i++;
-	}
-	return (1);
-}
-
-/**
- * Draw a square
- * @param t_data *data, the struct containing mlx info 
- * @param int x 
- * @param int y 
- * @param int size 
- * @param int color
- */
-void	ft_draw_sq(t_data *data, int x, int y, int size, int color)
-{
-	int	start_x;
-	int	start_y;
-
-	start_x = x;
-	start_y = y;
-	while (start_x < x + size)
-	{
-		start_y = y;
-		while (start_y < y + size)
-		{
-			put_pxl_to_img(data, start_x, start_y, color);
-			start_y++;
-		}
-		start_x++;
-	}
-}
-
 void	ft_load_img(t_data *data, t_img *img, char *file)
 {
 	img->height = 0;
 	img->width = 0;
-	img->img = mlx_xpm_file_to_image(data->mlx, file, &img->width, &img->height);
+	img->img = mlx_xpm_file_to_image(data->mlx, \
+		file, &img->width, &img->height);
 	if (!img->img)
 	{
 		ft_printf("Error: ft_load_img: %s\n", file);

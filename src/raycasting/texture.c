@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:48:50 by pvong             #+#    #+#             */
-/*   Updated: 2023/10/07 22:08:55 by pvong            ###   ########.fr       */
+/*   Updated: 2023/10/09 16:16:31 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,29 +59,26 @@ int	*ft_get_texture_addr(t_img *i)
 void	ft_apply_texture(t_data *data, t_player *p, int x, int id)
 {
 	double		wall_x;
-	double		t_x;
-	double		t_y;
 	int			y;
 	int			color;
 	t_texture	*tex;
 
-	(void) id;
 	wall_x = 0.0;
 	tex = ft_get_tex(data, id);
 	wall_x = ft_get_wall_x(data->p);
-	t_x = (int)(wall_x * (double)tex->i->width);
-	t_x = tex->i->width - t_x - 1;
+	tex->t_x = (int)(wall_x * (double)tex->i->width);
+	tex->t_x = tex->i->width - tex->t_x - 1;
 	tex->step = 1.0 * tex->i->width / p->lineheight;
 	tex->pos = (p->drawstart - HEIGHT / 2 + p->lineheight / 2) * tex->step;
 	y = p->drawstart;
 	while (y++ < p->drawend)
 	{
-		t_y = ((int) tex->pos & ((tex->i->height) - 1));
+		tex->t_y = ((int) tex->pos & ((tex->i->height) - 1));
 		tex->pos += tex->step;
-		if (x >= 0 && y >= 0 && t_x >= 0 && t_y >= 0)
+		if (x >= 0 && y >= 0 && tex->t_x >= 0 && tex->t_y >= 0)
 		{
-			color = ft_get_img_pixel_color(tex->i, t_x, t_y);
-			put_pxl_to_img(data, x, y, color);
+			color = ft_get_img_pixel_color(tex->i, tex->t_x, tex->t_y);
+			ft_pxl_to_img(data, x, y, color);
 		}
 	}
 }

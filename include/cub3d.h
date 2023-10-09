@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 12:51:14 by pvong             #+#    #+#             */
-/*   Updated: 2023/10/07 21:43:57 by pvong            ###   ########.fr       */
+/*   Updated: 2023/10/09 16:44:37 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ typedef struct s_texture
 	char	*file;
 	float	step;
 	float	pos;
+	double	t_x;
+	double	t_y;
 	t_img	*i;
 }	t_texture;
 
@@ -111,7 +113,6 @@ typedef struct s_player
 	double	rotspeed;
 	int		mapx;
 	int		mapy;
-	// Variables concernant les rayons
 	double	camerax;
 	double	raydirx;
 	double	raydiry;
@@ -124,13 +125,10 @@ typedef struct s_player
 	int		stepy;
 	int		hit;
 	int		side;
-	// -----
 	int		wall_dir;
-	// Draw vertical line
 	int		lineheight;
 	int		drawstart;
 	int		drawend;
-	// ----
 	int		forward;
 	int		backward;
 	int		left;
@@ -179,15 +177,19 @@ typedef struct s_data
 
 void		ft_advance_ray_step(t_data *d);
 void		ft_calc_drawing_range(t_data *d);
-void	    render_ceilling_floor(t_data *d);
 void		ft_raycasting(t_data *d);
-void		ft_get_wall_dir(t_data *d);
 
 /* raycasting2.c */
 
 void		ft_calc_sidedist(t_data *d);
 double		ft_get_wall_x(t_player p);
 void		ft_init_ray(t_data *d, int x);
+
+/* raycasting_utils.c */
+
+void		ft_get_wall_dir(t_data *d);
+void		ft_render_ceilling_floor(t_data *d);
+int			ft_rgbtoint(char *c);
 
 /* texture.c */
 
@@ -202,6 +204,8 @@ void		ft_apply_texture(t_data *data, t_player *p, int x, int id);
 
 /* events.c */
 
+void		ft_check_collision(t_data *data, double tmp_x, \
+				double tmp_y, char **tab);
 void		ft_move_up_down(t_data *d, int dir, char **map);
 void		ft_move_left_right(t_data *d, int dir, char **map);
 void		ft_rotate_left_right(t_data *d, int dir);
@@ -229,32 +233,61 @@ int			ft_move_release(int k, t_data *d);
 
 void		ft_init_mlx(t_data *data);
 void		ft_init_data(t_data *data);
+int			ft_init(t_data *data, int ac, char **av);
 
 /* -------------------------------------------------------------------------- */
 /*                                   PARSING                                  */
 /* -------------------------------------------------------------------------- */
 
-// TEMPORAY TMP TEMP
+void		ft_test_open_text(t_data *data);
 
+/* check_map.c */
+
+char		*ft_check_and_dup(char *src, char *file_name, \
+				char *message, int is_tex);
+void		ft_check_empty_line_in_tab(char **tab);
+void		ft_check_map_vertically(char **tab, char *c);
+int			ft_check_map_horizontally(char **tab, char *c);
 int			ft_map_is_last(t_map *map);
 
 /* map_parsing.c */
 
+void		ft_check_map(t_map *map, char *map_file);
+void		map_parsing(t_data *data, t_map *map, char *map_file);
+void		map_parsing2(t_map *map, char *map_file);
+
+/* map_parsing_utils.c */
+
+void		ft_check_extension_xpm(char *file);
+int			ft_check_for_invalid_char(char **tab);
+int			ft_get_longest_tab_len(char **tab, int tab_len);
+int			ft_is_only_space(char *s);
+
+/* map_parsing_utils2.c */
+
+void		ft_copy_gnl(t_map *map, char **ret_map, int fd);
+char		**ft_copy_map(t_map *map, char *map_file);
+
+/* modify_map.c */
+
 void		ft_change_char(char *s, char c1, char replace_by);
 void		ft_fill(char *s, char c, int len);
-int			ft_get_longest_tab_len(char **tab, int tab_len);
+void		ft_replace_map(t_map *map, int fd, int len);
 char		**ft_rework_tab(char **tab, int v_len, int h_len, char replace);
-int			ft_is_identifier(t_data *data, t_map *map, char *line);
-int			map_parsing(t_data *data, t_map *map, char *map_file);
-int			map_parsing2(t_data *data, t_map *map, char *map_file);
-int			ft_check_map_vertically(char **tab, char *c);
-int			ft_check_map_horizontally(char **tab, char *c);
+
+/* parameter_parsing.c */
+
+void		ft_empty_param(t_map *map);
+int			ft_is_identifier(char *line);
+int			ft_stock_info(t_data *data, t_map *map, char *line);
 
 /* player_parsing.c */
 
+void		ft_player_ns(t_data *d, int is_north);
+void		ft_player_we(t_data *d, int is_west);
 void		ft_get_player_direction(t_data *d, char c);
 int			ft_contain_player_char(t_data *data, char c);
-int			ft_get_player_pos(t_data *data, char **tab, int tab_len);
+void		ft_get_player_pos(t_data *data, char **tab, int tab_len);
 
 /* -------------------------------------------------------------------------- */
 /*                                    UTILS                                   */
@@ -263,26 +296,27 @@ int			ft_get_player_pos(t_data *data, char **tab, int tab_len);
 /* utils.c */
 
 void		print_tab(char **tab);
-char		*ft_strtrim2(char *s1, char *set);
 int			ft_close(t_data *data);
 void		error_exit(char *s, int n);
 void		error_exit2(char *s, int n);
 void		error_exit3(char *s, char *s2, int n);
 void		print_map(t_map *map);
 int			ft_open(char *file);
+void		ft_test_open(char *file);
+
+/* utils2.c */
+
+int			ft_check_extension(char **av, int size_av);
 int			ft_compare_set(int n, char *s);
+char		*ft_strtrim2(char *s1, char *set);
 
 /* utils_mlx.c */
 
-void		ft_draw_sq(t_data *data, int x, int y, int size, int color);
-int			ft_drawline(t_data *data, int x, int y1, int y2, int color);
-int			ft_draw_verline(t_data *data, t_pos *start_pos, \
-				int length, int color);
 int			ft_get_img_pixel_color(t_img *img, int x, int y);
 void		ft_load_img(t_data *data, t_img *img, char *file);
-void		put_pxl_to_img(t_data *data, int x, int y, int color);
+void		ft_pxl_to_img(t_data *data, int x, int y, int color);
 
-/* free */
+/* free.c */
 void		free_map(t_map map);
 void		free_tab(char **tab);
 void		free_texture(t_data *data, t_texture *tex);
