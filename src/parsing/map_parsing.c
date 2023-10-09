@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 13:49:27 by pvong             #+#    #+#             */
-/*   Updated: 2023/10/07 20:58:53 by pvong            ###   ########.fr       */
+/*   Updated: 2023/10/08 20:54:13 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -304,7 +304,26 @@ int	ft_check_map_horizontally(char **tab, char *c)
 	return (0);
 }
 
-char	*ft_check_and_dup(char *src, char *str, char *message)
+void	ft_check_extension_xpm(char *file)
+{
+	int	res;
+	int	len;
+
+	res = 0;
+	len = ft_strlen(file);
+	if (file[len - 4] == '.')
+		res = 1;
+	if (file[len - 3] == 'x')
+		res = 1;
+	if (file[len - 2] == 'p')
+		res = 1;
+	if (file[len - 1] == 'm')
+		res = 1;
+	if (res)
+		error_exit2("Error: Wrong extension (.xpm)", 1);
+}
+
+char	*ft_check_and_dup(char *src, char *file_name, char *message, int is_tex)
 {
 	char	*ret;
 
@@ -313,7 +332,9 @@ char	*ft_check_and_dup(char *src, char *str, char *message)
 		ft_printf("Error: %s's duplicate\n", message);
 		exit(EXIT_FAILURE);
 	}
-	ret = ft_strdup(str);
+	if (is_tex)
+		ft_check_extension_xpm(file_name);
+	ret = ft_strdup(file_name);
 	if (!ret || ret[0] == '\0' || ret[0] == ' ')
 		error_exit2("Error: Malloc failed", 1);
 	return (ret);
@@ -368,20 +389,20 @@ int	ft_stock_info(t_data *data, t_map *map, char *line)
 	(void) data;
 	map->last_param_line = map->line;
 	tab = ft_split(line, ' ');
-	if (!tab || !tab[0] || !tab[1])
-		error_exit2("Error: empty parameter(s)", 1);
+	if (!tab || !tab[0] || !tab[1] || tab[2])
+		error_exit2("Error: wrong parameter(s)", 1);
 	if (ft_strncmp(line, "NO ", 3) == 0)
-		map->m_no = ft_check_and_dup(map->m_no, tab[1], "NO");
+		map->m_no = ft_check_and_dup(map->m_no, tab[1], "NO", 1);
 	else if (ft_strncmp(line, "EA ", 3) == 0)
-		map->m_ea = ft_check_and_dup(map->m_ea, tab[1], "EA");
+		map->m_ea = ft_check_and_dup(map->m_ea, tab[1], "EA", 1);
 	else if (ft_strncmp(line, "WE ", 3) == 0)
-		map->m_we = ft_check_and_dup(map->m_we, tab[1], "WE");
+		map->m_we = ft_check_and_dup(map->m_we, tab[1], "WE", 1);
 	else if (ft_strncmp(line, "SO ", 3) == 0)
-		map->m_so = ft_check_and_dup(map->m_so, tab[1], "SO");
+		map->m_so = ft_check_and_dup(map->m_so, tab[1], "SO", 1);
 	else if (ft_strncmp(line, "F ", 2) == 0)
-		map->f_color = ft_check_and_dup(map->f_color, tab[1], "F");
+		map->f_color = ft_check_and_dup(map->f_color, tab[1], "F", 0);
 	else if (ft_strncmp(line, "C ", 2) == 0)
-		map->c_color = ft_check_and_dup(map->c_color, tab[1], "C");
+		map->c_color = ft_check_and_dup(map->c_color, tab[1], "C", 0);
 	free_tab(tab);
 	return (0);
 }
@@ -439,10 +460,10 @@ int	map_parsing(t_data *data, t_map *map, char *map_file)
 		error_exit2("Error: map is not last", 0);
 	ft_printf("tab_len: %d\n", map->tab_len);
 	map->tmp = ft_copy_map(map, map_file);
-	print_tab(map->tmp);
+	// print_tab(map->tmp);
 	ft_check_for_invalid_char(map->tmp);
 	map_parsing2(data, map, map_file);
-	// print_map(map);
+	print_map(map);
 	ft_check_map_horizontally(map->tab, "-");
 	ft_check_map_vertically(map->tab, "-");
 	return (0);

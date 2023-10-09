@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 12:42:58 by pvong             #+#    #+#             */
-/*   Updated: 2023/10/07 20:29:52 by pvong            ###   ########.fr       */
+/*   Updated: 2023/10/08 20:54:08 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	ft_check_extension(char **av, int size_av)
 	if (av[1][size_av - 1] != 'b')
 		res = 1;
 	if (res)
-		error_exit2("Error: Wrong extension", 1);
+		error_exit2("Error: Wrong extension (.cub)", 1);
 	return (res);
 }
 
