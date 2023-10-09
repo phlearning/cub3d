@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 11:52:02 by pvong             #+#    #+#             */
-/*   Updated: 2023/10/09 16:39:50 by pvong            ###   ########.fr       */
+/*   Updated: 2023/10/09 16:49:31 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	ft_check_map_vertically(char **tab, char *c)
 	tab_len = 0;
 	while (tab[tab_len])
 		tab_len++;
-	while (++y < tab_len - 1 && tab[++y])
+	while (++y < tab_len - 1 && tab[y])
 	{
 		len = ft_strlen(tab[y]);
 		x = -1;
