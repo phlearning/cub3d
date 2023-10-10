@@ -6,7 +6,7 @@
 #    By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/18 12:43:01 by pvong             #+#    #+#              #
-#    Updated: 2023/10/09 16:33:15 by pvong            ###   ########.fr        #
+#    Updated: 2023/10/10 11:46:22 by pvong            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -107,6 +107,9 @@ $(NAME):	$(OBJS)
 	@make -s -C $(MLX_DIR)
 	make -sC $(LIB_DIR)
 	$(CC) $(CFLAGS) $(INCLUDES) $(OBJS) -o $(NAME) $(LDFLAGS) $(LDLIBS) $(MLX_FLAGS)
+
+norm:
+	norminette libft src include
 
 clean:
 	@make clean -sC $(LIB_DIR)

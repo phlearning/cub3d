@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 11:52:02 by pvong             #+#    #+#             */
-/*   Updated: 2023/10/09 16:49:31 by pvong            ###   ########.fr       */
+/*   Updated: 2023/10/10 11:36:52 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,15 @@ char	*ft_check_and_dup(char *src, char *file_name, char *message, int is_tex)
 
 	if (src != NULL)
 	{
-		ft_printf("Error: %s's duplicate\n", message);
+		ft_printf("Error\n");
+		ft_printf("Reason: %s's duplicate\n", message);
 		exit(EXIT_FAILURE);
 	}
 	if (is_tex)
 		ft_check_extension_xpm(file_name);
 	ret = ft_strdup(file_name);
 	if (!ret || ret[0] == '\0' || ret[0] == ' ')
-		error_exit2("Error: Malloc failed", 1);
+		error_exit2("Reason: Malloc failed", 1);
 	return (ret);
 }
 
@@ -54,10 +55,10 @@ int	ft_check_map_horizontally(char **tab, char *c)
 		{
 			if (ft_strncmp(&tab[y][x], c, 1) == 0 \
 				&& ft_compare_set(tab[y][x + 1], TILE_SET))
-				error_exit2("Error: Walls not closed left.", 1);
+				error_exit2("Reason: Walls not closed left.", 1);
 			else if (ft_compare_set(tab[y][x], TILE_SET) \
 				&& ft_strncmp(&tab[y][x + 1], c, 1) == 0)
-				error_exit2("Error: Walls not closed right.", 1);
+				error_exit2("Reason: Walls not closed right.", 1);
 			x++;
 		}
 		y++;
@@ -86,10 +87,10 @@ void	ft_check_map_vertically(char **tab, char *c)
 		{
 			if (ft_strncmp(&tab[y][x], c, 1) == 0 \
 				&& ft_compare_set(tab[y + 1][x], TILE_SET))
-				error_exit2("Error: Walls not closed on the top.", 1);
+				error_exit2("Reason: Walls not closed on the top.", 1);
 			else if (ft_compare_set(tab[y][x], TILE_SET) \
 				&& ft_strncmp(&tab[y + 1][x], c, 1) == 0)
-				error_exit2("Error: Walls not closed on the bottom.", 1);
+				error_exit2("Reason: Walls not closed on the bottom.", 1);
 		}
 	}
 }
@@ -121,7 +122,7 @@ void	ft_check_empty_line_in_tab(char **tab)
 		if (!tab[i][0] || tab[i][0] == '\n' || ft_is_only_space(tab[i]))
 		{
 			free_tab(tab);
-			error_exit2("Error: empty line in map", 1);
+			error_exit2("Reason: empty line in map", 1);
 		}
 		i++;
 	}

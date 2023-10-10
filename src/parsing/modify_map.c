@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 12:00:20 by pvong             #+#    #+#             */
-/*   Updated: 2023/10/09 16:09:28 by pvong            ###   ########.fr       */
+/*   Updated: 2023/10/10 11:38:12 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,14 @@ char	**ft_rework_tab(char **tab, int v_len, int h_len, char replace)
 
 	rework = ft_calloc(v_len + 1, sizeof(char *));
 	if (!rework)
-		exit(EXIT_FAILURE);
+		error_exit2("Reason: malloc rework", EXIT_FAILURE);
 	rework[0] = ft_calloc(h_len + 1, sizeof(char));
 	ft_fill(rework[0], replace, h_len);
 	i = 1;
 	while (i < v_len - 1)
 	{
 		rework[i] = ft_calloc(h_len + 1, sizeof(char));
-		ft_fill(rework[i], replace, h_len);
+		ft_fill(rework[i], replace, h_len - 1);
 		ft_strlcpy(rework[i] + 1, tab[i - 1], h_len);
 		ft_change_char(rework[i], ' ', replace);
 		ft_fill(rework[i], replace, h_len - 1);

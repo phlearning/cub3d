@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 13:45:46 by pvong             #+#    #+#             */
-/*   Updated: 2023/10/09 16:36:41 by pvong            ###   ########.fr       */
+/*   Updated: 2023/10/10 11:35:18 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,5 +122,5 @@ void	ft_get_player_pos(t_data *data, char **tab, int tab_len)
 	if (found == 1)
 		return ;
 	else
-		error_exit2("Error: player position in map", 1);
+		error_exit2("Reason: player position in map", 1);
 }

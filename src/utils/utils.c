@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 13:02:52 by pvong             #+#    #+#             */
-/*   Updated: 2023/10/09 16:04:50 by pvong            ###   ########.fr       */
+/*   Updated: 2023/10/10 11:39:45 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,11 @@ int	ft_open(char *file)
 	int		opened_file;
 	char	*str;
 
-	str = ft_strjoin("Error: ", file);
+	str = ft_strjoin("Reason: ", file);
 	opened_file = open(file, O_RDONLY);
 	if (opened_file < 0)
 	{
+		ft_printf("Error\n");
 		perror(str);
 		free(str);
 		str = NULL;

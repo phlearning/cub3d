@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 12:42:58 by pvong             #+#    #+#             */
-/*   Updated: 2023/10/09 17:19:09 by pvong            ###   ########.fr       */
+/*   Updated: 2023/10/10 11:34:12 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,13 @@ int	ft_init(t_data *data, int ac, char **av)
 		map_parsing(data, &data->map, av[1]);
 	}
 	else
-		error_exit2("Error: Usage: ./cub3D [map.cub]", 0);
+		error_exit2("Reason: Usage: ./cub3D [map.cub]", 0);
 	ft_test_open_text(data);
 	data->int_f_color = ft_rgbtoint(data->map.f_color);
 	data->int_c_color = ft_rgbtoint(data->map.c_color);
 	ft_init_mlx(data);
 	if (!data->mlx)
-		error_exit2("Error: mlx unitialized", 1);
+		error_exit2("Reason: mlx unitialized", 1);
 	data->tex = ft_calloc(TEXTURE_NB, sizeof(int *));
 	data->t_north = ft_get_texture_img(data, data->map.m_no, 0);
 	data->t_south = ft_get_texture_img(data, data->map.m_so, 1);
@@ -55,7 +55,7 @@ int	main(int ac, char **av)
 	if (ac == 2)
 		ft_init(&data, ac, av);
 	else
-		error_exit2("Error: Usage: ./cub3D [map.cub]", 0);
+		error_exit2("Reason: Usage: ./cub3D [map.cub]", 0);
 	ft_hook(&data);
 	ft_close(&data);
 }

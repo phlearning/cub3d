@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 15:49:56 by pvong             #+#    #+#             */
-/*   Updated: 2023/10/09 16:29:37 by pvong            ###   ########.fr       */
+/*   Updated: 2023/10/10 11:36:09 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ char	**ft_copy_map(t_map *map, char *map_file)
 	fd = ft_open(map_file);
 	ret_map = ft_calloc(map->tab_len + 1, sizeof(char *));
 	if (!ret_map)
-		error_exit("Error malloc: ret_map: ", EXIT_FAILURE);
+		error_exit("Reason: ret_map: ", EXIT_FAILURE);
 	ft_copy_gnl(map, ret_map, fd);
 	ft_check_empty_line_in_tab(ret_map);
 	return (ret_map);

@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 13:49:27 by pvong             #+#    #+#             */
-/*   Updated: 2023/10/09 16:49:55 by pvong            ###   ########.fr       */
+/*   Updated: 2023/10/10 11:37:42 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,11 @@ void	ft_check_map(t_map *map, char *map_file)
 {
 	ft_empty_param(map);
 	if (ft_map_is_last(map))
-		error_exit2("Error: map is not last", 0);
+		error_exit2("Reason: map is not last", 0);
 	map->tmp = ft_copy_map(map, map_file);
 	ft_check_for_invalid_char(map->tmp);
 	map_parsing2(map, map_file);
+	print_map(map);
 	ft_check_map_horizontally(map->tab, "-");
 	ft_check_map_vertically(map->tab, "-");
 }
@@ -35,11 +36,11 @@ void	map_parsing2(t_map *map, char *map_file)
 	j = 0;
 	len = ft_get_longest_tab_len(map->tmp, map->tab_len);
 	if (len <= 0)
-		error_exit2("Error: len map_parsing\n", EXIT_FAILURE);
+		error_exit2("Reason: len map_parsing", EXIT_FAILURE);
 	fd = ft_open(map_file);
 	map->tab = ft_calloc(map->tab_len + 1, sizeof(char *));
 	if (!map->tab)
-		exit(EXIT_FAILURE);
+		error_exit2("Reason: map->tab malloc", EXIT_FAILURE);
 	ft_replace_map(map, fd, len);
 	map->tab = ft_rework_tab(map->tab, map->tab_len + 2, len + 2, '-');
 	close(fd);

@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 11:12:26 by pvong             #+#    #+#             */
-/*   Updated: 2023/10/09 16:31:17 by pvong            ###   ########.fr       */
+/*   Updated: 2023/10/10 11:34:55 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	ft_check_extension_xpm(char *file)
 	res = 0;
 	len = ft_strlen(file);
 	if (len < 5)
-		error_exit2("Error: Unnamed file (.xpm)", 1);
+		error_exit2("Reason: Unnamed file (.xpm)", 1);
 	if (file[len - 4] != '.')
 		res++;
 	if (file[len - 3] != 'x')
@@ -30,7 +30,7 @@ void	ft_check_extension_xpm(char *file)
 	if (file[len - 1] != 'm')
 		res++;
 	if (res >= 1)
-		error_exit2("Error: Wrong extension (.xpm)", 1);
+		error_exit2("Reason: Wrong extension (.xpm)", 1);
 }
 
 int	ft_check_for_invalid_char(char **tab)
@@ -47,7 +47,7 @@ int	ft_check_for_invalid_char(char **tab)
 		while (tab[y][x])
 		{
 			if (!ft_compare_set(tab[y][x], TILE_N_WALL))
-				error_exit2("Error: Char not accepted in map", 1);
+				error_exit2("Reason: Char not accepted in map", 1);
 			x++;
 		}
 		y++;

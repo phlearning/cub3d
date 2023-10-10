@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 15:36:20 by pvong             #+#    #+#             */
-/*   Updated: 2023/10/09 16:11:12 by pvong            ###   ########.fr       */
+/*   Updated: 2023/10/10 11:40:31 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ void	ft_load_img(t_data *data, t_img *img, char *file)
 		file, &img->width, &img->height);
 	if (!img->img)
 	{
-		ft_printf("Error: ft_load_img: %s\n", file);
+		ft_printf("Error\n");
+		ft_printf("Reason: ft_load_img: %s\n", file);
 		exit(EXIT_FAILURE);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:14:24 by pvong             #+#    #+#             */
-/*   Updated: 2023/10/09 17:24:36 by pvong            ###   ########.fr       */
+/*   Updated: 2023/10/10 11:38:56 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	ft_count_char_exit(char *s, char c, int exit_n)
 		i++;
 	}
 	if (n > exit_n)
-		error_exit2("Error: Invalid color range", 1);
+		error_exit2("Reason: Invalid color range", 1);
 	return (0);
 }
 
@@ -40,20 +40,14 @@ int	ft_rgbtoint(char *c)
 	ft_count_char_exit(c, ',', 2);
 	colors = ft_split(c, ',');
 	if (!colors[0] || !colors[1] || !colors[2])
-	{
-		ft_printf("Error: Invalid color range\n");
-		exit(EXIT_FAILURE);
-	}
+		error_exit2("Reason: Invalid color range", EXIT_FAILURE);
 	red = ft_atoi(colors[0]);
 	green = ft_atoi(colors[1]);
 	blue = ft_atoi(colors[2]);
 	free_tab(colors);
 	if (red < 0 || red > 255 || green < 0 || green > 255 \
 	|| blue < 0 || blue > 255)
-	{
-		ft_printf("Error: Invalid color range\n");
-		exit(EXIT_FAILURE);
-	}
+		error_exit2("Reason: Invalid color range", EXIT_FAILURE);
 	return ((red << 16) | (green << 8) | blue);
 }
 
