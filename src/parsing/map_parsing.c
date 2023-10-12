@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 13:49:27 by pvong             #+#    #+#             */
-/*   Updated: 2023/10/12 11:33:06 by pvong            ###   ########.fr       */
+/*   Updated: 2023/10/12 11:40:32 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	ft_check_map(t_map *map, char *map_file)
 		error_exit2("Reason: map is not last", 0);
 	map->tmp = ft_copy_map(map, map_file);
 	ft_check_for_invalid_char(map->tmp);
+	map_parsing2(map, map_file);
 	ft_check_map_horizontally(map->tab, "-");
 	ft_check_map_vertically(map->tab, "-");
 }
