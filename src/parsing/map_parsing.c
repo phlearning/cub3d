@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 13:49:27 by pvong             #+#    #+#             */
-/*   Updated: 2023/10/10 11:54:53 by pvong            ###   ########.fr       */
+/*   Updated: 2023/10/12 11:33:06 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,8 @@ void	ft_check_map(t_map *map, char *map_file)
 void	map_parsing2(t_map *map, char *map_file)
 {
 	int		fd;
-	int		i;
-	int		j;
 	int		len;
 
-	i = 0;
-	j = 0;
 	len = ft_get_longest_tab_len(map->tmp, map->tab_len);
 	if (len <= 0)
 		error_exit2("Reason: len map_parsing", EXIT_FAILURE);

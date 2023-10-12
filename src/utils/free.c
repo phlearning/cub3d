@@ -6,7 +6,7 @@
 /*   By: pvong <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 15:54:15 by pvong             #+#    #+#             */
-/*   Updated: 2023/10/09 16:05:43 by pvong            ###   ########.fr       */
+/*   Updated: 2023/10/12 11:33:26 by pvong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 void	free_map(t_map map)
 {
-	int	i;
-
 	if (map.m_no)
 		free(map.m_no);
 	if (map.m_so)
@@ -28,7 +26,6 @@ void	free_map(t_map map)
 		free(map.f_color);
 	if (map.c_color)
 		free(map.c_color);
-	i = -1;
 	if (map.tab)
 		free_tab(map.tab);
 	if (map.tmp)
