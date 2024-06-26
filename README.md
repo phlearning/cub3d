@@ -25,9 +25,10 @@ This is done by "casting" a "ray" from the eye point, through the pixel, and int
 
 Raycasting is used in a variety of applications, including 3D rendering, hit detection in games, and more. It's the basis for ray tracing, a more advanced and realistic rendering technique that simulates the actual physics of light.
 
-***<p style="text-align: center;">Image from https://hackaday.com/2021/09/13/ray-casting-101-makes-things-simple/</p>***
-
-![Raycasting gif](images/raycasting.gif)
+<p align="center" styles="italic bold">
+	<b><i>Image from https://hackaday.com/2021/09/13/ray-casting-101-makes-things-simple/</i></b>
+	<img src="images/raycasting.gif" alt="raycasting_gif">
+</p>
 
 ## Getting Started <a name = "getting_started"></a>
 
